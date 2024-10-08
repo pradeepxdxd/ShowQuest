@@ -1,0 +1,4 @@
+/* styles.css or styles.module.css */
+.clickable {
+    cursor: pointer !important;
+}
