@@ -8,6 +8,10 @@ import GoogleAuth from "@/app/features/auth/google/google";
 import ContactAuth from "@/app/features/auth/contact/contact";
 import EmailAuth from "@/app/features/auth/email/email";
 import Link from "next/link";
+import { AppleLoginButton } from "@/app/features/auth/apple/appleLogin";
+import { EmailInput } from "./email/EmailInput";
+import { OTP } from "./otp/OtpModal";
+import LogoutButton from "@/app/features/auth/logout/logout";
 
 const style = {
   position: "absolute",
@@ -30,6 +34,8 @@ interface BasicModalProp {
 }
 
 const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
+  const [showEmailInput, setShowEmailInput] = React.useState<boolean>(false);
+  const [showOTPInput, setShowOTPInput] = React.useState<boolean>(false);
   return (
     <div>
       <Modal
@@ -39,62 +45,86 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Box display="flex" justifyContent="center" position="relative">
-            <Typography
-              id="modal-modal-title"
-              variant="body1"
-              fontWeight={500}
-              component="h2"
-              textAlign="center"
-            >
-              Get Started
-            </Typography>
-            <IconButton
-              onClick={(event) => handleClose(event, "close-button")}
-              sx={{
-                position: "absolute",
-                bottom: -6,
-                right: 0,
-              }}
-            >
-              <Close />
-            </IconButton>
-          </Box>
+          {showOTPInput && showEmailInput ? (
+            <OTP
+              setShowEmailInput={setShowEmailInput}
+              setShowOTPInput={setShowOTPInput}
+              email="fakemail@xxx.com"
+            />
+          ) : showEmailInput ? (
+            <EmailInput
+              setShowEmailInput={setShowEmailInput}
+              setShowOTPInput={setShowOTPInput}
+            />
+          ) : (
+            <>
+              <Box display="flex" justifyContent="center" position="relative">
+                <Typography
+                  id="modal-modal-title"
+                  variant="body1"
+                  fontWeight={500}
+                  component="h2"
+                  textAlign="center"
+                >
+                  Get Started
+                </Typography>
+                <IconButton
+                  onClick={(event) => handleClose(event, "close-button")}
+                  sx={{
+                    position: "absolute",
+                    bottom: -6,
+                    right: 0,
+                  }}
+                >
+                  <Close />
+                </IconButton>
+              </Box>
 
-          <Box
-            mt={5}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDirection={"column"}
-          >
-            <div style={{ margin: 15 }}>
-              <GoogleAuth />
-            </div>
-            <div style={{ margin: 15 }}>
-              <EmailAuth />
-            </div>
-            <div style={{ margin: 15 }}>
-              <ContactAuth />
-            </div>
-          </Box>
+              <Box
+                mt={5}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                flexDirection={"column"}
+              >
+                <div style={{ margin: 15 }}>
+                  <GoogleAuth />
+                </div>
+                <div
+                  onClick={() => setShowEmailInput(true)}
+                  style={{ margin: 15 }}
+                >
+                  <EmailAuth />
+                </div>
+                <div style={{ margin: 15 }}>
+                  <AppleLoginButton />
+                </div>
+                <div style={{ margin: 15 }}>
+                  <ContactAuth />
+                </div>
+                <div style={{ margin: 15 }}>
+                  <LogoutButton />
+                </div>
+              </Box>
 
-          <Box
-            mt={4}
-            display="flex"
-            justifyContent="center"
-            flexDirection="column"
-            alignItems="center"
-            position="absolute"
-            bottom={20}
-            width="85%"
-          >
-            <Typography variant="caption" textAlign="center">
-              I agree to the
-              <Link href={"#"}>Terms and Conditions</Link> &{' '}
-              <Link href={"#"}>Privacy Policy</Link>
-            </Typography>
-          </Box>
+              <Box
+                mt={4}
+                display="flex"
+                justifyContent="center"
+                flexDirection="column"
+                alignItems="center"
+                position="absolute"
+                bottom={20}
+                width="85%"
+              >
+                <Typography variant="caption" textAlign="center">
+                  I agree to the
+                  <Link href={"#"}>Terms and Conditions</Link> &{" "}
+                  <Link href={"#"}>Privacy Policy</Link>
+                </Typography>
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
     </div>

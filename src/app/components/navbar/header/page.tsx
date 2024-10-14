@@ -7,15 +7,9 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import headerLogo from "@/app/assets/nav/headerlogo2.png";
 import Image from "next/image";
 import { Button, FormControl, Select } from "@mui/material";
@@ -23,6 +17,10 @@ import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import AuthModal from "@/app/components/modals/auth/page";
 import CustomDrawer from "@/app/components/drawer/drawer";
+
+// firebase
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/config";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -67,20 +65,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
-
   const [open, setOpen] = React.useState(false);
+
+  const [user] = useAuthState(auth);
+  console.log({ user });
 
   const handleOpen = () => setOpen(true);
   const handleClose = (event: object, reason: string) => {
     if (reason === "backdropClick") return;
     setOpen(false);
   };
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const router = useRouter();
 
@@ -111,97 +105,6 @@ export default function PrimarySearchAppBar() {
     toggleDrawer("right", true);
   };
 
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -225,9 +128,6 @@ export default function PrimarySearchAppBar() {
                 inputProps={{ "aria-label": "search" }}
                 style={{
                   width: "500px !important",
-                  // "& .MuiInputBase-input": {
-                  //   width: "66ch",
-                  // },
                 }}
               />
             </Search>
@@ -271,22 +171,8 @@ export default function PrimarySearchAppBar() {
                 <MenuIcon />
               </IconButton>
             </Box>
-            <Box sx={{ display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </Box>
           </Toolbar>
         </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
       </Box>
       <AuthModal open={open} handleClose={handleClose} />
       <CustomDrawer state={state} toggleDrawer={toggleDrawer} />

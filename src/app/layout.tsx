@@ -1,10 +1,14 @@
 /* eslint-disable react/no-children-prop */
-import type { Metadata } from "next";
+
+'use client'
+// import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/app/components/navbar/header/page";
 import SubHeader from "@/app/components/navbar/sub-header/page";
-import Footer from '@/app/views/footer/page'
+import Footer from "@/app/views/footer/page";
+import { store } from "@/app/store/index";
+import { Provider } from "react-redux";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,12 +21,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "Movie Tickets, Plays, Sports, Events & Cinemas",
-  description:
-    "BookMyShow offers showtimes, movie tickets, reviews, trailers, concert tickets and events near Pune. Also features promotional offers, coupons and mobile app.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        <SubHeader />
-        <main>{children}</main>
-        <Footer/>
+        <Provider store={store}>
+          <Navbar />
+          <SubHeader />
+          <main>{children}</main>
+          <Footer />
+        </Provider>
       </body>
     </html>
   );
