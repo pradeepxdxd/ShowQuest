@@ -185,20 +185,24 @@ function OTP({
   );
 }
 
-export default function OTPInput() {
-  const [otp, setOtp] = React.useState("");
+interface OTPInputProp {
+  setValidOtp: (val: boolean) => void;
+  otp: string;
+  setOtp: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const OTPInput: React.FC<OTPInputProp> = ({ setValidOtp, otp, setOtp }) => {
+  React.useEffect(() => {
+    if (otp.length === 5) setValidOtp(false);
+    else setValidOtp(true);
+  }, [otp, setValidOtp]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <OTP
-        // separator={<span>-</span>}
-        value={otp}
-        onChange={setOtp}
-        length={5}
-      />
+      <OTP value={otp} onChange={setOtp} length={5} />
     </Box>
   );
-}
+};
 
 const blue = {
   100: "#DAECFF",
@@ -256,3 +260,5 @@ const InputElement = styled("input")(
   }
 `
 );
+
+export default OTPInput;

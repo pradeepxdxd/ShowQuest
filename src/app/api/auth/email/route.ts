@@ -1,26 +1,95 @@
 import transporter from "@/app/utils/mail/nodemailer";
+import fs from "fs";
+import { promisify } from "util";
+import path from "path";
+import { generateOtp } from "@/app/utils/otp/generate-otp";
+import { generateToken } from "@/app/utils/token/token";
+import { createCookie, removeCookie } from "@/app/utils/cookie/cookie";
 
-export async function GET() {
+const readFileAsync = promisify(fs.readFile);
+let otp: undefined | string = undefined;
+
+export async function POST(req: Request) {
   try {
-    await transporter.sendMail({
-      from: process.env.NEXT_PUBLIC_NODEMAILER_EMAIL,
-      to: "pradeepbiswas41813@gmail.com",
-      subject: "Test mail",
-      html: `
-        <p>Name: Pradeep Biswas </p>
-        <p>Email: pradeepbiswas23489 </p>
-        <p>Message: Testing mail </p>
-      `,
-    });
-    return new Response(
-      JSON.stringify({ message: "OTP sent successfully", code: "873456" }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const { email, action, otpCode, token } = await req.json();
+
+    if (action === "sentOtp") {
+      const templatepath = path.join(
+        process.cwd(),
+        "src/app/templates/email.html"
+      );
+
+      let htmlTemplate = await readFileAsync(templatepath, "utf-8");
+      otp = generateOtp();
+      htmlTemplate = htmlTemplate.replace("{{OTP}}", otp);
+
+      await transporter.sendMail({
+        from: process.env.NEXT_PUBLIC_NODEMAILER_EMAIL,
+        to: email,
+        subject: "Here is you otp",
+        html: htmlTemplate,
+      });
+
+      return new Response(
+        JSON.stringify({ message: "OTP sent successfully" }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } else if (action === "verifyOtp") {
+      if (otp === otpCode) {
+        const token = generateToken({ email });
+        if (token) {
+          const cookie = createCookie(token);
+          otp = undefined;
+          return new Response(
+            JSON.stringify({
+              message: "Logged In successfully",
+            }),
+            {
+              status: 200,
+              headers: {
+                "Set-Cookie": cookie,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        } else {
+          return new Response(
+            JSON.stringify({ message: "Something went wrong" }),
+            {
+              status: 400,
+            }
+          );
+        }
+      } else {
+        return new Response(
+          JSON.stringify({ message: "Invalid otp, please try again" }),
+          {
+            status: 400,
+          }
+        );
       }
-    );
+    } else if (action === "logout") {
+      const cookie = removeCookie(token);
+      return new Response(
+        JSON.stringify({ message: "Logged out successfully" }),
+        {
+          status: 200,
+          headers: {
+            "Set-Cookie": cookie, // Set the cookie to delete it
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } else {
+      return new Response(JSON.stringify({ message: "No action found" }), {
+        status: 404,
+      });
+    }
   } catch (err) {
     console.log(err);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {

@@ -12,6 +12,9 @@ import { AppleLoginButton } from "@/app/features/auth/apple/appleLogin";
 import { EmailInput } from "./email/EmailInput";
 import { OTP } from "./otp/OtpModal";
 import LogoutButton from "@/app/features/auth/logout/logout";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { clearEmail, AuthState } from "@/app/store/auth/auth.slice";
 
 const style = {
   position: "absolute",
@@ -34,13 +37,36 @@ interface BasicModalProp {
 }
 
 const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
+  const [loginType, setLoginType] = React.useState<string>("");
+
   const [showEmailInput, setShowEmailInput] = React.useState<boolean>(false);
   const [showOTPInput, setShowOTPInput] = React.useState<boolean>(false);
+
+  const { email, verified }: AuthState = useSelector(
+    (state: RootState) => state.auth
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  React.useEffect(() => {
+    if (verified) {
+      handleCloseModal({}, "reason");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [verified]);
+
+  const handleCloseModal = (
+    event: object | React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    reason: string
+  ) => {
+    handleClose(event, reason);
+    dispatch(clearEmail());
+  };
+
   return (
     <div>
       <Modal
         open={open}
-        onClose={(event, reason) => handleClose(event, reason)}
+        onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -49,12 +75,14 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
             <OTP
               setShowEmailInput={setShowEmailInput}
               setShowOTPInput={setShowOTPInput}
-              email="fakemail@xxx.com"
+              email={email || ""}
+              flag={loginType}
             />
           ) : showEmailInput ? (
             <EmailInput
               setShowEmailInput={setShowEmailInput}
               setShowOTPInput={setShowOTPInput}
+              flag={loginType}
             />
           ) : (
             <>
@@ -91,7 +119,10 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                   <GoogleAuth />
                 </div>
                 <div
-                  onClick={() => setShowEmailInput(true)}
+                  onClick={() => {
+                    setShowEmailInput(true);
+                    setLoginType("email");
+                  }}
                   style={{ margin: 15 }}
                 >
                   <EmailAuth />
@@ -99,7 +130,13 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                 <div style={{ margin: 15 }}>
                   <AppleLoginButton />
                 </div>
-                <div style={{ margin: 15 }}>
+                <div
+                  onClick={() => {
+                    setShowEmailInput(true);
+                    setLoginType("phone");
+                  }}
+                  style={{ margin: 15 }}
+                >
                   <ContactAuth />
                 </div>
                 <div style={{ margin: 15 }}>

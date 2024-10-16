@@ -1,7 +1,6 @@
 /* eslint-disable react/no-children-prop */
 
-'use client'
-// import type { Metadata } from "next";
+"use client";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/app/components/navbar/header/page";
@@ -9,6 +8,8 @@ import SubHeader from "@/app/components/navbar/sub-header/page";
 import Footer from "@/app/views/footer/page";
 import { store } from "@/app/store/index";
 import { Provider } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
+          <ToastContainer />
           <Navbar />
           <SubHeader />
           <main>{children}</main>

@@ -16,15 +16,7 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDJtlMXsvC-vYU368DihCwRVEa66-szgP8",
-//   authDomain: "showquest-f5feb.firebaseapp.com",
-//   projectId: "showquest-f5feb",
-//   storageBucket: "showquest-f5feb.appspot.com",
-//   messagingSenderId: "1019925424118",
-//   appId: "1:1019925424118:web:f7a8395337bb5cb64349d7",
-//   measurementId: "G-DHL9E469N8",
-// };
+
 // // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getAnalytics(app);

@@ -1,22 +1,75 @@
+import React, { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import OTPInput from "@/app/components/input/OTP";
+import {
+  clearEmail,
+  clearError,
+  loginWithGmail,
+  verifyOtp,
+} from "@/app/store/auth/auth.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { toast } from "react-toastify";
+import { isEmpty } from "@/app/utils/object/object";
 
 interface OTPProp {
   setShowEmailInput: (param: boolean) => void;
   setShowOTPInput: (param: boolean) => void;
   email: string;
+  flag: string;
 }
 
 export const OTP: React.FC<OTPProp> = ({
   setShowEmailInput,
   setShowOTPInput,
   email,
+  flag,
 }) => {
+  const [otp, setOtp] = React.useState("");
+  const [counter, setCounter] = useState<number>(30);
+  const [validOtp, setValidOtp] = useState<boolean>(true);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { verified, error } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (counter > 0) {
+      const fn = setTimeout(() => {
+        setCounter(counter - 1);
+      }, 1000);
+
+      return () => clearTimeout(fn);
+    }
+  }, [counter]);
+
+  useEffect(() => {
+    if (verified) {
+      toast.success("Logged in successfully");
+      setShowEmailInput(false);
+      setShowOTPInput(false);
+    }
+    if (error !== null && !isEmpty(error)) {
+      toast.error("Invalid OTP");
+      dispatch(clearError());
+    }
+  }, [setShowEmailInput, setShowOTPInput, verified, error]);
+
   const handleSubmit = () => {
-    setShowEmailInput(false);
-    setShowOTPInput(false);
+    if (flag === "email") {
+      dispatch(verifyOtp({ email, otpCode: otp }));
+      dispatch(clearEmail());
+    } else if (flag === "phone") {
+    }
   };
+
+  const handleResend = () => {
+    if (flag === "email") {
+      dispatch(loginWithGmail(email || ""));
+      setCounter(30);
+    }
+  };
+
   return (
     <>
       <ArrowBackIosIcon
@@ -32,7 +85,12 @@ export const OTP: React.FC<OTPProp> = ({
       >
         <Box alignSelf={"flex-start"}>
           <Typography variant="h5" textAlign={"left"} fontWeight={"bold"}>
-            Verify Your Email Address
+            Verify Your{" "}
+            {flag === "email" ? (
+              <span>Email Address</span>
+            ) : flag === "phone" ? (
+              <span>Phone Number</span>
+            ) : null}
           </Typography>
           <Typography
             mt={1}
@@ -43,7 +101,7 @@ export const OTP: React.FC<OTPProp> = ({
             Enter OTP sent to {email}
           </Typography>
           <Box mt={2}>
-            <OTPInput />
+            <OTPInput setValidOtp={setValidOtp} otp={otp} setOtp={setOtp} />
           </Box>
         </Box>
         <Box
@@ -60,12 +118,20 @@ export const OTP: React.FC<OTPProp> = ({
               bottom: "70px",
             }}
           >
-            Expected OTP in 3 seconds
+            Expected OTP in {counter} seconds{" "}
+            {counter === 0 && (
+              <span
+                onClick={handleResend}
+                style={{ color: "rgb(248, 68, 100)", cursor: "pointer" }}
+              >
+                Resend
+              </span>
+            )}
           </Typography>
           <Button
             variant="contained"
             color="primary"
-            // disabled={true}
+            disabled={validOtp}
             sx={{
               width: "80%",
               position: "absolute",

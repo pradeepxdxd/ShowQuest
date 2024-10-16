@@ -1,7 +1,14 @@
 import { Apple } from "@mui/icons-material";
 import { Button, Typography } from "@mui/material";
+import { appleSignIn } from "@/app/store/auth/auth.slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/store";
 
 export const AppleLoginButton: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  const handleAppleAuth = () => {
+    dispatch(appleSignIn())
+  }
   return (
     <>
       <Button
@@ -9,6 +16,7 @@ export const AppleLoginButton: React.FC = () => {
         sx={{ width: "300px" }}
         variant="outlined"
         fullWidth
+        onClick={handleAppleAuth}
       >
         <Typography textTransform={"lowercase"}>
           Continue with Apple
