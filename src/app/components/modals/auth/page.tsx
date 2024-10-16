@@ -11,7 +11,6 @@ import Link from "next/link";
 import { AppleLoginButton } from "@/app/features/auth/apple/appleLogin";
 import { EmailInput } from "./email/EmailInput";
 import { OTP } from "./otp/OtpModal";
-import LogoutButton from "@/app/features/auth/logout/logout";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { clearEmail, AuthState } from "@/app/store/auth/auth.slice";
@@ -139,9 +138,9 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                 >
                   <ContactAuth />
                 </div>
-                <div style={{ margin: 15 }}>
+                {/* <div style={{ margin: 15 }}>
                   <LogoutButton />
-                </div>
+                </div> */}
               </Box>
 
               <Box
