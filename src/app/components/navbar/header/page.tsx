@@ -19,8 +19,8 @@ import AuthModal from "@/app/components/modals/auth/page";
 import CustomDrawer from "@/app/components/drawer/drawer";
 
 // firebase
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { auth } from "@/firebase/config";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/config";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -67,7 +67,8 @@ type Anchor = "top" | "left" | "bottom" | "right";
 export default function PrimarySearchAppBar() {
   const [open, setOpen] = React.useState(false);
 
-  // const [user] = useAuthState(auth);
+  const [user] = useAuthState(auth);
+  console.log({ user });
 
   const handleOpen = () => setOpen(true);
   const handleClose = (event: object, reason: string) => {

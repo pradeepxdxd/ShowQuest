@@ -36,7 +36,6 @@ export const googleSignIn = createAsyncThunk("auth/googleSignIn", async () => {
 
 export const appleSignIn = createAsyncThunk("auth/appleSignIn", async () => {
   const provider = new OAuthProvider("apple.com");
-  console.log({ provider });
   try {
     const result = await signInWithPopup(auth, provider);
     console.log({ result });
@@ -90,7 +89,6 @@ export const verifyOtp = createAsyncThunk(
 export const phoneSignIn = createAsyncThunk(
   "auth/phoneSignIn",
   async ({ phoneNumber, recaptchaVerifier }: PhoneProp) => {
-    console.log({ phoneNumber, recaptchaVerifier });
     try {
       const result = await signInWithPhoneNumber(
         auth,
@@ -122,12 +120,16 @@ export const verifyCodePhoneOtp = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-  await signOut(auth);
-  const response = await axios.post("http://localhost:3000/api/auth/email", {
-    token: "token",
-    action: "logout",
-  });
-  return response.data;
+  try {
+    await signOut(auth);
+    const response = await axios.post("http://localhost:3000/api/auth/email", {
+      token: "token",
+      action: "logout",
+    });
+    return response.data;
+  } catch (err) {
+    console.log({ logout_err: err });
+  }
 });
 
 export interface AuthState {
