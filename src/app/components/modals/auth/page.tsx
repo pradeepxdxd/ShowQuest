@@ -14,6 +14,7 @@ import { OTP } from "./otp/OtpModal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { clearEmail, AuthState } from "@/app/store/auth/auth.slice";
+import { PhoneInput } from "./phone/PhoneInput";
 
 const style = {
   position: "absolute",
@@ -36,9 +37,8 @@ interface BasicModalProp {
 }
 
 const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
-  const [loginType, setLoginType] = React.useState<string>("");
-
   const [showEmailInput, setShowEmailInput] = React.useState<boolean>(false);
+  const [showPhoneInput, setShowPhoneInput] = React.useState<boolean>(false);
   const [showOTPInput, setShowOTPInput] = React.useState<boolean>(false);
 
   const { email, verified }: AuthState = useSelector(
@@ -75,13 +75,16 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
               setShowEmailInput={setShowEmailInput}
               setShowOTPInput={setShowOTPInput}
               email={email || ""}
-              flag={loginType}
             />
           ) : showEmailInput ? (
             <EmailInput
               setShowEmailInput={setShowEmailInput}
               setShowOTPInput={setShowOTPInput}
-              flag={loginType}
+            />
+          ) : showPhoneInput ? (
+            <PhoneInput
+              setShowOTPInput={setShowOTPInput}
+              setShowPhoneInput={setShowPhoneInput}
             />
           ) : (
             <>
@@ -120,7 +123,6 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                 <div
                   onClick={() => {
                     setShowEmailInput(true);
-                    setLoginType("email");
                   }}
                   style={{ margin: 15 }}
                 >
@@ -131,16 +133,12 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                 </div>
                 <div
                   onClick={() => {
-                    setShowEmailInput(true);
-                    setLoginType("phone");
+                    setShowPhoneInput(true);
                   }}
                   style={{ margin: 15 }}
                 >
                   <ContactAuth />
                 </div>
-                {/* <div style={{ margin: 15 }}>
-                  <LogoutButton />
-                </div> */}
               </Box>
 
               <Box

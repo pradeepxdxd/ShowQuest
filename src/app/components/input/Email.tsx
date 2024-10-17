@@ -6,24 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 interface EmailProp {
   setValidMail: (val: boolean) => void;
-  flag: string;
 }
 
-const Email: React.FC<EmailProp> = ({ setValidMail, flag }) => {
+const Email: React.FC<EmailProp> = ({ setValidMail }) => {
   const { email } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmail(e.target.value));
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const phoneRegex = /^[0-9]{10}$/;
-    if (flag === "phone") {
-      if (phoneRegex.test(e.target.value || "")) setValidMail(false);
-      else setValidMail(true);
-    } else if (flag === "email") {
-      if (emailRegex.test(e.target.value || "")) setValidMail(false);
-      else setValidMail(true);
-    }
+    if (emailRegex.test(e.target.value || "")) setValidMail(false);
+    else setValidMail(true);
   };
 
   return (
