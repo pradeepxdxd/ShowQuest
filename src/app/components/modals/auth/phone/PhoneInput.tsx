@@ -1,33 +1,31 @@
 import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import Email from "@/app/components/input/Email";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/store";
-import { clearEmail, loginWithGmail } from "@/app/store/auth/auth.slice";
+// import { useState } from "react";
+import Phone from "@/app/components/input/Phone";
 import { useState } from "react";
+// import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+// import { auth } from "@/firebase/config";
 
-interface EmailInputProp {
-  setShowEmailInput: (param: boolean) => void;
+interface PhoneInputProp {
+  setShowPhoneInput: (param: boolean) => void;
   setShowOTPInput: (param: boolean) => void;
 }
 
-export const EmailInput: React.FC<EmailInputProp> = ({
-  setShowEmailInput,
+export const PhoneInput: React.FC<PhoneInputProp> = ({
+  setShowPhoneInput,
   setShowOTPInput,
 }) => {
-  const [validMail, setValidMail] = useState<boolean>(true);
-  const { email } = useSelector((state: RootState) => state.auth);
+  //   const [validMail, setValidMail] = useState<boolean>(true);
+  const [phone, setPhone] = useState("");
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  const handleOtp = () => {
+  const handleSendOtp = () => {
+    // const recaptcha = new RecaptchaVerifier(auth, 'recaptcha', {})
+    // const confirmation = signInWithPhoneNumber(auth, `+${phone}`, recaptcha);
     setShowOTPInput(true);
-    dispatch(loginWithGmail(email || ""));
   };
 
   const handleBack = () => {
-    setShowEmailInput(false);
-    dispatch(clearEmail());
+    setShowPhoneInput(false);
   };
 
   return (
@@ -45,10 +43,14 @@ export const EmailInput: React.FC<EmailInputProp> = ({
       >
         <Box alignSelf={"flex-start"}>
           <Typography variant="h6" textAlign={"left"} fontWeight={"bold"}>
-            Login with Email
+            Login with Phone
           </Typography>
         </Box>
-        <Email setValidMail={setValidMail} />
+        <Phone phone={phone} setPhone={setPhone} />
+        <div
+          style={{ marginTop: "12px", marginRight: "7px" }}
+          id="recaptcha"
+        ></div>
         <Box
           sx={{
             display: "flex",
@@ -59,14 +61,14 @@ export const EmailInput: React.FC<EmailInputProp> = ({
           <Button
             variant="contained"
             color="primary"
-            disabled={validMail}
+            // disabled={validMail}
             sx={{
               width: "80%",
               position: "absolute",
               bottom: "20px",
               bgcolor: "rgb(248, 68, 100)",
             }}
-            onClick={handleOtp}
+            onClick={handleSendOtp}
           >
             Continue
           </Button>

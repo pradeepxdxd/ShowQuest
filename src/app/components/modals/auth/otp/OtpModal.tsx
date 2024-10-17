@@ -17,14 +17,12 @@ interface OTPProp {
   setShowEmailInput: (param: boolean) => void;
   setShowOTPInput: (param: boolean) => void;
   email: string;
-  flag: string;
 }
 
 export const OTP: React.FC<OTPProp> = ({
   setShowEmailInput,
   setShowOTPInput,
   email,
-  flag,
 }) => {
   const [otp, setOtp] = React.useState("");
   const [counter, setCounter] = useState<number>(30);
@@ -56,18 +54,18 @@ export const OTP: React.FC<OTPProp> = ({
   }, [setShowEmailInput, setShowOTPInput, verified, error]);
 
   const handleSubmit = () => {
-    if (flag === "email") {
+    // if (flag === "email") {
       dispatch(verifyOtp({ email, otpCode: otp }));
       dispatch(clearEmail());
-    } else if (flag === "phone") {
-    }
+    // } else if (flag === "phone") {
+    // }
   };
 
   const handleResend = () => {
-    if (flag === "email") {
+    // if (flag === "email") {
       dispatch(loginWithGmail(email || ""));
       setCounter(30);
-    }
+    // }
   };
 
   return (
@@ -85,12 +83,7 @@ export const OTP: React.FC<OTPProp> = ({
       >
         <Box alignSelf={"flex-start"}>
           <Typography variant="h5" textAlign={"left"} fontWeight={"bold"}>
-            Verify Your{" "}
-            {flag === "email" ? (
-              <span>Email Address</span>
-            ) : flag === "phone" ? (
-              <span>Phone Number</span>
-            ) : null}
+            Verify Your Email Address
           </Typography>
           <Typography
             mt={1}
