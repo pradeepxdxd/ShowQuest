@@ -50,10 +50,13 @@ export const loginWithGmail = createAsyncThunk(
   "auth/loginWithGmail",
   async (email: string, { rejectWithValue }) => {
     try {
-      await axios.post("http://localhost:3000/api/auth/email", {
-        email,
-        action: "sentOtp",
-      });
+      await axios.post(
+        "http://localhost:3000/api/auth/email",
+        {
+          email,
+          action: "sentOtp",
+        }
+      );
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.response?.data || "An error occurred");
@@ -75,7 +78,6 @@ export const verifyOtp = createAsyncThunk(
           otpCode,
         }
       );
-
       return response.data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -139,6 +141,7 @@ export interface AuthState {
   email: string | undefined;
   verified: boolean;
   verificationId: ConfirmationResult | undefined;
+  token: string | undefined;
 }
 
 const initialState: AuthState = {
@@ -148,6 +151,7 @@ const initialState: AuthState = {
   email: "",
   verified: false,
   verificationId: undefined,
+  token: undefined,
 };
 
 const authSlice = createSlice({
@@ -165,6 +169,12 @@ const authSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+    },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
+    clearToken: (state) => {
+      state.token = "";
     },
   },
   extraReducers: (builder) => {
@@ -187,8 +197,9 @@ const authSlice = createSlice({
       state.user = null;
     });
 
-    builder.addCase(verifyOtp.fulfilled, (state) => {
+    builder.addCase(verifyOtp.fulfilled, (state, action) => {
       state.verified = true;
+      state.token = action.payload.cookie;
     });
     builder.addCase(verifyOtp.rejected, (state, action) => {
       state.verified = false;
@@ -218,9 +229,26 @@ const authSlice = createSlice({
     builder.addCase(verifyCodePhoneOtp.rejected, (state, action) => {
       state.error = action.error;
     });
+
+    builder.addCase(loginWithGmail.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(loginWithGmail.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(loginWithGmail.rejected, (state, action) => {
+      state.error = action.error;
+    });
   },
 });
 
-export const { setLoading, setEmail, clearEmail, clearError } =
-  authSlice.actions;
+export const {
+  setLoading,
+  setEmail,
+  clearEmail,
+  clearError,
+  clearToken,
+  setToken,
+} = authSlice.actions;
 export default authSlice.reducer;

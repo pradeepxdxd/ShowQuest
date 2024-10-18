@@ -14,6 +14,8 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import { Avatar, Button, Divider, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import useAuth from "@/app/hooks/useAuth";
+import { clearToken } from "@/app/store/auth/auth.slice";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -29,12 +31,14 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
   state,
   toggleDrawer,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const [auth] = React.useState(false);
+  const user = useAuth();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearToken());
   };
 
   const handleEditProfile = () => {
@@ -48,7 +52,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {auth ? (
+      {user ? (
         <>
           <Box
             display="flex"
@@ -120,7 +124,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
         </>
       )}
 
-      {!auth ? (
+      {!user ? (
         <>
           <List>
             {[
