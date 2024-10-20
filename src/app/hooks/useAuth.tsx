@@ -1,4 +1,4 @@
-import { auth } from "@/firebase/config";
+import { auth } from "@/firebase/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect } from "react";
 import { getCookie } from "@/app/server/cookie";
