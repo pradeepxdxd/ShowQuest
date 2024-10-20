@@ -19,7 +19,11 @@ const firebaseConfig = {
 
 // // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getAnalytics(app);
+// const db = getAnalytics(app);
+let db;
+if (typeof window !== "undefined") {
+  db = getAnalytics(app); // Initialize Analytics only on the client
+}
 export const auth = getAuth(app);
 
 export { db };

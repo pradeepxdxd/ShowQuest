@@ -139,7 +139,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
               "BookAChange",
             ].map((text, index) => (
               <>
-                <ListItem key={text} disablePadding>
+                <ListItem key={index} disablePadding>
                   <ListItemButton onClick={handleLogout}>
                     <ListItemIcon>
                       {text === "Logout" ? (
@@ -175,7 +175,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
               "List Your Show",
             ].map((text, index) => (
               <>
-                <ListItem key={text} disablePadding>
+                <ListItem key={index} disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
                       {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}

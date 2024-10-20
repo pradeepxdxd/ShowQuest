@@ -1,1 +1,7 @@
-https://www.youtube.com/watch?v=L3miLKtsgak&pp=ygU0RmlyZWJhc2UgQW5hbHl0aWNzIHdpdGggTmV4dC5qcyAtIHdpbmRvdyBub3QgZGVmaW5lZA%3D%3D
+Issues
+1. jwt token verification is not possible at middleware.ts
+
+Solve
+1. using lib jose
+
+https://youtu.be/30ydBNgDsow

@@ -1,4 +1,4 @@
-import { auth } from "@/firebase/config";
+import { auth } from "@/firebase/firebase.config";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   GoogleAuthProvider,
@@ -38,7 +38,6 @@ export const appleSignIn = createAsyncThunk("auth/appleSignIn", async () => {
   const provider = new OAuthProvider("apple.com");
   try {
     const result = await signInWithPopup(auth, provider);
-    console.log({ result });
     return result.user;
   } catch (error) {
     console.log({ error });
@@ -50,13 +49,10 @@ export const loginWithGmail = createAsyncThunk(
   "auth/loginWithGmail",
   async (email: string, { rejectWithValue }) => {
     try {
-      await axios.post(
-        "http://localhost:3000/api/auth/email",
-        {
-          email,
-          action: "sentOtp",
-        }
-      );
+      await axios.post("http://localhost:3000/api/auth/email", {
+        email,
+        action: "sentOtp",
+      });
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.response?.data || "An error occurred");
@@ -97,7 +93,6 @@ export const phoneSignIn = createAsyncThunk(
         phoneNumber,
         recaptchaVerifier
       );
-      console.log({ result });
       return result;
     } catch (err) {
       console.log(err);

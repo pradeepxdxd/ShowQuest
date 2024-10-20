@@ -3,8 +3,8 @@ import fs from "fs";
 import { promisify } from "util";
 import path from "path";
 import { generateOtp } from "@/app/utils/otp/generate-otp";
-import { generateToken } from "@/app/utils/token/token";
 import { createCookie, removeCookie } from "@/app/utils/cookie/cookie";
+import { createToken } from "@/app/lib/auth";
 
 const readFileAsync = promisify(fs.readFile);
 let otp: undefined | string = undefined;
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       );
     } else if (action === "verifyOtp") {
       if (otp === otpCode) {
-        const token = generateToken({ email });
+        const token = await createToken();
         if (token) {
           const cookie = createCookie(token);
           otp = undefined;
