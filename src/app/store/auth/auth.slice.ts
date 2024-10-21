@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { auth } from "@/firebase/firebase.config";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
@@ -28,11 +29,22 @@ interface verifyPhoneOtp {
   verificationCode: string;
 }
 
-export const googleSignIn = createAsyncThunk("auth/googleSignIn", async () => {
-  const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  return result.user;
-});
+export const googleSignIn = createAsyncThunk(
+  "auth/googleSignIn",
+  async (_, { rejectWithValue }) => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const token = await result.user.getIdToken();
+      document.cookie = `token=${token}; path=/`;
+      return result.user;
+    } catch (err) {
+      return rejectWithValue({
+        message: "Something went wrong, PLease try again later",
+      });
+    }
+  }
+);
 
 export const appleSignIn = createAsyncThunk("auth/appleSignIn", async () => {
   const provider = new OAuthProvider("apple.com");
@@ -40,7 +52,6 @@ export const appleSignIn = createAsyncThunk("auth/appleSignIn", async () => {
     const result = await signInWithPopup(auth, provider);
     return result.user;
   } catch (error) {
-    console.log({ error });
     throw new Error((error as AxiosError).message || "Apple sign-in failed");
   }
 });
@@ -178,9 +189,9 @@ const authSlice = createSlice({
       state.error = null;
     });
     builder.addCase(googleSignIn.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.loading = false;
       state.user = action.payload;
+      state.verified = true;
     });
     builder.addCase(googleSignIn.rejected, (state, action) => {
       state.loading = false;

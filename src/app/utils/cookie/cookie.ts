@@ -14,7 +14,6 @@ export const createCookie = (token: string) => {
 };
 
 export const removeCookie = (cookieName: string) => {
-  console.log({ cookieName });
   return serialize(cookieName, "", {
     httpOnly: true,
     secure:

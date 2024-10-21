@@ -4,7 +4,7 @@ import { promisify } from "util";
 import path from "path";
 import { generateOtp } from "@/app/utils/otp/generate-otp";
 import { createCookie, removeCookie } from "@/app/utils/cookie/cookie";
-import { createToken } from "@/app/lib/auth";
+import { createToken } from "@/app/lib/jose.auth";
 
 const readFileAsync = promisify(fs.readFile);
 let otp: undefined | string = undefined;

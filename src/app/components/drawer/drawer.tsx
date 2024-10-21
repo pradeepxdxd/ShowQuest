@@ -46,8 +46,8 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
   };
 
   const handleRedirectLogin = () => {
-    router.push('/pages/login');
-  }
+    router.push("/pages/login");
+  };
 
   const list = (anchor: Anchor) => (
     <Box
@@ -118,7 +118,11 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
                 </Typography>
               </Grid>
               <Grid item sm={3}>
-                <Button variant="outlined" color="error" onClick={handleRedirectLogin}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleRedirectLogin}
+                >
                   Login
                 </Button>
               </Grid>

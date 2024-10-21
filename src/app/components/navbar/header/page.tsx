@@ -10,7 +10,8 @@ import InputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import headerLogo from "@/app/assets/nav/headerlogo2.png";
+// import headerLogo from "@/app/assets/nav/headerlogo2.png";
+import headerLogo from "@/app/assets/nav/show-quest-main-logo.png";
 import Image from "next/image";
 import { Button, FormControl, Select } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -18,6 +19,9 @@ import styles from "./page.module.css";
 import AuthModal from "@/app/components/modals/auth/page";
 import CustomDrawer from "@/app/components/drawer/drawer";
 import useAuth from "@/app/hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { setClose, setOpen } from "@/app/store/ui/authModal.slice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,14 +66,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export default function PrimarySearchAppBar() {
-  const [open, setOpen] = React.useState(false);
+  const { open } = useSelector((state: RootState) => state.authModal);
+  const dispatch = useDispatch<AppDispatch>();
 
   const user = useAuth();
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => dispatch(setOpen());
   const handleClose = (event: object, reason: string) => {
     if (reason === "backdropClick") return;
-    setOpen(false);
+    dispatch(setClose());
   };
 
   const router = useRouter();
@@ -111,7 +116,7 @@ export default function PrimarySearchAppBar() {
               src={headerLogo}
               alt="bookMyShow"
               width={100}
-              height={30}
+              height={20}
               className={styles.clickable}
               onClick={() => router.push("/")}
             />

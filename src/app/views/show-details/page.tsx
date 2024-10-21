@@ -13,7 +13,6 @@ interface ShowDetailsProp {
 }
 
 const MovieDetails: React.FC<ShowDetailsProp> = ({ data }) => {
-  console.log({castData, env:process.env})
   return (
     <>
       <Poster data={data} />
