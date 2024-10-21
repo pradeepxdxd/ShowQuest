@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import Title from "@/app/views/booking/title";
 import { Box, Divider, Grid } from "@mui/material";
 import BookingFilter from "@/app/views/booking/bookingfilter";
-import ShowCard from "@/app/components/cards/booking/showcard";
+import ShowCard from "@/app/components/cards/booking/ShowCard";
 
 const ShowBooking = () => {
   const { id } = useParams();
@@ -35,7 +35,6 @@ const ShowBooking = () => {
           display={"flex"}
           justifyContent={"center"}
           alignItems={"center"}
-          height={400}
         >
           <ShowCard />
         </Box>

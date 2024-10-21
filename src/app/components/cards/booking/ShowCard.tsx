@@ -1,49 +1,83 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
+import { Box, Button, IconButton } from "@mui/material";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import BookOnlineIcon from "@mui/icons-material/BookOnline";
+import CustomTooltip from "../../tooltip/CustomTooltip";
 
 export default function ShowCard() {
   return (
-    <Box>
-      <Card sx={{ width:500, height:800, '&MuiCardContent-root' : {
-        width:'83vw'
-      } }}>
-        <CardContent>
-          <Typography
-            gutterBottom
-            sx={{ color: "text.secondary", fontSize: 14 }}
-          >
-            Word of the Day
+    <List
+      sx={{ width: "100%", maxWidth: 1300, bgcolor: "background.paper", m: 2 }}
+    >
+      <ListItem alignItems="flex-start">
+        <Box
+          display={"flex"}
+          justifyContent={"flex-end"}
+          sx={{ width: "100%" }}
+        >
+          <Typography variant="caption" mx={2} textAlign={"end"}>
+            <span>🟢</span>AVAILABLE
           </Typography>
-          <Typography variant="h5" component="div">
-            be{bull}nev{bull}o{bull}lent
+          <Typography variant="caption" mx={2} textAlign={"end"}>
+            <span>🔴</span>FAST FILLING
           </Typography>
-          <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-            adjective
-          </Typography>
-          <Typography variant="body2">
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions>
-      </Card>
-    </Box>
+        </Box>
+      </ListItem>
+      <Divider component="li" />
+      <ListItem alignItems="flex-start">
+        <ListItemText
+          primary={
+            <>
+              <Typography variant="body2">
+                Abhiruchi City Pride: Sinhagad Road
+              </Typography>
+            </>
+          }
+          secondary={
+            <React.Fragment>
+              <Box display={"flex"}>
+                <IconButton>
+                  <BookOnlineIcon sx={{ color: "#0ed20e" }} />{" "}
+                  <Typography
+                    variant="caption"
+                    component={"span"}
+                    sx={{ color: "#0ed20e" }}
+                  >
+                    M-Ticket
+                  </Typography>
+                </IconButton>
+                <IconButton sx={{ marginLeft: 1 }}>
+                  <FastfoodIcon sx={{ color: "orange" }} />{" "}
+                  <Typography
+                    variant="caption"
+                    component={"span"}
+                    sx={{ color: "orange" }}
+                  >
+                    Food & Beverage
+                  </Typography>
+                </IconButton>
+                <Box flexGrow={0.2}></Box>
+                <Button sx={{m:1}} variant="outlined" color="success">
+                  08:00 PM
+                </Button>
+                <Button sx={{m:1}} variant="outlined" color="success">
+                  08:00 PM
+                </Button>
+                <Button sx={{m:1}} variant="outlined" color="success">
+                  08:00 PM
+                </Button>
+                <CustomTooltip />
+              </Box>
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+      <Divider component="li" />
+    </List>
   );
 }
