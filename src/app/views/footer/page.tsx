@@ -9,18 +9,20 @@ import {
   LinkedIn,
   Copyright,
 } from "@mui/icons-material";
-import { Inter } from "next/font/google";
+import Image from "next/image";
+import showQuestImage from '@/app/assets/nav/show-quest-main-logo.png'
+import { useRouter } from "next/navigation";
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function page() {
+export default function Footer() {
+  const router = useRouter()
+  const handleClick = () => {
+    router.push('/')
+  }
   return (
     <Box bgcolor={"#333"}>
       <Box display="flex" alignItems="center" pt={3}>
         <Divider sx={{ flexGrow: 1, borderColor: "gray" }} />
-        <Typography variant="h6" color={"white"} fontFamily={inter.style.fontFamily} fontWeight={'small'}>
-          book<i style={{ color: "red" }}>my</i>show
-        </Typography>
+        <Image style={{cursor:'pointer'}} onClick={handleClick} src={showQuestImage} alt={'show-quest'} width={100} height={20} />
         <Divider sx={{ flexGrow: 1, borderColor: "gray" }} />
       </Box>
       <Box
