@@ -1,11 +1,11 @@
 import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import React from "react";
 
-export default function SeatInsignia() {
+const SeatInsignia: React.FC<{ price: string }> = ({ price }) => {
   return (
     <>
       <Box>
-        <Typography variant="caption">Rs. 740 Royale Recliners</Typography>
+        <Typography variant="caption">{price}</Typography>
         <Divider />
         <Box mt={2}>
           <Grid container spacing={1}>
@@ -62,7 +62,13 @@ export default function SeatInsignia() {
                 6
               </Button>
             </Grid>
-            <Grid item sm={2} display={"flex"} justifyContent={'end'} width={'100%'}>
+            <Grid
+              item
+              sm={2}
+              display={"flex"}
+              justifyContent={"end"}
+              width={"100%"}
+            >
               <Button
                 sx={{ mx: 1, width: "0.5px", height: "30px", minWidth: 0 }}
                 variant="outlined"
@@ -83,4 +89,6 @@ export default function SeatInsignia() {
       </Box>
     </>
   );
-}
+};
+
+export default SeatInsignia;

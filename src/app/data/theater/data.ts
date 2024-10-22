@@ -25,7 +25,10 @@ export const theaterData: Theater[] = [
       {
         id: 1,
         time: "06:40 PM",
-        price: [{ id: 1, cost: 730, seatType: "Insignia", available: true }],
+        price: [
+          { id: 1, cost: 730, seatType: "Insignia", available: true },
+          { id: 2, cost: 530, seatType: "Royal", available: true }
+        ],
       },
     ],
   },
