@@ -5,6 +5,7 @@ import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import { TicketTimeAndPrice } from "@/app/data/theater/data";
+import { useRouter } from "next/navigation";
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} placement="top" />
@@ -20,9 +21,16 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 interface TooltipType {
   data: TicketTimeAndPrice;
+  id: number;
+  showid: number;
 }
 
-const CustomTooltip: React.FC<TooltipType> = ({ data }) => {
+const CustomTooltip: React.FC<TooltipType> = ({ data, id, showid }) => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/pages/main/seats/${id}/${showid}/${data.id}`); // theaterid/movieid/timeid
+  };
+
   return (
     <>
       {data && (
@@ -55,7 +63,12 @@ const CustomTooltip: React.FC<TooltipType> = ({ data }) => {
             </Box>
           }
         >
-          <Button sx={{ m: 1 }} variant="outlined" color="success">
+          <Button
+            sx={{ m: 1 }}
+            variant="outlined"
+            color="success"
+            onClick={handleClick}
+          >
             {data.time}
           </Button>
         </HtmlTooltip>
@@ -65,32 +78,3 @@ const CustomTooltip: React.FC<TooltipType> = ({ data }) => {
 };
 
 export default CustomTooltip;
-
-{
-  /* <Box
-                  mx={2}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  flexDirection={"column"}
-                >
-                  <Typography variant="body2">Rs. 790.00</Typography>
-                  <Typography variant="caption">Club</Typography>
-                  <Typography sx={{ color: "#0ed20e" }} variant="caption">
-                    Available
-                  </Typography>
-                </Box>
-                <Box
-                  mx={2}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  flexDirection={"column"}
-                >
-                  <Typography variant="body2">Rs. 790.00</Typography>
-                  <Typography variant="caption">Club</Typography>
-                  <Typography sx={{ color: "#0ed20e" }} variant="caption">
-                    Available
-                  </Typography>
-                </Box> */
-}

@@ -14,9 +14,10 @@ import BookOnlineIcon from "@mui/icons-material/BookOnline";
 
 interface TheaterType {
   data: Theater[];
+  showid: number
 }
 
-const TheaterList: React.FC<TheaterType> = ({ data }) => {
+const TheaterList: React.FC<TheaterType> = ({ data, showid }) => {
   return (
     <>
       {data &&
@@ -55,7 +56,7 @@ const TheaterList: React.FC<TheaterType> = ({ data }) => {
                       </IconButton>
                       <Box flexGrow={1}></Box>
                       {show.time.map((time, index) => (
-                        <CustomTooltip data={time} key={index} />
+                        <CustomTooltip data={time} key={index} id={show.id} showid={showid} />
                       ))}
                     </Box>
                   </React.Fragment>
