@@ -5,6 +5,7 @@ import Title from "@/app/views/booking/title";
 import { Box, Divider, Grid } from "@mui/material";
 import BookingFilter from "@/app/views/booking/bookingfilter";
 import ShowCard from "@/app/components/cards/booking/ShowCard";
+import { theaterData } from "@/app/data/theater/data";
 
 const ShowBooking = () => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ const ShowBooking = () => {
           justifyContent={"center"}
           alignItems={"center"}
         >
-          <ShowCard />
+          <ShowCard data={theaterData} />
         </Box>
       </Box>
     </>
