@@ -9,9 +9,10 @@ import TheaterList from "@/app/views/booking/theaters";
 
 interface ShowCardType {
   data: Theater[];
+  showid: number
 }
 
-const ShowCard: React.FC<ShowCardType> = ({ data }) => {
+const ShowCard: React.FC<ShowCardType> = ({ data, showid }) => {
   return (
     <List
       sx={{ width: "100%", maxWidth: 1300, bgcolor: "background.paper", m: 2 }}
@@ -31,7 +32,7 @@ const ShowCard: React.FC<ShowCardType> = ({ data }) => {
         </Box>
       </ListItem>
       <Divider component="li" />
-      <TheaterList data={data} />
+      <TheaterList data={data} showid={showid} />
     </List>
   );
 };

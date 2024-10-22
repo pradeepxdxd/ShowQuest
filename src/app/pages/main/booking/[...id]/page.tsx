@@ -37,7 +37,7 @@ const ShowBooking = () => {
           justifyContent={"center"}
           alignItems={"center"}
         >
-          <ShowCard data={theaterData} />
+          <ShowCard data={theaterData} showid={show.id} />
         </Box>
       </Box>
     </>
