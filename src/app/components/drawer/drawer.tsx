@@ -39,6 +39,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearToken());
+    router.push('/');
   };
 
   const handleEditProfile = () => {
