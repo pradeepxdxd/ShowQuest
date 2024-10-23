@@ -1,19 +1,11 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { getMovies } from "@/service/api/api";
-import { Movie } from "@/app/types/movie.type";
-import ShowDetails from "@/app/views/show-details/page";
+import React from "react";
+import Movies from "@/app/views/movies/Movies";
 
-export default function MovieData() {
-  const [data, setData] = useState<Movie | null>(null);
-  const router = useParams();
-  useEffect(() => {
-    const movieId = Array.isArray(router.data) ? router.data[0] : router.data;
-    if (movieId) {
-      const data = getMovies(parseInt(movieId));
-      setData(data);
-    }
-  }, [router.data]);
-  return data ? <ShowDetails data={data} /> : <h3>Movie Not Found</h3>;
+export default function page() {
+  return <Movies />;
 }
+
+export const generateMetadata = () => ({
+  title: "Movie | Reviews, Cast &amp; Release Date in indore-  BookMyShow",
+  discription: "Action Drama Thriller released in Hindi Telugu language in theatre near you in indore. Know about Film reviews, lead cast &amp; crew,  photos &amp; video gallery on BookMyShow.",
+});

@@ -1,20 +1,30 @@
 "use client";
+import React from "react";
 import { getSeatDetails, getMovies } from "@/service/api/api";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Title from "./Title";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import SeatInsignia from "./ui/SeatInsignia";
 import SeatCard from "./ui/SeatCard";
 import { royalSeats, clubSeats, executiveSeats } from "@/app/data/seats/data";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-const SeatsView = () => {
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
+const SeatsView = () => {
+  const router = useRouter();
+  const { totalSeats } = useSelector((state: RootState) => state.seat);
   const { id } = useParams();
   const seatDetails = getSeatDetails(Number(id[0]));
   const movieDetails = getMovies(Number(id[1]));
   const timeDetails = seatDetails.time.filter(
     (seat) => seat.id === Number(id[2])
   )[0];
+
+  const handleCheckout = () => {
+    router.push('/pages/main/checkout');
+  }
+
   return (
     <>
       <Box>
@@ -23,6 +33,7 @@ const SeatsView = () => {
           theater={seatDetails}
           time={timeDetails.time}
         />
+        <Divider/> 
         <Box
           display={"flex"}
           justifyContent={"center"}
@@ -110,6 +121,25 @@ const SeatsView = () => {
           </Box>
         </Box>
       </Box>
+      {totalSeats > 0 && (
+        <Box
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          width={"100%"}
+          height={75}
+          sx={{ bgcolor: "#f5f5f5" }}
+          position={"sticky"}
+          bottom={0} // Make sure to define bottom for sticky
+          zIndex={1000} // Ensure it is above other elements
+        >
+          <Box>
+            <Button variant="contained" color="error" sx={{ width: "26vw" }} onClick={handleCheckout}>
+              Pay Rs.{totalSeats}
+            </Button>
+          </Box>
+        </Box>
+      )}
     </>
   );
 };
