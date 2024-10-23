@@ -1,47 +1,15 @@
-"use client";
-import { getMovies } from "@/service/api/api";
-import { useParams } from "next/navigation";
-import Title from "@/app/views/booking/title";
-import { Box, Divider, Grid } from "@mui/material";
-import BookingFilter from "@/app/views/booking/bookingfilter";
-import ShowCard from "@/app/components/cards/booking/ShowCard";
-import { theaterData } from "@/app/data/theater/data";
+import React from 'react'
+import BookingView from '@/app/views/booking/Booking'
 
-const ShowBooking = () => {
-  const { id } = useParams();
-  const show = getMovies(Number(id[1]));
+export default function Booking() {
   return (
-    <>
-      <Box>
-        <Box
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          height={150}
-          flexDirection={"column"}
-        >
-          <Title title={show.title} genre={show.genre} id={show.id} />
-        </Box>
-        <Divider />
-        <Grid
-          container
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <BookingFilter />
-        </Grid>
-        <Box
-          bgcolor={"rgb(245, 245, 245)"}
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <ShowCard data={theaterData} showid={show.id} />
-        </Box>
-      </Box>
-    </>
-  );
-};
+    <BookingView />
+  )
+}
 
-export default ShowBooking;
+export const generateMetadata = () => {
+  return {
+      title : 'Online movie ticket booking for a Action, Adventure, Sci-Fi film',
+      description : 'Online movie ticket booking for a Action, Adventure, Sci-Fi film Venom: The Last Dance (3D) (Hindi) 3D with release date, show timings, cinemas & theaters in Indore on BookMyShow. Theatres with Social Distancing & Safety procedures available for Venom: The Last Dance (3D) (Hindi). Look for the Safety Badge.'
+  }
+}
