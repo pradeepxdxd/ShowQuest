@@ -12,7 +12,6 @@ export default function FoodMenu() {
   return (
     <Box sx={{ flexGrow: 1, padding: 3, maxHeight: 500, overflowY: "auto" }}>
       {" "}
-      {/* Added maxHeight and overflowY */}
       <Grid container spacing={3}>
         {items.map((item) => (
           <Grid item xs={12} sm={6} md={6} key={item.id}>
