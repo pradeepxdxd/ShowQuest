@@ -14,8 +14,9 @@ import TheatersIcon from "@mui/icons-material/Theaters";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Script from "next/script";
 import { processPayment } from "@/app/features/payment/payment";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { addProceedToPayCost } from "@/app/store/ui/seat.slice";
 
 declare global {
   interface Window {
@@ -30,6 +31,7 @@ export default function BookingSummary() {
     useState<WayToEnterInCinemaType>("M_TICKET");
 
   const { proceedToPayPayment } = useSelector((state: RootState) => state.seat);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     // Dynamically load the Razorpay script if not already available
@@ -39,7 +41,11 @@ export default function BookingSummary() {
       script.async = true;
       document.body.appendChild(script);
     }
-  }, []);
+
+    return () => {
+      dispatch(addProceedToPayCost(0))
+    }
+  }, [dispatch]);
 
   const handlePayment = async () => {
     try {

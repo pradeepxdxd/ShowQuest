@@ -51,7 +51,12 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                 return (
                   <Button
                     key={st.key}
-                    ref={(el) => (buttonsRef.current[st.key] = el)}
+                    // ref={(el) => (buttonsRef.current[st.key] = el)}
+                    ref={(el) => {
+                      if (el) {
+                        buttonsRef.current[st.key] = el;
+                      }
+                    }}
                     sx={{
                       mx: "1px",
                       width: "0.5px",
@@ -76,7 +81,12 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                 return (
                   <Button
                     key={st.key}
-                    ref={(el) => (buttonsRef.current[st.key] = el)}
+                    // ref={(el) => (buttonsRef.current[st.key] = el)}
+                    ref={(el) => {
+                      if (el) {
+                        buttonsRef.current[st.key] = el;
+                      }
+                    }}
                     sx={{
                       mx: "1px",
                       width: "0.5px",
@@ -107,7 +117,12 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                 return (
                   <Button
                     key={st.key}
-                    ref={(el) => (buttonsRef.current[st.key] = el)}
+                    // ref={(el) => (buttonsRef.current[st.key] = el)}
+                    ref={(el) => {
+                      if (el) {
+                        buttonsRef.current[st.key] = el;
+                      }
+                    }}
                     sx={{
                       mx: "1px",
                       width: "0.5px",

@@ -45,12 +45,15 @@ const beverageSlice = createSlice({
     addTotalPrice: (state, action) => {
       state.totalPrice = action.payload;
     },
+    clearTotalPrice: state => {
+      state.totalPrice = 0;
+    },
     clearBeverages: (state) => {
       state.foodItems = [];
     },
   },
 });
 
-export const { addBeverages, clearBeverages, addTotalPrice, removeBeverage } =
+export const { addBeverages, clearBeverages, addTotalPrice, removeBeverage, clearTotalPrice } =
   beverageSlice.actions;
 export default beverageSlice.reducer;
