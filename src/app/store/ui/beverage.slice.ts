@@ -26,14 +26,15 @@ const beverageSlice = createSlice({
     addBeverages: (state, action) => {
       if (state.foodItems.length === 0) {
         state.foodItems = [...state.foodItems, action.payload];
-      } else {
-        state.foodItems = state.foodItems.map((item) => {
-          if (item.id === action.payload.id) {
-            return action.payload;
-          } else {
-            return item;
-          }
-        });
+      } 
+      else {
+        state.foodItems = state.foodItems.some(
+          (item) => item.id === action.payload.id
+        )
+          ? state.foodItems.map((item) =>
+              item.id === action.payload.id ? action.payload : item
+            )
+          : [...state.foodItems, action.payload];
       }
     },
     removeBeverage: (state, action) => {

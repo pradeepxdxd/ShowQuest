@@ -30,6 +30,7 @@ const BeverageItemInput: React.FC<FoodType> = ({
       setFoodCount(0);
     } else if (foodCount - 1 === 0) {
       dispatch(removeBeverage(item));
+      dispatch(addTotalPrice(totalPrice - item.price));
       setFoodCount(foodCount - 1);
     } else {
       if (totalPrice > 0) {
@@ -56,21 +57,23 @@ const BeverageItemInput: React.FC<FoodType> = ({
         <Button
           variant="outlined"
           color="error"
-          sx={{ fontSize: "x-small" }}
+          // sx={{ fontSize: "x-small" }}
+          sx={{ borderRadius: 50, minWidth: "20px" }}
           onClick={handleDrop}
         >
-          Drop
+          -
         </Button>
-        <Typography variant="body2" mt={"5px"}>
+        <Typography variant="body2" mt={"6px"}>
           {foodCount}
         </Typography>
         <Button
           variant="outlined"
           color="error"
-          sx={{ fontSize: "x-small" }}
+          // sx={{ fontSize: "x-small" }}
+          sx={{ borderRadius: 50, minWidth: "20px" }}
           onClick={handleAdd}
         >
-          Add
+          +
         </Button>
       </Box>
     </>

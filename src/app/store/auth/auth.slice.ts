@@ -36,7 +36,8 @@ export const googleSignIn = createAsyncThunk(
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const token = await result.user.getIdToken();
-      document.cookie = `token=${token}; path=/`;
+      // document.cookie = `token=${token}; path=/`;
+      document.cookie = `token=${token}; path=/; max-age=${30 * 24 * 60 * 60}`;
       return result.user;
     } catch (err) {
       return rejectWithValue({
