@@ -1,8 +1,20 @@
+'use client'
 import { Box, Grid } from "@mui/material";
 import Beverage from "./beverage/Beverage";
 import BookingSummary from "./booking-summary/BookingSummary";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Checkout = () => {
+  const router = useRouter()
+  const {clientSeats} = useSelector((state : RootState) => state.seat)
+
+  useEffect(() => {
+    if (clientSeats.length === 0) router.back()
+  }, [router, clientSeats])
+
   return (
     <>
       <Box

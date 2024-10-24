@@ -4,7 +4,7 @@ import { Seat } from "@/app/data/seats/data";
 import { getRandomNumber } from "@/app/utils/random/random";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
-import { addSeat } from "@/app/store/ui/seat.slice";
+import { addClientSeatDetails, addSeat } from "@/app/store/ui/seat.slice";
 
 interface RoyalSeatType {
   clientSeats: Seat[];
@@ -12,16 +12,27 @@ interface RoyalSeatType {
   seatType: string;
 }
 
-const RoyalSeat: React.FC<RoyalSeatType> = ({ clientSeats, cost }) => {
+const RoyalSeat: React.FC<RoyalSeatType> = ({
+  clientSeats,
+  cost,
+  seatType,
+}) => {
   const buttonsRef = useRef<{
     [key: string | number]: HTMLButtonElement | null;
   }>({});
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleButtonClick = (st: string | number) => {
-    const button = buttonsRef.current[st];
+  const handleButtonClick = (
+    st_key: string | number,
+    st_seatNo: string | number,
+    seatRow: string
+  ) => {
+    const button = buttonsRef.current[st_key];
     if (button) {
-      dispatch(addSeat(cost))
+      dispatch(addSeat(cost));
+      dispatch(
+        addClientSeatDetails({ seatName: seatType, seatNo: st_seatNo, seatRow })
+      );
       button.style.backgroundColor = "green";
     }
   };
@@ -51,7 +62,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({ clientSeats, cost }) => {
                     variant="outlined"
                     color={getRandomNumber() === 2 ? "warning" : "success"}
                     disabled={isDisabled}
-                    onClick={() => handleButtonClick(st.key)}
+                    onClick={() => handleButtonClick(st.key, st.value, seat.id)}
                   >
                     {st.value}
                   </Button>
@@ -76,7 +87,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({ clientSeats, cost }) => {
                     variant="outlined"
                     color={getRandomNumber() === 2 ? "warning" : "success"}
                     disabled={isDisabled}
-                    onClick={() => handleButtonClick(st.key)}
+                    onClick={() => handleButtonClick(st.key, st.value, seat.id)}
                   >
                     {st.value}
                   </Button>
@@ -107,7 +118,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({ clientSeats, cost }) => {
                     variant="outlined"
                     color={getRandomNumber() === 2 ? "warning" : "success"}
                     disabled={isDisabled}
-                    onClick={() => handleButtonClick(st.key)}
+                    onClick={() => handleButtonClick(st.key, st.value, seat.id)}
                   >
                     {st.value}
                   </Button>

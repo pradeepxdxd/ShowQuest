@@ -8,13 +8,16 @@ import SeatInsignia from "./ui/SeatInsignia";
 import SeatCard from "./ui/SeatCard";
 import { royalSeats, clubSeats, executiveSeats } from "@/app/data/seats/data";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { addSeatCost } from "@/app/store/ui/seat.slice";
 
 const SeatsView = () => {
   const router = useRouter();
-  const { totalSeats } = useSelector((state: RootState) => state.seat);
   const { id } = useParams();
+  const { totalSeats } = useSelector((state: RootState) => state.seat);
+  const dispatch = useDispatch<AppDispatch>();
+
   const seatDetails = getSeatDetails(Number(id[0]));
   const movieDetails = getMovies(Number(id[1]));
   const timeDetails = seatDetails.time.filter(
@@ -22,8 +25,9 @@ const SeatsView = () => {
   )[0];
 
   const handleCheckout = () => {
-    router.push('/pages/main/checkout');
-  }
+    dispatch(addSeatCost(totalSeats));
+    router.push("/pages/main/checkout");
+  };
 
   return (
     <>
@@ -33,7 +37,7 @@ const SeatsView = () => {
           theater={seatDetails}
           time={timeDetails.time}
         />
-        <Divider/> 
+        <Divider />
         <Box
           display={"flex"}
           justifyContent={"center"}
@@ -134,7 +138,12 @@ const SeatsView = () => {
           zIndex={1000} // Ensure it is above other elements
         >
           <Box>
-            <Button variant="contained" color="error" sx={{ width: "26vw" }} onClick={handleCheckout}>
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ width: "26vw" }}
+              onClick={handleCheckout}
+            >
               Pay Rs.{totalSeats}
             </Button>
           </Box>
