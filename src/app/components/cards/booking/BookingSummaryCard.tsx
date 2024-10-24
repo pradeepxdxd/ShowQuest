@@ -1,3 +1,4 @@
+import { RootState } from "@/app/store";
 import {
   Card,
   CardActions,
@@ -7,8 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { useSelector } from "react-redux";
 
 export default function BookingSummaryCard() {
+  const { totalPrice, foodItems } = useSelector(
+    (state: RootState) => state.beverage
+  );
+
+  console.log({ foodItems });
   return (
     <Card sx={{ width: "100%" }}>
       <CardContent>
@@ -41,7 +48,7 @@ export default function BookingSummaryCard() {
           >
             <Typography variant="body2"> Rs. 81.42</Typography>
           </Grid>
-          <Grid item sm={12} m={2}>
+          <Grid item sm={12} my={2}>
             <Divider />
           </Grid>
           <Grid item sm={6}>
@@ -56,12 +63,36 @@ export default function BookingSummaryCard() {
           >
             <Typography variant="body1">Rs.771.42</Typography>
           </Grid>
+          {totalPrice > 0 && (
+            <>
+              <Grid item sm={12} my={2}>
+                <Divider />
+              </Grid>
+              <Grid item sm={6}>
+                <Typography variant="body1">Food & Beverage</Typography>
+              </Grid>
+              <Grid
+                item
+                sm={6}
+                display={"flex"}
+                justifyContent={"flex-end"}
+                width={"100%"}
+              >
+                <Typography variant="body1">Rs.{totalPrice}</Typography>
+              </Grid>
+            </>
+          )}
         </Grid>
       </CardContent>
-      <CardActions sx={{bgcolor:'#fffdc8', display:'flex', justifyContent:'center'}}>
+      <CardActions
+        sx={{ bgcolor: "#fffdc8", display: "flex", justifyContent: "center" }}
+      >
         <Grid container mt={2} width={"95%"}>
           <Grid item sm={6}>
-            <Typography variant="body1" mb={2}> Amount Payable</Typography>
+            <Typography variant="body1" mb={2}>
+              {" "}
+              Amount Payable
+            </Typography>
           </Grid>
           <Grid
             item
@@ -70,7 +101,10 @@ export default function BookingSummaryCard() {
             justifyContent={"flex-end"}
             width={"100%"}
           >
-            <Typography variant="body1" mb={2}> Rs.771.42</Typography>
+            <Typography variant="body1" mb={2}>
+              {" "}
+              Rs.771.42
+            </Typography>
           </Grid>
         </Grid>
       </CardActions>
