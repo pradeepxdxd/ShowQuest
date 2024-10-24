@@ -39,8 +39,8 @@ export default function BookingSummaryCard() {
       }
       setTicketOfShow(headTitle + tailTitle);
     }
-    setFinalPayment(totalSeatCost + 81.42 + totalPrice);
-    dispatch(addProceedToPayCost(totalSeatCost + 81.42 + totalPrice));
+    setFinalPayment(totalSeatCost + 81 + totalPrice);
+    dispatch(addProceedToPayCost(totalSeatCost + 81 + totalPrice));
   }, [clientSeats, dispatch, totalPrice, totalSeatCost]);
 
   console.log({ foodItems });
@@ -78,20 +78,8 @@ export default function BookingSummaryCard() {
             width={"100%"}
             mt={2}
           >
-            <Typography variant="body2"> Rs. 81.42</Typography>
+            <Typography variant="body2"> Rs. 81</Typography>
           </Grid>
-          {/* <Grid item sm={6}>
-            <Typography variant="body1">Sub total</Typography>
-          </Grid>
-          <Grid
-            item
-            sm={6}
-            display={"flex"}
-            justifyContent={"flex-end"}
-            width={"100%"}
-          >
-            <Typography variant="body1">Rs.{finalPayment}</Typography>
-          </Grid> */}
           {totalPrice > 0 && (
             <>
               <Grid item sm={12} my={2}>

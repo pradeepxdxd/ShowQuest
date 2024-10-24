@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { getSeatDetails, getMovies } from "@/service/api/api";
 import { useParams, useRouter } from "next/navigation";
 import Title from "./Title";
@@ -10,7 +10,8 @@ import { royalSeats, clubSeats, executiveSeats } from "@/app/data/seats/data";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
-import { addSeatCost } from "@/app/store/ui/seat.slice";
+import { addSeatCost, clearSeats } from "@/app/store/ui/seat.slice";
+import { clearBeverages, clearTotalPrice } from "@/app/store/ui/beverage.slice";
 
 const SeatsView = () => {
   const router = useRouter();
@@ -23,6 +24,12 @@ const SeatsView = () => {
   const timeDetails = seatDetails.time.filter(
     (seat) => seat.id === Number(id[2])
   )[0];
+
+  useEffect(() => {
+    dispatch(clearSeats());
+    dispatch(clearBeverages());
+    dispatch(clearTotalPrice());
+  }, [dispatch]);
 
   const handleCheckout = () => {
     dispatch(addSeatCost(totalSeats));

@@ -41,7 +41,7 @@ const seatSlice = createSlice({
     },
     addProceedToPayCost : (state, action) => {
       state.proceedToPayPayment = action.payload
-    }
+    },
   },
 });
 
