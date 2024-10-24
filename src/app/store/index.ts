@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth/auth.slice";
 import authModalReducer from "./ui/authModal.slice";
-import seatReducer from './ui/seat.slice'
+import seatReducer from "./ui/seat.slice";
+import beverageReducer from "./ui/beverage.slice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     authModal: authModalReducer,
-    seat : seatReducer
+    seat: seatReducer,
+    beverage: beverageReducer,
   },
 });
 
