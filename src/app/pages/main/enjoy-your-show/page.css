@@ -1,0 +1,93 @@
+.payment-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0fff5;
+    color: #4caf50;
+    font-family: Arial, sans-serif;
+    animation: fadeIn 1s ease-out;
+}
+
+.success-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #4caf50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    animation: scaleUp 0.5s ease-out;
+}
+
+.checkmark {
+    width: 50px;
+    height: 30px;
+    position: relative;
+    transform: rotate(45deg);
+    animation: drawCheck 0.5s ease-out;
+}
+
+.checkmark-stem {
+    position: absolute;
+    width: 6px;
+    height: 20px;
+    background-color: white;
+    top: 0;
+    left: 20px;
+    border-radius: 3px;
+}
+
+.checkmark-kick {
+    position: absolute;
+    width: 6px;
+    height: 10px;
+    background-color: white;
+    bottom: 0;
+    left: 10px;
+    border-radius: 3px;
+}
+
+.link {
+    margin-top: 12px;
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes drawCheck {
+    0% {
+        width: 0;
+        height: 0;
+    }
+
+    50% {
+        width: 6px;
+        height: 20px;
+    }
+
+    100% {
+        width: 6px;
+        height: 30px;
+    }
+}

@@ -13,13 +13,13 @@ import React, { useEffect, useState } from "react";
 import BookOnlineOutlinedIcon from "@mui/icons-material/BookOnlineOutlined";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import Script from "next/script";
-// import { processPayment } from "@/app/features/payment/payment";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { addProceedToPayCost } from "@/app/store/ui/seat.slice";
 import useRazorpayPayment from "@/app/hooks/useRazorpayPayment";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import CustomBackdrop from "@/app/components/backdrop/Backdrop";
 
 declare global {
   interface Window {
@@ -33,57 +33,45 @@ type WayToEnterInCinemaType = "M_TICKET" | "BOX_OFFICE_PICKUP";
 export default function BookingSummary() {
   const [wayToEnterInCinema, setWayToEnterInCinema] =
     useState<WayToEnterInCinemaType>("M_TICKET");
-  const [isRazorpayScriptLoaded, setIsRazorpayScriptLoaded] = useState(false);
-
+  const [backgroundLoading, setbackgroundLoading] = useState<boolean>(false);
   const { proceedToPayPayment } = useSelector((state: RootState) => state.seat);
   const { loading, success, error, handlePayment } = useRazorpayPayment(
     proceedToPayPayment * 100,
-    "INR"
+    "INR",
+    "Pradeep Biswas",
+    "discription",
+    setbackgroundLoading
   );
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   useEffect(() => {
-    // Dynamically load the Razorpay script if not already available
-    if (!window.Razorpay) {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-
     return () => {
       dispatch(addProceedToPayCost(0));
     };
-  }, [dispatch]);
+  }, []);
 
   const handlePaymentClick = async () => {
-    if (isRazorpayScriptLoaded) {
-      try {
-        handlePayment();
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      toast.error("Payment script is still loading. Please try again in a moment.");
+    try {
+      handlePayment();
+      setbackgroundLoading(true)
+    } catch (err) {
+      console.log(err);
     }
   };
 
   useEffect(() => {
     if (success) {
-      toast.success(success);
+      setbackgroundLoading(false);
+      router.push("/pages/main/enjoy-your-show");
     } else if (error) {
+      setbackgroundLoading(false);
       toast.error(error);
     }
-  }, [success, error]);
+  }, [error, router, success]);
 
   return (
     <>
-      <Script
-        id="razorpay-checkout-js"
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        onLoad={() => setIsRazorpayScriptLoaded(true)}
-      />
-
       <Box
         display={"flex"}
         justifyContent={"center"}
@@ -167,7 +155,9 @@ export default function BookingSummary() {
             }}
             onClick={handlePaymentClick}
             disabled={loading}
-            startIcon={loading ? <CircularProgress size={16} color="error" /> : null}
+            startIcon={
+              loading ? <CircularProgress size={16} color="error" /> : null
+            }
           >
             <Typography component={"span"} textAlign={"start"}>
               TOTAL: RS.{proceedToPayPayment}
@@ -190,6 +180,7 @@ export default function BookingSummary() {
           </Typography>
         </Box>
       </Box>
+      <CustomBackdrop open={backgroundLoading} />
     </>
   );
 }

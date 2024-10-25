@@ -28,7 +28,9 @@ const Checkout = () => {
           <Grid container spacing={2}>
             <Grid
               item
-              sm={8}
+              md={8}
+              sm={12}
+              xs={12}
               display={"flex"}
               justifyContent={"center"}
               alignItems={"center"}
@@ -37,7 +39,9 @@ const Checkout = () => {
             </Grid>
             <Grid
               item
-              sm={4}
+              md={4}
+              sm={12}
+              xs={12}
             >
               <BookingSummary />
             </Grid>

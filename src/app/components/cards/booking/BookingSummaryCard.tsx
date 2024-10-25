@@ -43,8 +43,6 @@ export default function BookingSummaryCard() {
     dispatch(addProceedToPayCost(totalSeatCost + 81 + totalPrice));
   }, [clientSeats, dispatch, totalPrice, totalSeatCost]);
 
-  console.log({ foodItems });
-
   return (
     <Card sx={{ width: "100%" }}>
       <CardContent>
