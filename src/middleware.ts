@@ -10,9 +10,9 @@ export async function middleware(req: NextRequest) {
   }
 
   // Protect /api/payment
-  // if (!token && req.nextUrl.pathname.startsWith("/api/payment")) {
-  //   return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  // }
+  if (!token && req.nextUrl.pathname.startsWith("/api/payment")) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
 
   return NextResponse.next();
 }

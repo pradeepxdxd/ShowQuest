@@ -2,27 +2,35 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 
-const useRazorpayPayment = (amount: number, currency: string) => {
+const useRazorpayPayment = (
+  amount: number,
+  currency: string,
+  name: string,
+  description: string,
+  setbackgroundLoading : (param:boolean) => void
+) => {
   const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const handlePayment = useCallback(() => {
     const callPayment = async () => {
-      setLoading(true); // Set loading to true before the payment process
-      setError(""); // Clear previous error messages
-      setSuccess(""); // Clear previous success messages
+      setLoading(true);
+      setError("");
+      setSuccess("");
       try {
         const resp = await axios.post(`/api/payment/order`, {
-          amount, currency,
+          amount,
+          currency,
         });
         const orderId: string = resp.data.orderId;
         const options = {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           amount: amount,
           currency: currency,
-          name: "name",
-          description: "description",
+          name,
+          description,
           order_id: orderId,
+          // image : '',
           handler: async function (response: any) {
             const data = {
               orderCreationId: orderId,
@@ -34,10 +42,9 @@ const useRazorpayPayment = (amount: number, currency: string) => {
             const result = await axios.post(`/api/payment/verify`, data);
             const res = result.data;
             if (res.isOk) {
-                setSuccess('Payment Succeed')
-            }
-            else {
-                setSuccess('Payment failed')
+              setSuccess("Payment Succeed");
+            } else {
+              setSuccess("Payment failed");
             }
           },
           prefill: {
@@ -47,6 +54,11 @@ const useRazorpayPayment = (amount: number, currency: string) => {
           theme: {
             color: "#3399cc",
           },
+          modal: {
+            ondismiss: function () {
+              setbackgroundLoading(false);
+            },
+          },
         };
         const paymentObject = new window.Razorpay(options);
         paymentObject.on("payment.failed", function (response: any) {
@@ -55,13 +67,13 @@ const useRazorpayPayment = (amount: number, currency: string) => {
         paymentObject.open();
       } catch (error) {
         console.log(error);
-        setError("Payment initiation failed.")
+        setError("Payment initiation failed.");
       } finally {
         setLoading(false);
       }
     };
     callPayment();
-  }, [amount, currency]);
+  }, [amount, currency, description, name]);
 
   return { handlePayment, error, success, loading };
 };
