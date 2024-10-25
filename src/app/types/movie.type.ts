@@ -7,6 +7,7 @@ export interface Movie {
   rating: string;
   votes: string;
   genre: string;
+  type: string
 }
 
 export interface MovieCardProps {

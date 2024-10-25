@@ -18,6 +18,7 @@ export interface LiveEventImage {
   rating: string;
   votes: string;
   genre: string;
+  type: string;
 }
 
 export const liveEvent: LiveEventImage[] = [
@@ -26,6 +27,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 1,
     title: "Amusement Park",
     genre: "Adventure",
+    type: "live-event",
     rating: "8.7",
     votes: "123",
   },
@@ -34,6 +36,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 2,
     title: "WorkShow",
     genre: "Workshop",
+    type: "live-event",
     rating: "7.8",
     votes: "40",
   },
@@ -42,6 +45,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 3,
     title: "Kids",
     genre: "kids",
+    type: "live-event",
     rating: "8.8",
     votes: "150",
   },
@@ -50,6 +54,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 4,
     title: "Comedy And Show",
     genre: "Comedy",
+    type: "live-event",
     rating: "9.0",
     votes: "230",
   },
@@ -58,6 +63,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 5,
     title: "Music Show",
     genre: "Music/Song/Dance",
+    type: "live-event",
     rating: "9.2",
     votes: "250",
   },
@@ -66,6 +72,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 6,
     title: "Upskills And Training",
     genre: "Learning/Training/Study",
+    type: "live-event",
     rating: "8.2",
     votes: "60",
   },
@@ -74,6 +81,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 7,
     title: "Interactive Games",
     genre: "Game/Entertainment",
+    type: "live-event",
     rating: "9.5",
     votes: "550",
   },
@@ -82,6 +90,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 8,
     title: "Art And Craft",
     genre: "Art/Craft",
+    type: "live-event",
     rating: "7.2",
     votes: "15",
   },
@@ -90,6 +99,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 9,
     title: "Theatre Show",
     genre: "Acting/Drama/Cinema",
+    type: "live-event",
     rating: "9.2",
     votes: "430",
   },
@@ -98,6 +108,7 @@ export const liveEvent: LiveEventImage[] = [
     id: 10,
     title: "Adventure And Fun",
     genre: "Adventure/Fun",
+    type: "live-event",
     rating: "8.5",
     votes: "70",
   },

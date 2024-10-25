@@ -17,6 +17,7 @@ export interface Movie {
   rating: string;
   votes: string;
   genre: string;
+  type: string;
 }
 
 export const movies: Movie[] = [
@@ -27,6 +28,7 @@ export const movies: Movie[] = [
     rating: "8.2",
     votes: "256.3K",
     genre: "Action/Drama/Thriller",
+    type: "movie",
   },
   {
     id: 2,
@@ -35,6 +37,7 @@ export const movies: Movie[] = [
     rating: "8.2",
     votes: "26.2K",
     genre: "Biography/Drama",
+    type: "movie",
   },
   {
     id: 3,
@@ -43,6 +46,7 @@ export const movies: Movie[] = [
     rating: "4.6",
     votes: "8.9K",
     genre: "Drama/Suspense/Thriller",
+    type: "movie",
   },
   {
     id: 4,
@@ -51,6 +55,7 @@ export const movies: Movie[] = [
     rating: "7.9",
     votes: "20.5K",
     genre: "Comedy/Drama/Family",
+    type: "movie",
   },
   {
     id: 5,
@@ -59,6 +64,7 @@ export const movies: Movie[] = [
     rating: "8.9",
     votes: "409.3K",
     genre: "Comedy/Horror",
+    type: "movie",
   },
   {
     id: 6,
@@ -67,6 +73,7 @@ export const movies: Movie[] = [
     rating: "7.3",
     votes: "Early Ratings",
     genre: "Comedy/Fantasy",
+    type: "movie",
   },
   {
     id: 7,
@@ -75,6 +82,7 @@ export const movies: Movie[] = [
     rating: "8.7",
     votes: "175",
     genre: "Biography/Drama/Family/Historical",
+    type: "movie",
   },
   {
     id: 8,
@@ -83,6 +91,7 @@ export const movies: Movie[] = [
     rating: "8.9",
     votes: "9.2k",
     genre: "Comedy/Drama/Family",
+    type: "movie",
   },
   {
     id: 9,
@@ -91,6 +100,7 @@ export const movies: Movie[] = [
     rating: "8.2",
     votes: "20.5k",
     genre: "Comedy/Drama",
+    type: "movie",
   },
   {
     id: 10,
@@ -99,5 +109,6 @@ export const movies: Movie[] = [
     rating: "6.6",
     votes: "23.1k",
     genre: "Crime/Mystery/thriller",
+    type: "movie",
   },
 ];

@@ -13,12 +13,14 @@ export interface Premiere {
   rating: string;
   votes: string;
   genre: string;
+  type: string;
 }
 
 export const premiereData: Premiere[] = [
   {
     id: 1,
     genre: "Politics/Drama/Action/Romance",
+    type: "premiere",
     rating: "7.2",
     votes: "120",
     title: "The Layoff Parties",
@@ -28,6 +30,7 @@ export const premiereData: Premiere[] = [
   {
     id: 2,
     genre: "Action/Romance/Triller",
+    type: "premiere",
     rating: "9.7",
     votes: "700",
     title: "Bang Bang!",
@@ -37,6 +40,7 @@ export const premiereData: Premiere[] = [
   {
     id: 3,
     genre: "Drama/Ancient/Action/War",
+    type: "premiere",
     rating: "5.5",
     votes: "300",
     title: "Hoy Maharaja",
@@ -46,6 +50,7 @@ export const premiereData: Premiere[] = [
   {
     id: 4,
     genre: "Drama/Comedy",
+    type: "premiere",
     rating: "8.6",
     votes: "300",
     title: "Shyamchi Aai",
@@ -55,6 +60,7 @@ export const premiereData: Premiere[] = [
   {
     id: 5,
     genre: "Action/Drama",
+    type: "premiere",
     rating: "8.8",
     votes: "500",
     title: "Sidone in Japan",

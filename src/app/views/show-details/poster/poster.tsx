@@ -19,7 +19,8 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useAuth();
   const handleClick = () => {
-    if (user) router.push(`/pages/main/booking/${data.title}/${data.id}`);
+    if (user)
+      router.push(`/pages/main/booking/${data.type}/${data.title}/${data.id}`);
     else dispatch(setOpen());
   };
 

@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import { TicketTimeAndPrice } from "@/app/data/theater/data";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} placement="top" />
@@ -27,8 +29,9 @@ interface TooltipType {
 
 const CustomTooltip: React.FC<TooltipType> = ({ data, id, showid }) => {
   const router = useRouter();
+  const { showType } = useSelector((state: RootState) => state.seat);
   const handleClick = () => {
-    router.push(`/pages/main/seats/${id}/${showid}/${data.id}`); // theaterid/movieid/timeid
+    router.push(`/pages/main/seats/${id}/${showid}/${data.id}/${showType}`); // theaterid/movieid/timeid
   };
 
   return (
