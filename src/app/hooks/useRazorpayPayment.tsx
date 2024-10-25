@@ -31,7 +31,7 @@ const useRazorpayPayment = (amount: number, currency: string) => {
               razorpaySignature: response.razorpay_signature,
             };
 
-            const result = await axios.post("/api/verify", data);
+            const result = await axios.post(`/api/payment/verify`, data);
             const res = result.data;
             if (res.isOk) {
                 setSuccess('Payment Succeed')
