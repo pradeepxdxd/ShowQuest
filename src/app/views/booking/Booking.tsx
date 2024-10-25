@@ -1,15 +1,31 @@
 "use client";
-import { getMovies } from "@/service/api/api";
+import { getLiveEvent, getMovies, getPremiereMovies } from "@/service/api/api";
 import { useParams } from "next/navigation";
 import Title from "@/app/views/booking/title";
 import { Box, Divider, Grid } from "@mui/material";
 import BookingFilter from "@/app/views/booking/bookingfilter";
 import ShowCard from "@/app/components/cards/booking/ShowCard";
 import { theaterData } from "@/app/data/theater/data";
+import { useEffect } from "react";
+import { AppDispatch } from "@/app/store";
+import { useDispatch } from "react-redux";
+import { setShowType } from "@/app/store/ui/seat.slice";
 
 const ShowBooking = () => {
   const { id } = useParams();
-  const show = getMovies(Number(id[1]));
+  const dispatch = useDispatch<AppDispatch>();
+
+  const show =
+    id[0] === "movie"
+      ? getMovies(Number(id[2]))
+      : id[0] === "live-event"
+      ? getLiveEvent(Number(id[2]))
+      : getPremiereMovies(Number(id[2]));
+
+  useEffect(() => {
+    dispatch(setShowType(id[0]));
+  }, [id, dispatch]);
+
   return (
     <>
       <Box>

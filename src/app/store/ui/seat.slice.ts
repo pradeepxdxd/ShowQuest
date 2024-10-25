@@ -11,6 +11,7 @@ export interface InitialState {
   totalSeatCost: number;
   clientSeats: ClientSeat[];
   proceedToPayPayment : number;
+  showType:string;
 }
 
 const initialState: InitialState = {
@@ -18,6 +19,7 @@ const initialState: InitialState = {
   totalSeatCost: 0,
   clientSeats: [],
   proceedToPayPayment : 0,
+  showType:''
 };
 
 const seatSlice = createSlice({
@@ -42,6 +44,9 @@ const seatSlice = createSlice({
     addProceedToPayCost : (state, action) => {
       state.proceedToPayPayment = action.payload
     },
+    setShowType: (state, action) => {
+      state.showType = action.payload;
+    }
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   addSeatCost,
   addClientSeatDetails,
   clearClientSeatDetails,
-  addProceedToPayCost
+  addProceedToPayCost,
+  setShowType
 } = seatSlice.actions;
 export default seatSlice.reducer;

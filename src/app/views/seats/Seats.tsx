@@ -1,6 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
-import { getSeatDetails, getMovies } from "@/service/api/api";
+import {
+  getSeatDetails,
+  getMovies,
+  getLiveEvent,
+  getPremiereMovies,
+} from "@/service/api/api";
 import { useParams, useRouter } from "next/navigation";
 import Title from "./Title";
 import { Box, Button, Divider, Typography } from "@mui/material";
@@ -20,7 +25,13 @@ const SeatsView = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const seatDetails = getSeatDetails(Number(id[0]));
-  const movieDetails = getMovies(Number(id[1]));
+  const showDetails =
+    id[3] === "movie"
+      ? getMovies(Number(id[1]))
+      : id[3] === "live-event"
+      ? getLiveEvent(Number(id[1]))
+      : getPremiereMovies(Number(id[1]));
+
   const timeDetails = seatDetails.time.filter(
     (seat) => seat.id === Number(id[2])
   )[0];
@@ -40,7 +51,7 @@ const SeatsView = () => {
     <>
       <Box>
         <Title
-          title={movieDetails.title}
+          title={showDetails.title}
           theater={seatDetails}
           time={timeDetails.time}
         />
