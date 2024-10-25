@@ -64,7 +64,7 @@ export default function BookingSummary() {
         console.log(err);
       }
     } else {
-      alert("Payment script is still loading. Please try again in a moment.");
+      toast.error("Payment script is still loading. Please try again in a moment.");
     }
   };
 
@@ -167,7 +167,7 @@ export default function BookingSummary() {
             }}
             onClick={handlePaymentClick}
             disabled={loading}
-            startIcon={loading ? <CircularProgress size={16} /> : null}
+            startIcon={loading ? <CircularProgress size={16} color="error" /> : null}
           >
             <Typography component={"span"} textAlign={"start"}>
               TOTAL: RS.{proceedToPayPayment}

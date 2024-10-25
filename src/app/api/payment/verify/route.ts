@@ -5,7 +5,7 @@ const generatedSignature = (
   razorpayOrderId: string,
   razorpayPaymentId: string
 ) => {
-  const keySecret = process.env.key_secret;
+  const keySecret = process.env.NEXT_PUBLIC_RAZORPAY_KEY_SECRET;
   if (!keySecret) {
     throw new Error(
       "Razorpay key secret is not defined in environment variables."
@@ -22,7 +22,6 @@ export async function POST(request: NextRequest) {
   try {
     const { orderCreationId, razorpayPaymentId, razorpaySignature } =
       await request.json();
-
     const signature = generatedSignature(orderCreationId, razorpayPaymentId);
     if (signature !== razorpaySignature) {
       return NextResponse.json(
