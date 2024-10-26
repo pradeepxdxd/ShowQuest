@@ -5,6 +5,7 @@ import { getCookie } from "@/app/server/cookie";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "@/app/store/auth/auth.slice";
+import { verifyJoseToken } from "../lib/jose.auth";
 
 const useAuth = () => {
   const [user] = useAuthState(auth);
@@ -16,7 +17,10 @@ const useAuth = () => {
     const fetchToken = async () => {
       try {
         const cookie = await getCookie("token");
-        dispatch(setToken(cookie?.value));
+        const result = await verifyJoseToken(cookie?.value as string)
+        if (result) {
+          dispatch(setToken(cookie?.value));
+        }
       } catch (error) {
         dispatch(setToken(undefined));
         console.log(error);
@@ -25,7 +29,6 @@ const useAuth = () => {
 
     fetchToken();
   }, []);
-
   return user || token;
 };
 

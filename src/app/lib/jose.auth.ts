@@ -17,7 +17,7 @@ export const getSecretKey = () => {
   return secret;
 };
 
-export const createToken = async () => {
+export const generateJoseToken = async () => {
   return await new SignJWT({})
     .setProtectedHeader({
       alg: "HS256",
@@ -29,7 +29,7 @@ export const createToken = async () => {
     .sign(new TextEncoder().encode(getSecretKey())); // secretKey generated from previous step
 };
 
-export const verifyToken = async (token: string) => {
+export const verifyJoseToken = async (token: string) => {
   try {
     // verify token
     const verified = await jwtVerify(
@@ -44,10 +44,12 @@ export const verifyToken = async (token: string) => {
   } 
   catch (e: unknown) {
     if (e instanceof Error) {
-      throw new Error(`Token has expired: ${e.message}`);
+      // throw new Error(`Token has expired: ${e.message}`);
+      console.log(`Token has expired: ${e.message}`)
     } 
     else {
-      throw new Error("Token has expired");
+      console.log(`Token has expired`)
+      // throw new Error("Token has expired");
     }
   }
 };
