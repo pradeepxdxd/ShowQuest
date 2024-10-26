@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       );
     } else if (action === "verifyOtp") {
       if (otp === otpCode) {
-        const token = await generateJoseToken();
+        const token = await generateJoseToken({name:'', email:email});
         if (token) {
           const cookie = createCookie(token);
           otp = undefined;
