@@ -1,7 +1,17 @@
-// import axios from "axios";
-import xior from 'xior'
+import xior from "xior";
+import jwt from "jsonwebtoken";
 
-export const verifyJwtToken = async (token: string) => {
+export const generateJwtToken = (payload: object) => {
+  const secretKey = process.env.NEXT_PUBLIC_JWT_SECRETKEY as string;
+
+  if (!secretKey) {
+    throw new Error("JWT Secret key is not defined");
+  }
+  const token = jwt.sign(payload, secretKey, { expiresIn: "15 days" });
+  return token;
+};
+
+export const verifyJwtTokenWithXior = async (token: string) => {
   const echoEndPoint: string = process.env
     .NEXT_PUBLIC_JWT_ECHO_ENDPOINT as string;
   const certStr: string = process.env
@@ -26,4 +36,8 @@ export const verifyJwtToken = async (token: string) => {
     }
     throw new Error(`Token verification failed`);
   }
+};
+
+export const verifyJwtToken = (token: string) => {
+  return jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRETKEY as string);
 };
