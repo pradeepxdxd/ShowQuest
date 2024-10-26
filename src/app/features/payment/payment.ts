@@ -40,7 +40,6 @@ export const processPayment = async () => {
         color: "#3399cc",
       },
     };
-    console.log(options);
     const paymentObject = new window.Razorpay(options);
     paymentObject.on("payment.failed", function (response: any) {
       alert(response.error.description);

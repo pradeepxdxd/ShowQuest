@@ -37,7 +37,6 @@ export const googleSignIn = createAsyncThunk(
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const token = await result.user.getIdToken();
-      console.log({ result: token });
       if (token) {
         const resp = await axios.post("/api/auth/token", {
           name: result.user.displayName,
@@ -50,7 +49,6 @@ export const googleSignIn = createAsyncThunk(
         return result.user;
       }
       return result.user;
-      // document.cookie = `token=${token}; path=/`;
     } catch (err) {
       return rejectWithValue({
         message: "Something went wrong, PLease try again later",
