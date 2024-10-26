@@ -151,14 +151,20 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   }
 });
 
+interface User {
+  name : string, 
+  email : string, 
+}
+
 export interface AuthState {
   loading: boolean;
   error: object | null;
-  user: object | null | undefined;
+  user: null | undefined | object;
   email: string | undefined;
   verified: boolean;
   verificationId: ConfirmationResult | undefined;
   token: string | undefined;
+  userCookie : User | null
 }
 
 const initialState: AuthState = {
@@ -169,6 +175,7 @@ const initialState: AuthState = {
   verified: false,
   verificationId: undefined,
   token: undefined,
+  userCookie: null
 };
 
 const authSlice = createSlice({
@@ -193,6 +200,9 @@ const authSlice = createSlice({
     clearToken: (state) => {
       state.token = "";
     },
+    setUserDetails: (state, action) => {
+      state.userCookie = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(googleSignIn.pending, (state) => {
@@ -267,5 +277,6 @@ export const {
   clearError,
   clearToken,
   setToken,
+  setUserDetails,
 } = authSlice.actions;
 export default authSlice.reducer;
