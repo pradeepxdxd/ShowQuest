@@ -20,6 +20,7 @@ import useRazorpayPayment from "@/app/hooks/useRazorpayPayment";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import CustomBackdrop from "@/app/components/backdrop/Backdrop";
+import AddInfo from "@/app/components/modals/info/AddInfo";
 
 declare global {
   interface Window {
@@ -34,11 +35,13 @@ export default function BookingSummary() {
   const [wayToEnterInCinema, setWayToEnterInCinema] =
     useState<WayToEnterInCinemaType>("M_TICKET");
   const [backgroundLoading, setbackgroundLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+
   const { proceedToPayPayment } = useSelector((state: RootState) => state.seat);
+  const { userCookie } = useSelector((state: RootState) => state.auth);
   const { loading, success, error, handlePayment } = useRazorpayPayment(
     proceedToPayPayment * 100,
     "INR",
-    "Pradeep Biswas",
     "discription",
     setbackgroundLoading
   );
@@ -51,13 +54,20 @@ export default function BookingSummary() {
     };
   }, []);
 
-  const handlePaymentClick = async () => {
-    try {
-      handlePayment();
-      setbackgroundLoading(true)
-    } catch (err) {
-      console.log(err);
-    }
+  const handleClose = (event: object, reason: string) => {
+    if (reason && reason === "backdropClick") return;
+    else setOpen(false);
+  };
+
+  const handlePaymentClick = () => {
+    if (userCookie?.name && userCookie?.email) {
+      try {
+        handlePayment(userCookie.name, userCookie.email);
+        setbackgroundLoading(true);
+      } catch (err) {
+        console.log(err);
+      }
+    } else setOpen(true);
   };
 
   useEffect(() => {
@@ -181,6 +191,12 @@ export default function BookingSummary() {
         </Box>
       </Box>
       <CustomBackdrop open={backgroundLoading} />
+      <AddInfo
+        open={open}
+        handleClose={handleClose}
+        handlePayment={handlePayment}
+        loading={setbackgroundLoading}
+      />
     </>
   );
 }

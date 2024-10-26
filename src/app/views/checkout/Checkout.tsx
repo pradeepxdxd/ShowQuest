@@ -2,23 +2,27 @@
 import { Box, Grid } from "@mui/material";
 import Beverage from "./beverage/Beverage";
 import BookingSummary from "./booking-summary/BookingSummary";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { setUserDetails } from "@/app/store/auth/auth.slice";
 
 interface Props {
   userPayload: { email: string; name: string };
 }
 
 const Checkout: React.FC<Props> = ({ userPayload }) => {
-  console.log(userPayload);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>()
   const { clientSeats } = useSelector((state: RootState) => state.seat);
 
   useEffect(() => {
     if (clientSeats.length === 0) router.back();
-  }, [router, clientSeats]);
+    if (userPayload) {
+      dispatch(setUserDetails(userPayload));
+    }
+  }, [router, clientSeats, userPayload, dispatch]);
 
   return (
     <>

@@ -5,14 +5,13 @@ import { useCallback, useState } from "react";
 const useRazorpayPayment = (
   amount: number,
   currency: string,
-  name: string,
   description: string,
-  setbackgroundLoading : (param:boolean) => void
+  setbackgroundLoading: (param: boolean) => void
 ) => {
   const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const handlePayment = useCallback(() => {
+  const handlePayment = useCallback((name : string, email : string) => {
     const callPayment = async () => {
       setLoading(true);
       setError("");
@@ -48,8 +47,8 @@ const useRazorpayPayment = (
             }
           },
           prefill: {
-            name: "pradeep biswas",
-            email: "beastfake8@gmail.com",
+            name,
+            email,
           },
           theme: {
             color: "#3399cc",
@@ -73,7 +72,7 @@ const useRazorpayPayment = (
       }
     };
     callPayment();
-  }, [amount, currency, description, name]);
+  }, [amount, currency, description, setbackgroundLoading]);
 
   return { handlePayment, error, success, loading };
 };
