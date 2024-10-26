@@ -1,10 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { generateJoseToken } from "@/app/lib/jose.auth";
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
-    const token = await generateJoseToken();
-    console.log({server_token:token})
+    const {email, name} = (await req.json()) as {
+      name : string,
+      email : string
+    }
+    const token = await generateJoseToken({name, email});
     return NextResponse.json({ token }, { status: 200 });
   } catch (err) {
     console.log({ err });

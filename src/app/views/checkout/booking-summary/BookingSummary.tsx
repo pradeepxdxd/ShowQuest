@@ -70,8 +70,6 @@ export default function BookingSummary() {
     }
   }, [error, router, success]);
 
-  console.log({success})
-
   return (
     <>
       <Box

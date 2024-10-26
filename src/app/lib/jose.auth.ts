@@ -17,8 +17,11 @@ export const getSecretKey = () => {
   return secret;
 };
 
-export const generateJoseToken = async () => {
-  return await new SignJWT({})
+export const generateJoseToken = async (payload: {
+  name: string;
+  email: string;
+}) => {
+  return await new SignJWT(payload)
     .setProtectedHeader({
       alg: "HS256",
     }) // algorithm
@@ -38,17 +41,16 @@ export const verifyJoseToken = async (token: string) => {
       {
         issuer: process.env.JWT_ISSUER, // issuer
         audience: process.env.JWT_AUDIENCE, // audience
+        algorithms : ["HS256"]
       }
     );
     return verified.payload as UserJWTPayload;
-  } 
-  catch (e: unknown) {
+  } catch (e: unknown) {
     if (e instanceof Error) {
       // throw new Error(`Token has expired: ${e.message}`);
-      console.log(`Token has expired: ${e.message}`)
-    } 
-    else {
-      console.log(`Token has expired`)
+      console.log(`Token has expired: ${e.message}`);
+    } else {
+      console.log(`Token has expired`);
       // throw new Error("Token has expired");
     }
   }
