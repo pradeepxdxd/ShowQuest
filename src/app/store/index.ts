@@ -3,6 +3,7 @@ import authReducer from "./auth/auth.slice";
 import authModalReducer from "./ui/authModal.slice";
 import seatReducer from "./ui/seat.slice";
 import beverageReducer from "./ui/beverage.slice";
+import bookingReducer from "./booking/booking.slice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     authModal: authModalReducer,
     seat: seatReducer,
     beverage: beverageReducer,
+    booking: bookingReducer,
   },
 });
 

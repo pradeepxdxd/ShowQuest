@@ -1,5 +1,8 @@
 import { AppDispatch, RootState } from "@/app/store";
-import { addProceedToPayCost } from "@/app/store/ui/seat.slice";
+import {
+  addProceedToPayCost,
+  setTicketDetails,
+} from "@/app/store/ui/seat.slice";
 import {
   Card,
   CardActions,
@@ -38,6 +41,7 @@ export default function BookingSummaryCard() {
         }
       }
       setTicketOfShow(headTitle + tailTitle);
+      dispatch(setTicketDetails(headTitle + tailTitle + `(${clientSeats.length} Ticket)`));
     }
     setFinalPayment(totalSeatCost + 81 + totalPrice);
     dispatch(addProceedToPayCost(totalSeatCost + 81 + totalPrice));

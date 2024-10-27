@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import CustomBackdrop from "@/app/components/backdrop/Backdrop";
 import AddInfo from "@/app/components/modals/info/AddInfo";
+import { sendBookingDetailsMail } from "@/app/store/booking/booking.slice";
 
 declare global {
   interface Window {
@@ -39,6 +40,14 @@ export default function BookingSummary() {
 
   const { proceedToPayPayment } = useSelector((state: RootState) => state.seat);
   const { userCookie } = useSelector((state: RootState) => state.auth);
+
+  // mail content
+  const { ticketDetails, totalSeatCost, theaterDetails } = useSelector(
+    (state: RootState) => state.seat
+  );
+  const { totalPrice } = useSelector((state: RootState) => state.beverage);
+
+  // razorpay
   const { loading, success, error, handlePayment } = useRazorpayPayment(
     proceedToPayPayment * 100,
     "INR",
@@ -59,6 +68,8 @@ export default function BookingSummary() {
     else setOpen(false);
   };
 
+  console.log({userCookie})
+
   const handlePaymentClick = () => {
     if (userCookie?.name && userCookie?.email) {
       try {
@@ -72,6 +83,8 @@ export default function BookingSummary() {
 
   useEffect(() => {
     if (success) {
+      const payload = getPayload();
+      dispatch(sendBookingDetailsMail(payload));
       setbackgroundLoading(false);
       router.push("/pages/main/enjoy-your-show");
     } else if (error) {
@@ -79,6 +92,31 @@ export default function BookingSummary() {
       toast.error(error);
     }
   }, [error, router, success]);
+  
+  const getPayload = () => {
+    const showName = theaterDetails?.showName;
+    const showImage = theaterDetails?.image?.src
+      ? theaterDetails?.image?.src
+      : theaterDetails?.showImage;
+    const showSeatName = ticketDetails;
+    const showPrice = totalSeatCost;
+    const theaterName = theaterDetails?.theaterName;
+    const showTime = theaterDetails?.timing;
+    const foodPrice = totalPrice;
+    const finalPrice = proceedToPayPayment;
+    const email = userCookie?.email
+    return {
+      email,
+      showName,
+      showImage,
+      showSeatName,
+      showPrice,
+      theaterName,
+      showTime,
+      foodPrice,
+      finalPrice,
+    };
+  };
 
   return (
     <>
