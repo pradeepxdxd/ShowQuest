@@ -33,7 +33,8 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
       dispatch(
         addClientSeatDetails({ seatName: seatType, seatNo: st_seatNo, seatRow })
       );
-      button.style.backgroundColor = "green";
+      button.style.backgroundColor = "#6cd134";
+      button.style.color = "white";
     }
   };
 
