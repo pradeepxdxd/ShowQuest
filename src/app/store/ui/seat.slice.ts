@@ -1,25 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { StaticImageData } from "next/image";
 
 interface ClientSeat {
   seatNo: string | number;
   seatName: string;
-  seatRow : string;
+  seatRow: string;
+}
+
+interface TheaterDetails {
+  theaterName: string;
+  timing: string;
+  showName: string;
+  showImage: string | StaticImageData;
 }
 
 export interface InitialState {
   totalSeats: number;
   totalSeatCost: number;
   clientSeats: ClientSeat[];
-  proceedToPayPayment : number;
-  showType:string;
+  proceedToPayPayment: number;
+  showType: string;
+  theaterDetails: TheaterDetails | null;
+  ticketDetails: string;
 }
 
 const initialState: InitialState = {
   totalSeats: 0,
   totalSeatCost: 0,
   clientSeats: [],
-  proceedToPayPayment : 0,
-  showType:''
+  proceedToPayPayment: 0,
+  showType: "",
+  theaterDetails: null,
+  ticketDetails: "",
 };
 
 const seatSlice = createSlice({
@@ -41,12 +53,18 @@ const seatSlice = createSlice({
     clearClientSeatDetails: (state) => {
       state.clientSeats = [];
     },
-    addProceedToPayCost : (state, action) => {
-      state.proceedToPayPayment = action.payload
+    addProceedToPayCost: (state, action) => {
+      state.proceedToPayPayment = action.payload;
     },
     setShowType: (state, action) => {
       state.showType = action.payload;
-    }
+    },
+    setTheaterDetails: (state, action) => {
+      state.theaterDetails = action.payload;
+    },
+    setTicketDetails: (state, action) => {
+      state.ticketDetails = action.payload;
+    },
   },
 });
 
@@ -57,6 +75,8 @@ export const {
   addClientSeatDetails,
   clearClientSeatDetails,
   addProceedToPayCost,
-  setShowType
+  setShowType,
+  setTheaterDetails,
+  setTicketDetails,
 } = seatSlice.actions;
 export default seatSlice.reducer;

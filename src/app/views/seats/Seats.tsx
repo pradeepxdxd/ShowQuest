@@ -54,6 +54,7 @@ const SeatsView = () => {
           title={showDetails.title}
           theater={seatDetails}
           time={timeDetails.time}
+          image={showDetails.image}
         />
         <Divider />
         <Box
@@ -134,7 +135,11 @@ const SeatsView = () => {
               <Typography mx={3}>
                 <span style={{ margin: "0px 4px" }}>
                   <CheckBoxOutlineBlankIcon
-                    sx={{ bgcolor: "#ebebeb", color: "#ebebeb", fontSize: "18px" }}
+                    sx={{
+                      bgcolor: "#ebebeb",
+                      color: "#ebebeb",
+                      fontSize: "18px",
+                    }}
                   />
                 </span>
                 Sold
