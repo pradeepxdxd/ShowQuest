@@ -8,10 +8,13 @@ interface ClientSeat {
 }
 
 interface TheaterDetails {
+  image?: {
+    src: string
+  },
   theaterName: string;
   timing: string;
   showName: string;
-  showImage: string | StaticImageData;
+  showImage?: string | StaticImageData;
 }
 
 export interface InitialState {
