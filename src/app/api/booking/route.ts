@@ -3,6 +3,7 @@ import fs from "fs";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { promisify } from "util";
+import shortid from "shortid";
 
 const readFileAsync = promisify(fs.readFile);
 
@@ -58,7 +59,9 @@ export async function POST(req: NextRequest) {
     await transporter.sendMail({
       from: process.env.NEXT_PUBLIC_NODEMAILER_EMAIL,
       to: email,
-      subject: "Booking confirmed",
+      subject: `Here's your invoice Show Quest transaction ${shortid
+        .generate()
+        .toUpperCase()}`,
       html: htmlTemplate,
     });
 

@@ -1,5 +1,5 @@
 "use client";
-import BookingSummaryCard from "@/app/components/cards/booking/BookingSummaryCard";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,7 +9,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import BookingSummaryCard from "@/app/components/cards/booking/BookingSummaryCard";
 import BookOnlineOutlinedIcon from "@mui/icons-material/BookOnlineOutlined";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import CustomBackdrop from "@/app/components/backdrop/Backdrop";
 import AddInfo from "@/app/components/modals/info/AddInfo";
 import { sendBookingDetailsMail } from "@/app/store/booking/booking.slice";
+import useOperationDelay from "@/app/hooks/useOperationDelay";
 
 declare global {
   interface Window {
@@ -54,6 +55,7 @@ export default function BookingSummary() {
     "discription",
     setbackgroundLoading
   );
+  const { operationHandler } = useOperationDelay<boolean>();
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
@@ -68,7 +70,7 @@ export default function BookingSummary() {
     else setOpen(false);
   };
 
-  console.log({userCookie})
+  console.log({ userCookie });
 
   const handlePaymentClick = () => {
     if (userCookie?.name && userCookie?.email) {
@@ -83,16 +85,16 @@ export default function BookingSummary() {
 
   useEffect(() => {
     if (success) {
+      operationHandler(5000, setbackgroundLoading, false);
       const payload = getPayload();
       dispatch(sendBookingDetailsMail(payload));
-      setbackgroundLoading(false);
       router.push("/pages/main/enjoy-your-show");
     } else if (error) {
       setbackgroundLoading(false);
       toast.error(error);
     }
   }, [error, router, success]);
-  
+
   const getPayload = () => {
     const showName = theaterDetails?.showName;
     const showImage = theaterDetails?.image?.src
@@ -104,7 +106,7 @@ export default function BookingSummary() {
     const showTime = theaterDetails?.timing;
     const foodPrice = totalPrice;
     const finalPrice = proceedToPayPayment;
-    const email = userCookie?.email
+    const email = userCookie?.email;
     return {
       email,
       showName,
