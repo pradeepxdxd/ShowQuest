@@ -23,6 +23,7 @@ import CustomBackdrop from "@/app/components/backdrop/Backdrop";
 import AddInfo from "@/app/components/modals/info/AddInfo";
 import { sendBookingDetailsMail } from "@/app/store/booking/booking.slice";
 import useOperationDelay from "@/app/hooks/useOperationDelay";
+import { convertImageToBase64 } from "@/app/utils/image/image";
 
 declare global {
   interface Window {
@@ -70,11 +71,10 @@ export default function BookingSummary() {
     else setOpen(false);
   };
 
-  console.log({ userCookie });
-
   const handlePaymentClick = () => {
     if (userCookie?.name && userCookie?.email) {
       try {
+        // 4808557848741463	05/25
         handlePayment(userCookie.name, userCookie.email);
         setbackgroundLoading(true);
       } catch (err) {
@@ -86,8 +86,9 @@ export default function BookingSummary() {
   useEffect(() => {
     if (success) {
       operationHandler(5000, setbackgroundLoading, false);
-      const payload = getPayload();
-      dispatch(sendBookingDetailsMail(payload));
+      getPayload()
+        .then((payload) => dispatch(sendBookingDetailsMail(payload)))
+        .catch((err) => console.log(err));
       router.push("/pages/main/enjoy-your-show");
     } else if (error) {
       setbackgroundLoading(false);
@@ -95,10 +96,10 @@ export default function BookingSummary() {
     }
   }, [error, router, success]);
 
-  const getPayload = () => {
+  const getPayload = async () => {
     const showName = theaterDetails?.showName;
     const showImage = theaterDetails?.image?.src
-      ? theaterDetails?.image?.src
+      ? await convertImageToBase64(theaterDetails?.image?.src)
       : theaterDetails?.showImage;
     const showSeatName = ticketDetails;
     const showPrice = totalSeatCost;
