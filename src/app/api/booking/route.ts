@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     );
     let htmlTemplate = await readFileAsync(templatepath, "utf-8");
     htmlTemplate = htmlTemplate.replace("{{showName}}", showName);
-    htmlTemplate = htmlTemplate.replace("{{showImage}}", showImage);
+    // htmlTemplate = htmlTemplate.replace("{{showImage}}", showImage);
     htmlTemplate = htmlTemplate.replace("{{showSeatName}}", showSeatName);
     htmlTemplate = htmlTemplate.replace(/{{showPrice}}/g, showPrice.toString());
     htmlTemplate = htmlTemplate.replace("{{theaterName}}", theaterName);
@@ -47,6 +47,17 @@ export async function POST(req: NextRequest) {
       "{{finalPrice}}",
       finalPrice.toString()
     );
+
+    const injectImage = `
+    <table width="100%">
+      <tr>
+        <td align="center">
+          <img src="${showImage}" alt="${showName}" style="display: block; width: 100%; max-width: 400px;" />
+        </td>
+      </tr>
+    </table>`;
+    htmlTemplate = htmlTemplate.replace("{{image}}", injectImage);
+
     const foodPriceSection =
       foodPrice > 0
         ? `<p><span>Food And Beverage</span><span>: ₹${foodPrice}</span></p>`
