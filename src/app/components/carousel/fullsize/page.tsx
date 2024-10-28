@@ -50,7 +50,7 @@ const CarouselComponent: React.FC = () => {
   ];
 
   return (
-    <Carousel>
+    <Carousel sx={{maxWidth:'100%', width:'100%'}}>
       {items.map((item, i) => (
         <Item
           key={i}
