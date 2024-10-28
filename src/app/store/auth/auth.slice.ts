@@ -14,6 +14,7 @@ import {
 } from "firebase/auth";
 import axios, { AxiosError } from "axios";
 import { generateJwtToken } from "@/app/lib/jwt.auth";
+import { addUser } from "@/firebase/firebase.action";
 
 interface VerifyOtpProp {
   email: string;
@@ -96,6 +97,14 @@ export const verifyOtp = createAsyncThunk(
           otpCode,
         }
       );
+      if (response.status === 200) {
+        const docResponse = await addUser({ email, name: "" });
+        if (!docResponse)
+          rejectWithValue({
+            error: "User not added in firestore db",
+            status: 401,
+          });
+      }
       return response.data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -152,8 +161,9 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 });
 
 interface User {
-  name : string, 
-  email : string, 
+  id?: string
+  name: string;
+  email: string;
 }
 
 export interface AuthState {
@@ -164,7 +174,7 @@ export interface AuthState {
   verified: boolean;
   verificationId: ConfirmationResult | undefined;
   token: string | undefined;
-  userCookie : User | null
+  userCookie: User | null;
 }
 
 const initialState: AuthState = {
@@ -175,7 +185,7 @@ const initialState: AuthState = {
   verified: false,
   verificationId: undefined,
   token: undefined,
-  userCookie: null
+  userCookie: null,
 };
 
 const authSlice = createSlice({
@@ -202,7 +212,7 @@ const authSlice = createSlice({
     },
     setUserDetails: (state, action) => {
       state.userCookie = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(googleSignIn.pending, (state) => {

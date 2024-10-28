@@ -7,6 +7,13 @@ import { AppDispatch, RootState } from "@/app/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { setUserDetails } from "@/app/store/auth/auth.slice";
+import { getUserByEmail } from "@/firebase/firebase.action";
+
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+}
 
 interface Props {
   userPayload: { email: string; name: string };
@@ -14,13 +21,20 @@ interface Props {
 
 const Checkout: React.FC<Props> = ({ userPayload }) => {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const { clientSeats } = useSelector((state: RootState) => state.seat);
 
   useEffect(() => {
     if (clientSeats.length === 0) router.back();
     if (userPayload) {
       dispatch(setUserDetails(userPayload));
+      (async () => {
+        const resp: User[] = await getUserByEmail(userPayload.email);
+        if (resp && resp.length > 0) {
+          const { id, email, name } = resp[0];
+          dispatch(setUserDetails({ id, email, name }));
+        }
+      })();
     }
   }, [router, clientSeats, userPayload, dispatch]);
 

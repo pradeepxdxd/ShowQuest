@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "@/app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUserDetails } from "@/app/store/auth/auth.slice";
+import { updateUser } from "@/firebase/firebase.action";
 
 const style = {
   position: "absolute",
@@ -55,18 +56,24 @@ const AddInfo: React.FC<BasicModalProp> = ({
       (formData?.name || userCookie?.name) &&
       (formData?.email || userCookie?.email)
     ) {
-      handlePayment(
-        formData?.name || userCookie?.name || "",
-        formData?.email || userCookie?.email || ""
-      );
-      dispatch(
-        setUserDetails({
-          name: formData?.name || userCookie?.name || "",
-          email: formData?.email || userCookie?.email || "",
-        })
-      );
-      handleClose(event, "close");
-      loading(true);
+      if (userCookie?.id) {
+        handlePayment(
+          formData?.name || userCookie?.name || "",
+          formData?.email || userCookie?.email || ""
+        );
+        updateUser(userCookie?.id, {
+          name: formData?.name || userCookie?.name,
+          email: formData?.email || userCookie?.email,
+        });
+        dispatch(
+          setUserDetails({
+            name: formData?.name || userCookie?.name || "",
+            email: formData?.email || userCookie?.email || "",
+          })
+        );
+        handleClose(event, "close");
+        loading(true);
+      } else toast.warn("UnAuthorized User");
     } else toast.info("Please provide additional information");
   };
 

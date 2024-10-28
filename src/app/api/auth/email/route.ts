@@ -49,6 +49,7 @@ export async function POST(req: Request) {
             JSON.stringify({
               message: "Logged In successfully",
               cookie,
+              email
             }),
             {
               status: 200,
