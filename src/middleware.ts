@@ -5,6 +5,11 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const verify = await verifyJoseToken(token as string);
   
+  if (req.nextUrl.pathname === '/pages/home') {
+    const absoluteURL = new URL("/", req.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
+  }
+
   // Protect main pages
   if (!verify && req.nextUrl.pathname.startsWith("/pages/main")) {
     const absoluteURL = new URL("/pages/login", req.nextUrl.origin);

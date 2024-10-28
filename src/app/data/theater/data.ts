@@ -20,7 +20,7 @@ export interface Theater {
 export const theaterData: Theater[] = [
   {
     id: 1,
-    name: "INOX: C-21 Mall",
+    name: "INOX: C-21 Mall, Indore",
     time: [
       {
         id: 1,

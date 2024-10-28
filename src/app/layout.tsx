@@ -1,5 +1,4 @@
 "use client";
-import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/app/components/navbar/header/page";
 import SubHeader from "@/app/components/navbar/sub-header/page";
@@ -11,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
+import {Roboto} from "next/font/google"
 
 const darkTheme = createTheme({
   palette: {
@@ -18,15 +18,10 @@ const darkTheme = createTheme({
   },
 });
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "900"], // Choose the weights you need
+  variable: "--font-roboto", // Custom CSS variable for the font
 });
 
 export default function RootLayout({
@@ -38,7 +33,7 @@ export default function RootLayout({
     <>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${roboto.variable} antialiased`}
         >
           <Script
             id="razorpay-checkout-js"

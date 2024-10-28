@@ -10,19 +10,27 @@ import {
   Copyright,
 } from "@mui/icons-material";
 import Image from "next/image";
-import showQuestImage from '@/app/assets/nav/show-quest-main-logo.png'
+import showQuestImage from "@/app/assets/nav/show-quest-main-logo.png";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Footer() {
-  const router = useRouter()
+  const router = useRouter();
   const handleClick = () => {
-    router.push('/')
-  }
+    router.push("/");
+  };
   return (
-    <Box bgcolor={"#333"}>
+    <Box bgcolor={"#333"} sx={{ maxWidth: "100%" }}>
       <Box display="flex" alignItems="center" pt={3}>
         <Divider sx={{ flexGrow: 1, borderColor: "gray" }} />
-        <Image style={{cursor:'pointer'}} onClick={handleClick} src={showQuestImage} alt={'show-quest'} width={100} height={20} />
+        <Image
+          style={{ cursor: "pointer" }}
+          onClick={handleClick}
+          src={showQuestImage}
+          alt={"show-quest"}
+          width={100}
+          height={20}
+        />
         <Divider sx={{ flexGrow: 1, borderColor: "gray" }} />
       </Box>
       <Box
@@ -69,13 +77,18 @@ export default function Footer() {
         height={100}
       >
         <Typography variant="caption" color="gray" textAlign="center">
-          Copyright 2023{" "}
+          Copyright 2024{" "}
           <span>
             <Copyright />
           </span>{" "}
-          Bigtree Entertainment Pvt. Ltd. All Rights Reserved.
+          <Link href={'https://pradeepbiswas.vercel.app'} target="_blank" >Pradeep Biswas</Link> All Rights Reserved.
         </Typography>
-        <Typography variant="caption" color="gray" textAlign="center" width={'95%'}>
+        <Typography
+          variant="caption"
+          color="gray"
+          textAlign="center"
+          width={"95%"}
+        >
           The content and images used on this site are copyright protected and
           copyrights vests with the respective owners. The usage of the content
           and images on this website is intended to promote the works and no
