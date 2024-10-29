@@ -15,10 +15,10 @@ interface ItemProps {
 
 function Item({ image }: ItemProps) {
   return (
-    <Paper style={{ textAlign: "center", height: "350px", cursor:'pointer'}}>
+    <Paper style={{ textAlign: "center", height: "350px", cursor: "pointer" }}>
       <Image
         src={image}
-        alt={'error'}
+        alt={"error"}
         style={{ width: "100%", height: "400px", objectFit: "cover" }}
       />
     </Paper>
@@ -50,12 +50,9 @@ const CarouselComponent: React.FC = () => {
   ];
 
   return (
-    <Carousel sx={{maxWidth:'100%', width:'100%'}}>
+    <Carousel sx={{ maxWidth: "100%", width: "100%" }}>
       {items.map((item, i) => (
-        <Item
-          key={i}
-          image={item.img}
-        />
+        <Item key={i} image={item.img} />
       ))}
     </Carousel>
   );

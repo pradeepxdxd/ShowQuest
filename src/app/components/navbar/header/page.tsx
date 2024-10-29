@@ -70,7 +70,6 @@ export default function PrimarySearchAppBar() {
   const dispatch = useDispatch<AppDispatch>();
 
   const user = useAuth();
-
   const handleOpen = () => dispatch(setOpen());
   const handleClose = (event: object, reason: string) => {
     if (reason === "backdropClick") return;

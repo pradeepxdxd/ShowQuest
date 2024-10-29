@@ -11,7 +11,7 @@ const getUserPayloadData = () => {
     userPayload = JSON.parse(userPayloadHeader);
   }
 
-  return { email: userPayload.email, name: userPayload.name };
+  return { id: userPayload.id };
 };
 
 const Checkout = () => {

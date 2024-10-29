@@ -1,6 +1,7 @@
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
-import { CircularProgress, Theme } from "@mui/material";
+import { Theme } from "@mui/material";
+import Loading from "@/app/ui/loading";
 
 interface BackdropType {
   open: boolean;
@@ -15,7 +16,7 @@ const CustomBackdrop: React.FC<BackdropType> = ({ open }) => {
       })}
       open={open}
     >
-      <CircularProgress color="error" />
+      <Loading />
     </Backdrop>
   );
 };

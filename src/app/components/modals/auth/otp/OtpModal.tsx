@@ -6,6 +6,7 @@ import {
   clearEmail,
   clearError,
   loginWithGmail,
+  setVerifiedFalse,
   verifyOtp,
 } from "@/app/store/auth/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,6 +47,7 @@ export const OTP: React.FC<OTPProp> = ({
       toast.success("Logged in successfully");
       setShowEmailInput(false);
       setShowOTPInput(false);
+      dispatch(setVerifiedFalse());
     }
     if (error !== null && !isEmpty(error)) {
       toast.error("Invalid OTP");
@@ -55,16 +57,16 @@ export const OTP: React.FC<OTPProp> = ({
 
   const handleSubmit = () => {
     // if (flag === "email") {
-      dispatch(verifyOtp({ email, otpCode: otp }));
-      dispatch(clearEmail());
+    dispatch(verifyOtp({ email, otpCode: otp }));
+    dispatch(clearEmail());
     // } else if (flag === "phone") {
     // }
   };
 
   const handleResend = () => {
     // if (flag === "email") {
-      dispatch(loginWithGmail(email || ""));
-      setCounter(30);
+    dispatch(loginWithGmail(email || ""));
+    setCounter(30);
     // }
   };
 
