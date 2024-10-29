@@ -3,8 +3,8 @@ import fs from "fs";
 import { promisify } from "util";
 import path from "path";
 import { generateOtp } from "@/app/utils/otp/generate-otp";
-import { createCookie, removeCookie } from "@/app/utils/cookie/cookie";
-import { generateJoseToken } from "@/app/lib/jose.auth";
+import { removeCookie } from "@/app/utils/cookie/cookie";
+// import { generateJoseToken } from "@/app/lib/jose.auth";
 
 const readFileAsync = promisify(fs.readFile);
 let otp: undefined | string = undefined;
@@ -41,32 +41,32 @@ export async function POST(req: Request) {
       );
     } else if (action === "verifyOtp") {
       if (otp === otpCode) {
-        const token = await generateJoseToken({name:'', email:email});
-        if (token) {
-          const cookie = createCookie(token);
-          otp = undefined;
-          return new Response(
-            JSON.stringify({
-              message: "Logged In successfully",
-              cookie,
-              email
-            }),
-            {
-              status: 200,
-              headers: {
-                "Set-Cookie": cookie,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        } else {
-          return new Response(
-            JSON.stringify({ message: "Something went wrong" }),
-            {
-              status: 400,
-            }
-          );
-        }
+        // const token = await generateJoseToken({name:'', email:email});
+        // if (token) {
+        // const cookie = createCookie(token);
+        otp = undefined;
+        return new Response(
+          JSON.stringify({
+            message: "Logged In successfully",
+            // cookie,
+            email,
+          }),
+          {
+            status: 200,
+            // headers: {
+            //   "Set-Cookie": cookie,
+            //   "Content-Type": "application/json",
+            // },
+          }
+        );
+        // } else {
+        //   return new Response(
+        //     JSON.stringify({ message: "Something went wrong" }),
+        //     {
+        //       status: 400,
+        //     }
+        //   );
+        // }
       } else {
         return new Response(
           JSON.stringify({ message: "Invalid otp, please try again" }),

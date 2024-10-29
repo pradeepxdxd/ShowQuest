@@ -18,8 +18,9 @@ export const getSecretKey = () => {
 };
 
 export const generateJoseToken = async (payload: {
-  name: string;
-  email: string;
+  id: string;
+  // name: string;
+  // email: string;
 }) => {
   return await new SignJWT(payload)
     .setProtectedHeader({
@@ -41,7 +42,7 @@ export const verifyJoseToken = async (token: string) => {
       {
         issuer: process.env.JWT_ISSUER, // issuer
         audience: process.env.JWT_AUDIENCE, // audience
-        algorithms : ["HS256"]
+        algorithms: ["HS256"],
       }
     );
     return verified.payload as UserJWTPayload;

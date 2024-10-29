@@ -7,9 +7,9 @@
 
 .loader {
     margin: auto;
-    width: 100px;
-    height: 50px;
-    background-image: url('./assets/nav/show-quest-main-logo.png'); /* Replace with your image path */
+    width: 120px;
+    height: 70px;
+    background-image: url('../assets/nav/show-quest-main-logo.png'); /* Replace with your image path */
     background-size: cover;
     animation: spin 4s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }

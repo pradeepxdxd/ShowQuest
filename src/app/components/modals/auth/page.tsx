@@ -13,7 +13,11 @@ import { EmailInput } from "./email/EmailInput";
 import { OTP } from "./otp/OtpModal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
-import { clearEmail, AuthState } from "@/app/store/auth/auth.slice";
+import {
+  clearEmail,
+  AuthState,
+  setVerifiedFalse,
+} from "@/app/store/auth/auth.slice";
 import { PhoneInput } from "./phone/PhoneInput";
 
 const style = {
@@ -49,6 +53,7 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
   React.useEffect(() => {
     if (verified) {
       handleCloseModal({}, "reason");
+      dispatch(setVerifiedFalse());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verified]);

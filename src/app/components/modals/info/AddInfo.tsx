@@ -28,7 +28,7 @@ interface BasicModalProp {
     event: React.MouseEvent<HTMLButtonElement> | object,
     reason: string
   ) => void;
-  handlePayment: (name: string, email: string) => void;
+  handlePayment: (name: string, email: string, photo: string) => void;
   loading: (param: boolean) => void;
 }
 
@@ -42,11 +42,18 @@ const AddInfo: React.FC<BasicModalProp> = ({
   const [formData, setFormData] = React.useState<{
     name: string;
     email: string;
-  }>({
-    name: userCookie?.name || "",
-    email: userCookie?.email || "",
-  });
+  }>({ name: "", email: "" });
 
+  React.useEffect(() => {
+    setFormData({
+      name: userCookie?.name || "",
+      email: userCookie?.email || "",
+    });
+
+    return () => {
+      setFormData({ name: "", email: "" });
+    };
+  }, [userCookie]);
   const dispatch = useDispatch<AppDispatch>();
 
   const proceedToPay = (
@@ -59,7 +66,8 @@ const AddInfo: React.FC<BasicModalProp> = ({
       if (userCookie?.id) {
         handlePayment(
           formData?.name || userCookie?.name || "",
-          formData?.email || userCookie?.email || ""
+          formData?.email || userCookie?.email || "",
+          ""
         );
         updateUser(userCookie?.id, {
           name: formData?.name || userCookie?.name,

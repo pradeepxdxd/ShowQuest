@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useState } from "react";
 import {
@@ -75,7 +76,11 @@ export default function BookingSummary() {
     if (userCookie?.name && userCookie?.email) {
       try {
         // 4808557848741463	05/25
-        handlePayment(userCookie.name, userCookie.email);
+        handlePayment(
+          userCookie.name,
+          userCookie.email,
+          (userCookie?.photo || "")
+        );
         setbackgroundLoading(true);
       } catch (err) {
         console.log(err);

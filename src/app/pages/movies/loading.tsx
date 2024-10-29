@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
+import Loading from "@/app/ui/loading";
 
 export default function loading() {
-  return (
-    <div>Movies are loading...</div>
-  )
+  return <Loading />;
 }

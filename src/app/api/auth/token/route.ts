@@ -3,11 +3,10 @@ import { generateJoseToken } from "@/app/lib/jose.auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const {email, name} = (await req.json()) as {
-      name : string,
-      email : string
-    }
-    const token = await generateJoseToken({name, email});
+    const { id } = (await req.json()) as {
+      id: string;
+    };
+    const token = await generateJoseToken({ id });
     return NextResponse.json({ token }, { status: 200 });
   } catch (err) {
     console.log({ err });

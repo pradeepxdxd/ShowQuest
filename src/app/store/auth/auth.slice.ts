@@ -14,7 +14,8 @@ import {
 } from "firebase/auth";
 import axios, { AxiosError } from "axios";
 import { generateJwtToken } from "@/app/lib/jwt.auth";
-import { addUser } from "@/firebase/firebase.action";
+import { addGoogleUser, addUser } from "@/firebase/firebase.action";
+import { generateJoseToken } from "@/app/lib/jose.auth";
 
 interface VerifyOtpProp {
   email: string;
@@ -39,9 +40,11 @@ export const googleSignIn = createAsyncThunk(
       const result = await signInWithPopup(auth, provider);
       const token = await result.user.getIdToken();
       if (token) {
+        addGoogleUser(result.user);
         const resp = await axios.post("/api/auth/token", {
-          name: result.user.displayName,
-          email: result.user.email,
+          // name: result.user.displayName,
+          // email: result.user.email,
+          id: result.user.uid,
         });
         const customToken = resp.data.token;
         document.cookie = `token=${customToken}; path=/; max-age=${
@@ -104,8 +107,21 @@ export const verifyOtp = createAsyncThunk(
             error: "User not added in firestore db",
             status: 401,
           });
+        else {
+          const token = await generateJoseToken({ id: docResponse });
+          if (token) {
+            document.cookie = `token=${token}; path=/; max-age=${
+              30 * 24 * 60 * 60
+            }`;
+            return token;
+          } else
+            return rejectWithValue({
+              error: "Token not generated",
+              status: 400,
+            });
+        }
       }
-      return response.data;
+      return rejectWithValue({error:'Something went wrong, please try again later'})
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.response?.data || "An error occurred");
@@ -161,9 +177,10 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 });
 
 interface User {
-  id?: string
+  id?: string;
   name: string;
   email: string;
+  photo?: string;
 }
 
 export interface AuthState {
@@ -213,6 +230,9 @@ const authSlice = createSlice({
     setUserDetails: (state, action) => {
       state.userCookie = action.payload;
     },
+    setVerifiedFalse: state => {
+      state.verified = false;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(googleSignIn.pending, (state) => {
@@ -236,7 +256,7 @@ const authSlice = createSlice({
 
     builder.addCase(verifyOtp.fulfilled, (state, action) => {
       state.verified = true;
-      state.token = action.payload.cookie;
+      state.token = action.payload;
     });
     builder.addCase(verifyOtp.rejected, (state, action) => {
       state.verified = false;
@@ -288,5 +308,6 @@ export const {
   clearToken,
   setToken,
   setUserDetails,
+  setVerifiedFalse,
 } = authSlice.actions;
 export default authSlice.reducer;
