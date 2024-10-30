@@ -17,11 +17,11 @@ interface User {
   name?: string;
 }
 
-interface UserWithProp extends UserAuth {
-  id: string;
+export interface UserWithProp extends UserAuth {
+  id?: string;
   email: string;
   name: string;
-  photo: string;
+  photo?: string;
 }
 
 export const addUser = async (user: User) => {
@@ -115,7 +115,7 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const updateUser = async (userId: string, data: Partial<User>) => {
+export const updateUser = async (userId: string, data: Partial<UserWithProp>) => {
   if (!db) {
     console.log("Firebase is not initialized");
     return;
@@ -123,14 +123,15 @@ export const updateUser = async (userId: string, data: Partial<User>) => {
 
   try {
     const userDoc = doc(db, "auth", userId);
-    const resp = await updateDoc(userDoc, data);
-    return resp;
+    await updateDoc(userDoc, data);
+    return true;
   } catch (err) {
     if (err instanceof Error) {
       console.log({ firebaseErr: err.message });
     } else {
       console.log({ firebaseErr: "An unknown error occurred" });
     }
+    return false;
   }
 };
 

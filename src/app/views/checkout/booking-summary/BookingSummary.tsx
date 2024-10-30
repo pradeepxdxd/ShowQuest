@@ -72,6 +72,8 @@ export default function BookingSummary() {
     else setOpen(false);
   };
 
+  console.log({userCookie})
+
   const handlePaymentClick = () => {
     if (userCookie?.name && userCookie?.email) {
       try {
