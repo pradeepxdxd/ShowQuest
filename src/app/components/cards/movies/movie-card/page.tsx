@@ -1,12 +1,12 @@
-'use client'
+"use client";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import type { MovieCard } from "@/app/types/movie.type";
+import MovieCardProp from "@/app/types/movie.type";
 import { useRouter } from "next/navigation";
 
-const CustomMovieCard: React.FC<MovieCard> = ({ card }) => {
-  const router = useRouter()
+const CustomMovieCard: React.FC<MovieCardProp> = ({ card }) => {
+  const router = useRouter();
   const handleClick = () => {
-    router.push(`/pages/movies/${card.id}`)
+    router.push(`/pages/movies/${card.id}`);
   };
   return (
     <>

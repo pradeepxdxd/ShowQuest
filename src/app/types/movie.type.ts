@@ -7,13 +7,13 @@ export interface Movie {
   rating: string;
   votes: string;
   genre: string;
-  type: string
+  type: string;
 }
 
 export interface MovieCardProps {
   movie: Movie[];
 }
 
-export interface MovieCard {
+export default interface MovieCardProp {
   card: Movie;
 }

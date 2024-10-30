@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { Box, Divider, IconButton, Typography } from "@mui/material";
 import {

@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { Movie } from "@/app/types/movie.type";
 import Image from "next/image";

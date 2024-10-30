@@ -1,3 +1,4 @@
+'use client'
 import { LiveEventImage } from "@/app/data/live-events/data";
 import { Card, CardMedia } from "@mui/material";
 import { useRouter } from "next/navigation";
