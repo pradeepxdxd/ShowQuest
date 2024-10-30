@@ -14,6 +14,7 @@ const useRazorpayPayment = (
   const [loading, setLoading] = useState<boolean>(false);
   const handlePayment = useCallback(
     (name: string, email: string, photo: string) => {
+      console.log({photo})
       const callPayment = async () => {
         setLoading(true);
         setError("");

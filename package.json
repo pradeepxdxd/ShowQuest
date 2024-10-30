@@ -21,6 +21,8 @@
     "cookie": "^1.0.1",
     "firebase": "^10.14.1",
     "firebase-admin": "^12.6.0",
+    "formik": "^2.4.6",
+    "formik-material-ui": "^4.0.0-alpha.2",
     "jose": "^5.9.4",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
@@ -38,7 +40,8 @@
     "redux": "^5.0.1",
     "shortid": "^2.2.16",
     "styled-components": "^6.1.13",
-    "xior": "^0.6.1"
+    "xior": "^0.6.1",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/firebase": "^3.2.3",

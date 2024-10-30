@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -39,7 +40,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearToken());
-    router.push('/');
+    router.push("/");
   };
 
   const handleEditProfile = () => {
