@@ -14,6 +14,6 @@ export interface MovieCardProps {
   movie: Movie[];
 }
 
-export default interface MovieCardProp {
+export interface MovieCardProp {
   card: Movie;
 }
