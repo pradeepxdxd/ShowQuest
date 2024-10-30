@@ -3,17 +3,17 @@ import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { StaticImageData } from "next/image";
 
-interface Movie {
-  id: number;
-  title: string;
-  image: StaticImageData;
-  rating: string;
-  votes: string;
-  genre: string;
-  type: string;
-}
+// interface Movie {
+//   id: number;
+//   title: string;
+//   image: StaticImageData;
+//   rating: string;
+//   votes: string;
+//   genre: string;
+//   type: string;
+// }
 
-const CustomMovieCard: React.FC<{card:Movie}> = ({ card }) => {
+const CustomMovieCard = ({ card }) => {
   const router = useRouter();
   const handleClick = () => {
     router.push(`/pages/movies/${card.id}`);
