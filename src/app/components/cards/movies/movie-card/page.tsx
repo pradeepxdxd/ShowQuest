@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { StaticImageData } from "next/image";
+// import { StaticImageData } from "next/image";
 
 // interface Movie {
 //   id: number;
