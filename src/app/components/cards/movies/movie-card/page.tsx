@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import MovieCardProp from "@/app/types/movie.type";
+import type MovieCardProp from "@/app/types/movie.type";
 import { useRouter } from "next/navigation";
 
 const CustomMovieCard: React.FC<MovieCardProp> = ({ card }) => {
