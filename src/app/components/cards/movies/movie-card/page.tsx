@@ -13,11 +13,11 @@ interface Movie {
   type: string;
 }
 
-interface MovieCardProp {
+interface CustomMovieCardProp {
   card: Movie;
 }
 
-const CustomMovieCard: React.FC<MovieCardProp> = ({ card }) => {
+const CustomMovieCard: React.FC<CustomMovieCardProp> = ({ card }) => {
   const router = useRouter();
   const handleClick = () => {
     router.push(`/pages/movies/${card.id}`);
