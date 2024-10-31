@@ -1,5 +1,5 @@
 import type { MovieCardProps, Movie } from "@/app/types/movie.type";
-import CustomMovieCards from "./movie-card/page";
+import CustomMovieCards from "./movie-card/CustomMovieCard";
 import { Grid } from "@mui/material";
 
 const CustomCardMovies: React.FC<MovieCardProps> = ({ movie }) => {

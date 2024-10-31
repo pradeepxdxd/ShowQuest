@@ -1,4 +1,4 @@
-import CustomChip from "@/app/components/chip/page";
+import CustomChip from "@/app/components/chip/CustomChip";
 import { Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React from "react";

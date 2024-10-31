@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getPremiereMovies } from "@/service/api/api";
 import { Premiere } from "@/app/data/premiere/data";
-import ShowDetails from "@/app/views/show-details/page";
+import ShowDetails from "@/app/views/show-details/ShowDetails";
 
 export default function PremierePage() {
   const [data, setData] = useState<Premiere | null>(null);

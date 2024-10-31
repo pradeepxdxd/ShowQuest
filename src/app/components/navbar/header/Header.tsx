@@ -10,13 +10,12 @@ import InputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-// import headerLogo from "@/app/assets/nav/headerlogo2.png";
 import headerLogo from "@/app/assets/nav/show-quest-main-logo.png";
 import Image from "next/image";
 import { Button, FormControl, Select } from "@mui/material";
 import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
-import AuthModal from "@/app/components/modals/auth/page";
+import styles from "./Header.module.css";
+import AuthModal from "@/app/components/modals/auth/AuthModal";
 import CustomDrawer from "@/app/components/drawer/drawer";
 import useAuth from "@/app/hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
@@ -107,7 +106,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, maxWidth:'100%' }}>
+      <Box sx={{ flexGrow: 1, maxWidth: "100%" }}>
         <AppBar position="static" color="inherit">
           <Toolbar>
             <Box sx={{ flexGrow: 0.15 }} />

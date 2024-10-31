@@ -1,8 +1,8 @@
 import React from "react";
-import Carousel from "@/app/components/carousel/fullsize/page";
-import MoviesInCity from "@/app/views/movies/page";
-import FilterComponent from "@/app/components/filter-card/movies/page";
-import CustomChip from "@/app/components/chip/page";
+import Carousel from "@/app/components/carousel/fullsize/FullSizeCarousel";
+import MoviesInCity from "@/app/views/movies/MovieView";
+import FilterComponent from "@/app/components/filter-card/movies/FilterCard";
+import CustomChip from "@/app/components/chip/CustomChip";
 
 import { Box, Grid, Typography } from "@mui/material";
 
@@ -85,7 +85,8 @@ export default function Movies() {
 
 export const generateMetadata = () => {
   return {
-    title: "Top Upcoming Sports Events in Pune | Live Sports in Pune - BookMyShow",
+    title:
+      "Top Upcoming Sports Events in Pune | Live Sports in Pune - BookMyShow",
     description:
       "Dharmaveer: Mukkam Post Thane 2 (2024), Biography Drama released in Marathi Hindi language in theatre near you in pune. Know about Film reviews, lead cast & crew,  photos & video gallery on BookMyShow.",
   };

@@ -11,7 +11,7 @@ import { setUserDetails } from "@/app/store/auth/auth.slice";
 import { getUserById } from "@/firebase/firebase.action";
 
 interface Props {
-  userPayload: { id: string };
+  userPayload: { id: string } | null;
 }
 
 const Checkout: React.FC<Props> = ({ userPayload }) => {
