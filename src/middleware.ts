@@ -4,8 +4,8 @@ import { verifyJoseToken } from "./app/lib/jose.auth";
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const verify = await verifyJoseToken(token as string);
-  
-  if (req.nextUrl.pathname === '/pages/home') {
+
+  if (req.nextUrl.pathname === "/pages/home") {
     const absoluteURL = new URL("/", req.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }
@@ -24,6 +24,18 @@ export async function middleware(req: NextRequest) {
       req.nextUrl.pathname.startsWith("/api/booking"))
   ) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  if (verify && req.nextUrl.pathname.startsWith("/api")) {
+    const response = NextResponse.next();
+    response.headers.append(
+      "Access-Control-Allow-Origin",
+      "https://showquest.vercel.app"
+    );
+    response.headers.append(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, PATCH, DELETE"
+    );
   }
 
   const response = NextResponse.next();
