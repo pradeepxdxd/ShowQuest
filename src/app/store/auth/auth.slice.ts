@@ -13,9 +13,9 @@ import {
   ConfirmationResult,
 } from "firebase/auth";
 import axios, { AxiosError } from "axios";
-import { generateJwtToken } from "@/app/lib/jwt.auth";
 import { addGoogleUser, addUser } from "@/firebase/firebase.action";
 import { generateJoseToken } from "@/app/lib/jose.auth";
+import { api_url } from "@/app/config/dev";
 
 interface VerifyOtpProp {
   email: string;
@@ -41,9 +41,7 @@ export const googleSignIn = createAsyncThunk(
       const token = await result.user.getIdToken();
       if (token) {
         addGoogleUser(result.user);
-        const resp = await axios.post("/api/auth/token", {
-          // name: result.user.displayName,
-          // email: result.user.email,
+        const resp = await axios.post(`${api_url}/api/auth/token`, {
           id: result.user.uid,
         });
         const customToken = resp.data.token;
@@ -75,7 +73,7 @@ export const loginWithGmail = createAsyncThunk(
   "auth/loginWithGmail",
   async (email: string, { rejectWithValue }) => {
     try {
-      await axios.post("http://localhost:3000/api/auth/email", {
+      await axios.post(`${api_url}/api/auth/email`, {
         email,
         action: "sentOtp",
       });
@@ -92,14 +90,11 @@ export const verifyOtp = createAsyncThunk(
   "auth/verifyOtp",
   async ({ email, otpCode }: VerifyOtpProp, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/email",
-        {
-          email,
-          action: "verifyOtp",
-          otpCode,
-        }
-      );
+      const response = await axios.post(`${api_url}/api/auth/email`, {
+        email,
+        action: "verifyOtp",
+        otpCode,
+      });
       if (response.status === 200) {
         const docResponse = await addUser({ email, name: "" });
         if (!docResponse)
@@ -121,7 +116,9 @@ export const verifyOtp = createAsyncThunk(
             });
         }
       }
-      return rejectWithValue({error:'Something went wrong, please try again later'})
+      return rejectWithValue({
+        error: "Something went wrong, please try again later",
+      });
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.response?.data || "An error occurred");
@@ -166,7 +163,7 @@ export const verifyCodePhoneOtp = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   try {
     await signOut(auth);
-    const response = await axios.post("http://localhost:3000/api/auth/email", {
+    const response = await axios.post(`${api_url}/api/auth/email`, {
       token: "token",
       action: "logout",
     });
@@ -230,9 +227,9 @@ const authSlice = createSlice({
     setUserDetails: (state, action) => {
       state.userCookie = action.payload;
     },
-    setVerifiedFalse: state => {
+    setVerifiedFalse: (state) => {
       state.verified = false;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(googleSignIn.pending, (state) => {
