@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getMovies } from "@/service/api/api";
 import { Movie } from "@/app/types/movie.type";
-import ShowDetails from "@/app/views/show-details/page";
+import ShowDetails from "@/app/views/show-details/ShowDetails";
 
 export default function MovieData() {
   const [data, setData] = useState<Movie | null>(null);

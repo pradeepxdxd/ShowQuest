@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Typography, Box } from "@mui/material";
-import PosterCarousel from "@/app/components/carousel/poster/page";
+import PosterCarousel from "@/app/components/carousel/poster/PostCarousel";
 import { movies } from "@/app/data/recommanded-movies/data";
 import { StaticImageData } from "next/image";
 

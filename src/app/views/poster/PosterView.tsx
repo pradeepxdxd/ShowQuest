@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import posterImage from "@/app/assets/poster/poster.jpeg";
 
-export default function page() {
+export default function PosterView() {
   return (
     <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
       <Image

@@ -1,8 +1,8 @@
 "use client";
 import "./globals.css";
-import Navbar from "@/app/components/navbar/header/page";
+import Navbar from "@/app/components/navbar/header/Header";
 import SubHeader from "@/app/components/navbar/sub-header/page";
-import Footer from "@/app/views/footer/page";
+import Footer from "@/app/views/footer/Footer";
 import { store } from "@/app/store/index";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
-import {Roboto} from "next/font/google"
+import { Roboto } from "next/font/google";
 
 const darkTheme = createTheme({
   palette: {
@@ -32,9 +32,7 @@ export default function RootLayout({
   return (
     <>
       <html lang="en">
-        <body
-          className={`${roboto.variable} antialiased`}
-        >
+        <body className={`${roboto.variable} antialiased`}>
           <Script
             id="razorpay-checkout-js"
             src="https://checkout.razorpay.com/v1/checkout.js"

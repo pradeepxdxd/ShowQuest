@@ -1,4 +1,4 @@
-import MovieCard from "@/app/views/recommended-movies/MovieCard/page";
+import MovieCard from "@/app/views/recommended-movies/MovieCard/ReMovieCard";
 import { Grid } from "@mui/material";
 import { StaticImageData } from "next/image";
 import React from "react";
@@ -19,7 +19,7 @@ interface PageProps {
   movies: Movie[];
 }
 
-const Page: React.FC<PageProps> = ({ movies }) => {
+const PostCarousel: React.FC<PageProps> = ({ movies }) => {
   return (
     <Carousel
       navButtonsAlwaysVisible
@@ -40,4 +40,4 @@ const Page: React.FC<PageProps> = ({ movies }) => {
   );
 };
 
-export default Page;
+export default PostCarousel;

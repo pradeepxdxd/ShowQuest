@@ -1,8 +1,8 @@
-import Carousel from "@/app/components/carousel/fullsize/page";
-import RecommendedMovies from "../../views/recommended-movies/page";
-import Poster from "../../views/poster/page";
-import LiveEvents from "@/app/views/live-events/page";
-import Premiere from "@/app/views/premiere/page";
+import Carousel from "@/app/components/carousel/fullsize/FullSizeCarousel";
+import RecommendedMovies from "../../views/recommended-movies/ReMoviesView";
+import Poster from "../../views/poster/PosterView";
+import LiveEvents from "@/app/views/live-events/LiveEvents";
+import Premiere from "@/app/views/premiere/PremiereView";
 import { Box } from "@mui/material";
 
 const home = () => {

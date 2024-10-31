@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Typography, Box } from "@mui/material";
-import CardCarousel from "@/app/components/carousel/card/page";
+import CardCarousel from "@/app/components/carousel/card/CardCarousel";
 import { liveEvent } from "@/app/data/live-events/data";
 
 const LiveEvents: React.FC = () => {

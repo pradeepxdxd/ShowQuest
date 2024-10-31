@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getLiveEvent } from "@/service/api/api";
-import ShowDetails from "@/app/views/show-details/page";
+import ShowDetails from "@/app/views/show-details/ShowDetails";
 import { LiveEventImage } from "@/app/data/live-events/data";
 
 export default function EventData() {
