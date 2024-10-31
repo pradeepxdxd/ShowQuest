@@ -12,16 +12,13 @@ export async function POST(req: Request) {
   try {
     const { email, action, otpCode, token } = await req.json();
     if (action === "sentOtp") {
-      console.log({email});
       const templatepath = path.join(
         process.cwd(),
         "src/app/templates/email.html"
       );
-      
-      console.log({templatepath});
+
       let htmlTemplate = await readFileAsync(templatepath, "utf-8");
       otp = generateOtp();
-      console.log({otp})
       htmlTemplate = htmlTemplate.replace("{{OTP}}", otp);
 
       await transporter.sendMail({
