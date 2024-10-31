@@ -1,4 +1,3 @@
-import { api_url } from "@/app/config/dev";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
@@ -6,7 +5,7 @@ export const sendBookingDetailsMail = createAsyncThunk(
   "booking/sendBookingDetailsMail",
   async (params: object, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${api_url}/api/booking`, params);
+      const response = await axios.post(`/api/booking`, params);
       if (response.status === 200) return response.data;
       return rejectWithValue({
         error: response?.data?.error,

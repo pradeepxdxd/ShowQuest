@@ -15,7 +15,6 @@ import {
 import axios, { AxiosError } from "axios";
 import { addGoogleUser, addUser } from "@/firebase/firebase.action";
 import { generateJoseToken } from "@/app/lib/jose.auth";
-import { api_url } from "@/app/config/dev";
 
 interface VerifyOtpProp {
   email: string;
@@ -41,7 +40,7 @@ export const googleSignIn = createAsyncThunk(
       const token = await result.user.getIdToken();
       if (token) {
         addGoogleUser(result.user);
-        const resp = await axios.post(`${api_url}/api/auth/token`, {
+        const resp = await axios.post(`/api/auth/token`, {
           id: result.user.uid,
         });
         const customToken = resp.data.token;
@@ -73,7 +72,7 @@ export const loginWithGmail = createAsyncThunk(
   "auth/loginWithGmail",
   async (email: string, { rejectWithValue }) => {
     try {
-      await axios.post(`${api_url}/api/auth/email`, {
+      await axios.post(`/api/auth/email`, {
         email,
         action: "sentOtp",
       });
@@ -90,7 +89,7 @@ export const verifyOtp = createAsyncThunk(
   "auth/verifyOtp",
   async ({ email, otpCode }: VerifyOtpProp, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${api_url}/api/auth/email`, {
+      const response = await axios.post(`/api/auth/email`, {
         email,
         action: "verifyOtp",
         otpCode,
@@ -163,7 +162,7 @@ export const verifyCodePhoneOtp = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   try {
     await signOut(auth);
-    const response = await axios.post(`${api_url}/api/auth/email`, {
+    const response = await axios.post(`/api/auth/email`, {
       token: "token",
       action: "logout",
     });
