@@ -4,7 +4,6 @@ import { promisify } from "util";
 import path from "path";
 import { generateOtp } from "@/app/utils/otp/generate-otp";
 import { removeCookie } from "@/app/utils/cookie/cookie";
-// import { generateJoseToken } from "@/app/lib/jose.auth";
 
 const readFileAsync = promisify(fs.readFile);
 let otp: undefined | string = undefined;
@@ -12,15 +11,17 @@ let otp: undefined | string = undefined;
 export async function POST(req: Request) {
   try {
     const { email, action, otpCode, token } = await req.json();
-
     if (action === "sentOtp") {
+      console.log({email});
       const templatepath = path.join(
         process.cwd(),
         "src/app/templates/email.html"
       );
-
+      
+      console.log({templatepath});
       let htmlTemplate = await readFileAsync(templatepath, "utf-8");
       otp = generateOtp();
+      console.log({otp})
       htmlTemplate = htmlTemplate.replace("{{OTP}}", otp);
 
       await transporter.sendMail({
