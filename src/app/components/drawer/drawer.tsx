@@ -168,25 +168,25 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
         <>
           <List>
             {[
-              "Notificatons",
-              "Your Orders",
-              "Stream Library",
-              "Play Credit Card",
-              "Help Centre",
-              "Accounts & Settings",
-              "Rewards",
-              "Offers",
-              "Gift Cards",
-              "Food & Beverages",
-              "List Your Show",
-            ].map((text, index) => (
+              { label: "Notificatons", path: "/" },
+              { label: "Your Orders", path: "/pages/main/order" },
+              { label: "Stream Library", path: "/" },
+              { label: "Play Credit Card", path: "/" },
+              { label: "Help Centre", path: "/" },
+              { label: "Accounts & Settings", path: "/" },
+              { label: "Rewards", path: "/" },
+              { label: "Offers", path: "/" },
+              { label: "Gift Cards", path: "/" },
+              { label: "Food & Beverages", path: "/" },
+              { label: "List Your Show", path: "/" },
+            ].map((nav, index) => (
               <>
                 <ListItem key={index} disablePadding>
-                  <ListItemButton>
+                  <ListItemButton onClick={() => router.push(nav.path)}>
                     <ListItemIcon>
                       {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                     </ListItemIcon>
-                    <ListItemText primary={text} />
+                    <ListItemText primary={nav.label} />
                   </ListItemButton>
                 </ListItem>
                 <Divider />

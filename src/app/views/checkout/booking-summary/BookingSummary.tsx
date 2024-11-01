@@ -25,6 +25,7 @@ import AddInfo from "@/app/components/modals/info/AddInfo";
 import { sendBookingDetailsMail } from "@/app/store/booking/booking.slice";
 import useOperationDelay from "@/app/hooks/useOperationDelay";
 import { convertImageToBase64 } from "@/app/utils/image/image";
+import { addOrderData } from "@/app/store/order/order.slice";
 
 declare global {
   interface Window {
@@ -72,8 +73,6 @@ export default function BookingSummary() {
     else setOpen(false);
   };
 
-  console.log({userCookie})
-
   const handlePaymentClick = () => {
     if (userCookie?.name && userCookie?.email) {
       try {
@@ -81,7 +80,7 @@ export default function BookingSummary() {
         handlePayment(
           userCookie.name,
           userCookie.email,
-          (userCookie?.photo || "")
+          userCookie?.photo || ""
         );
         setbackgroundLoading(true);
       } catch (err) {
@@ -96,6 +95,17 @@ export default function BookingSummary() {
       getPayload()
         .then((payload) => dispatch(sendBookingDetailsMail(payload)))
         .catch((err) => console.log(err));
+      dispatch(
+        addOrderData({
+          userId: userCookie?.id || "",
+          food_beverage: totalPrice,
+          seat: ticketDetails,
+          show_name: theaterDetails?.showName || "",
+          theater: theaterDetails?.theaterName || "",
+          ticket_price: totalSeatCost,
+          total_paid: proceedToPayPayment,
+        })
+      );
       router.push("/pages/main/enjoy-your-show");
     } else if (error) {
       setbackgroundLoading(false);

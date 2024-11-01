@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "@/app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUserDetails } from "@/app/store/auth/auth.slice";
-import { updateUser } from "@/firebase/firebase.action";
+import { updateUser } from "@/firebase/actions/user";
 
 const style = {
   position: "absolute",

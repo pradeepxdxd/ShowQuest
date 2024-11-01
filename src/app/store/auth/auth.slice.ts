@@ -13,7 +13,7 @@ import {
   ConfirmationResult,
 } from "firebase/auth";
 import axios, { AxiosError } from "axios";
-import { addGoogleUser, addUser } from "@/firebase/firebase.action";
+import { addGoogleUser, addUser } from "@/firebase/actions/user";
 import { generateJoseToken } from "@/app/lib/jose.auth";
 
 interface VerifyOtpProp {

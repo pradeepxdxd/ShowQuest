@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "@/app/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { setUserDetails } from "@/app/store/auth/auth.slice";
-import { getUserById } from "@/firebase/firebase.action";
+import { getUserById } from "@/firebase/actions/user";
 
 interface Props {
   userPayload: { id: string } | null;
@@ -23,11 +23,11 @@ const Checkout: React.FC<Props> = ({ userPayload }) => {
     if (clientSeats.length === 0) router.back();
     if (userPayload) {
       (async function () {
-        const resp:any = await getUserById(userPayload.id);
+        const resp: any = await getUserById(userPayload.id);
         if (resp)
           dispatch(
             setUserDetails({
-              id:resp?.id,
+              id: resp?.id,
               name: resp?.name,
               email: resp?.email,
               photo: resp?.photo,
