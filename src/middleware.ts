@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyJoseToken } from "./app/lib/jose.auth";
 
 export async function middleware(req: NextRequest) {
-  console.log({env: process.env})
   const token = req.cookies.get("token")?.value;
   const verify = await verifyJoseToken(token as string);
 
