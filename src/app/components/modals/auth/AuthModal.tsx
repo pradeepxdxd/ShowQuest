@@ -138,9 +138,6 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                   <AppleLoginButton />
                 </div>
                 <div
-                  onClick={() => {
-                    setShowPhoneInput(true);
-                  }}
                   style={{ margin: 15 }}
                 >
                   <ContactAuth />
