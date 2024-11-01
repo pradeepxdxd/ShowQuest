@@ -22,9 +22,9 @@ export async function POST(req: Request) {
       htmlTemplate = htmlTemplate.replace("{{OTP}}", otp);
 
       await transporter.sendMail({
-        from: process.env.NEXT_PUBLIC_NODEMAILER_EMAIL,
+        from: `"ShowQuest" <${process.env.NEXT_PUBLIC_NODEMAILER_EMAIL}>`,
         to: email,
-        subject: "Here is you otp",
+        subject: `${otp} is your ShowQuest OTP`,
         html: htmlTemplate,
       });
 

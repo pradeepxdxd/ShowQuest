@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
     );
 
     await transporter.sendMail({
-      from: process.env.NEXT_PUBLIC_NODEMAILER_EMAIL,
+      from: `"ShowQuest" <${process.env.NEXT_PUBLIC_NODEMAILER_EMAIL}>`,
       to: email,
       subject: `Here's your invoice Show Quest transaction ${shortid
         .generate()
