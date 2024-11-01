@@ -62,10 +62,6 @@ const SwipeableTemporaryDrawer: React.FC<DrawerProp> = ({
   return (
     <div>
       <SwipeableDrawer
-        // anchor={anchor}
-        // open={state['bottom']}
-        // onClose={toggleDrawer('bottom', false)}
-        // onOpen={toggleDrawer('bottom', true)}
         anchor={"bottom"}
         open={state["bottom"]}
         onClose={toggleDrawer("bottom", false)}

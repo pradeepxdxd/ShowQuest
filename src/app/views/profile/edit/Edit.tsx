@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getUserById, UserWithProp } from "@/firebase/firebase.action";
+import { getUserById, UserWithProp } from "@/firebase/actions/user";
 import { toast } from "react-toastify";
 import {
   Avatar,
@@ -13,7 +13,7 @@ import {
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { isValidImage, profileValidation } from "@/app/validations/profile";
-import { updateUser } from "@/firebase/firebase.action";
+import { updateUser } from "@/firebase/actions/user";
 import AddPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { convertImageFileToBase64 } from "@/app/utils/image/image";
 

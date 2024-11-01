@@ -9,7 +9,7 @@ import {
   setDoc,
   getDoc,
 } from "firebase/firestore";
-import { db } from "./firebase.config";
+import { db } from "../firebase.config";
 import { User as UserAuth } from "firebase/auth";
 
 interface User {
@@ -35,7 +35,6 @@ export const addUser = async (user: User) => {
     const existantUser = (await getUserByEmail(
       user.email
     )) as unknown as UserWithProp[];
-    console.log({ existantUser });
     if (existantUser && existantUser.length > 0) {
       if (existantUser[0]?.email === user.email) {
         return existantUser[0].id;
@@ -115,7 +114,10 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const updateUser = async (userId: string, data: Partial<UserWithProp>) => {
+export const updateUser = async (
+  userId: string,
+  data: Partial<UserWithProp>
+) => {
   if (!db) {
     console.log("Firebase is not initialized");
     return;

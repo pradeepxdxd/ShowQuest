@@ -4,6 +4,7 @@ import authModalReducer from "./ui/authModal.slice";
 import seatReducer from "./ui/seat.slice";
 import beverageReducer from "./ui/beverage.slice";
 import bookingReducer from "./booking/booking.slice";
+import orderReducer from './order/order.slice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     seat: seatReducer,
     beverage: beverageReducer,
     booking: bookingReducer,
+    order : orderReducer,
   },
 });
 
