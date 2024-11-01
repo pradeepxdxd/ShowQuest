@@ -8,5 +8,5 @@ export default function page() {
 export const metadata: Metadata = {
   title: "Movie Tickets, Plays, Sports, Events & Cinemas",
   description:
-    "BookMyShow offers showtimes, movie tickets, reviews, trailers, concert tickets and events near Pune. Also features promotional offers, coupons and mobile app.",
+    "Show Quest offers showtimes, movie tickets, reviews, trailers, concert tickets and events near Pune. Also features promotional offers, coupons and mobile app.",
 };

@@ -112,7 +112,7 @@ export default function PrimarySearchAppBar() {
             <Box sx={{ flexGrow: 0.15 }} />
             <Image
               src={headerLogo}
-              alt="bookMyShow"
+              alt="Show Quest"
               width={100}
               height={20}
               className={styles.clickable}

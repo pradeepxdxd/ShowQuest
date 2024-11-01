@@ -86,8 +86,8 @@ export default function Movies() {
 export const generateMetadata = () => {
   return {
     title:
-      "Top Upcoming Events in Pune | Best Live Events in Pune - BookMyShow",
+      "Top Upcoming Events in Pune | Best Live Events in Pune - ShowQuest",
     description:
-      "Book tickets for best upcoming events in Pune. Explore music, comedy, workshops, online events near you in Pune on BookMyShow.",
+      "Book tickets for best upcoming events in Pune. Explore music, comedy, workshops, online events near you in Pune on ShowQuest.",
   };
 };

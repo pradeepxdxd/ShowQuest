@@ -17,6 +17,6 @@ export const generateMetadata = () => {
   return {
     title: "Movie Tickets, Plays, Sports, Events & Cinemas",
     description:
-      "BookMyShow offers showtimes, movie tickets, reviews, trailers, concert tickets and events near Pune. Also features promotional offers, coupons and mobile app.",
+      "ShowQuest offers showtimes, movie tickets, reviews, trailers, concert tickets and events near Pune. Also features promotional offers, coupons and mobile app.",
   };
 };

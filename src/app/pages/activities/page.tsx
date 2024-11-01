@@ -86,8 +86,8 @@ export default function Activities() {
 export const generateMetadata = () => {
   return {
     title:
-      "Explore Activities & Best Things To Do in Pune | Places To Visit in Pune - BookMyShow",
+      "Explore Activities & Best Things To Do in Pune | Places To Visit in Pune - Show Quest",
     description:
-      "Dharmaveer: Mukkam Post Thane 2 (2024), Biography Drama released in Marathi Hindi language in theatre near you in pune. Know about Film reviews, lead cast & crew,  photos & video gallery on BookMyShow.",
+      "Dharmaveer: Mukkam Post Thane 2 (2024), Biography Drama released in Marathi Hindi language in theatre near you in pune. Know about Film reviews, lead cast & crew,  photos & video gallery on ShowQuest.",
   };
 };
