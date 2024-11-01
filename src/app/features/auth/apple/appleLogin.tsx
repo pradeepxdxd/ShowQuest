@@ -17,6 +17,7 @@ export const AppleLoginButton: React.FC = () => {
         variant="outlined"
         fullWidth
         onClick={handleAppleAuth}
+        disabled
       >
         <Typography textTransform={"lowercase"}>
           Continue with Apple
