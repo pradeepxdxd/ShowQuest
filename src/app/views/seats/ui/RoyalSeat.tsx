@@ -28,7 +28,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
     seatRow: string
   ) => {
     const button = buttonsRef.current[st_key];
-    if (button) {
+    if (button && !(button.style.backgroundColor === "rgb(108, 209, 52)")) {
       dispatch(addSeat(cost));
       dispatch(
         addClientSeatDetails({ seatName: seatType, seatNo: st_seatNo, seatRow })
