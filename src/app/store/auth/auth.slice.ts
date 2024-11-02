@@ -36,7 +36,9 @@ export const googleSignIn = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const provider = new GoogleAuthProvider();
+      console.log({provider})
       const result = await signInWithPopup(auth, provider);
+      console.log({result})
       const token = await result.user.getIdToken();
       if (token) {
         addGoogleUser(result.user);
