@@ -18,7 +18,6 @@ export default function GoogleAuthButton() {
       sx={{ width: "300px" }}
       variant="outlined"
       fullWidth
-      // disabled={process.env.NODE_ENV === "development" ? false : true}
     >
       <Typography textTransform={"lowercase"}>Continue with Google</Typography>
     </Button>
