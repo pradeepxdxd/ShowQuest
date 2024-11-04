@@ -17,11 +17,13 @@ import { Delete, Edit } from "@mui/icons-material";
 interface CustomMovieCardProps {
   card: ShowResponse;
   userPayload: { id: string; role: string };
+  showType: string;
 }
 
 const CustomMovieCard: React.FC<CustomMovieCardProps> = ({
   card,
   userPayload,
+  showType,
 }) => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -34,7 +36,7 @@ const CustomMovieCard: React.FC<CustomMovieCardProps> = ({
   };
   const handleEdit = (e) => {
     e.stopPropagation();
-    router.push(`/pages/admin/add-movies/${card.id}`);
+    router.push(`/pages/admin/add-show/${showType}/${card.id}`);
   };
   return (
     <>

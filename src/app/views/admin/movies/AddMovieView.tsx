@@ -28,7 +28,7 @@ export default function AddMovieView() {
   const router = useRouter();
 
   useEffect(() => {
-    dispatch(getShowByIdData(id));
+    dispatch(getShowByIdData(id[1]));
     return () => {
       dispatch(clearShow());
     };
@@ -101,7 +101,9 @@ export default function AddMovieView() {
             }
             action.setFieldValue("image", null);
             action.resetForm();
-            router.push("/pages/movies");
+            if (id[0] === "movie") router.push("/pages/movies");
+            if (id[0] === "live-event") router.push("/pages/events");
+            if (id[0] === "premiere") router.push("/pages/premiere");
           }}
         >
           {({

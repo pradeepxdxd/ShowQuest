@@ -14,7 +14,7 @@ import BookOnlineIcon from "@mui/icons-material/BookOnline";
 
 interface TheaterType {
   data: Theater[];
-  showid: number
+  showid: string
 }
 
 const TheaterList: React.FC<TheaterType> = ({ data, showid }) => {

@@ -3,8 +3,9 @@ import Carousel from "@/app/components/carousel/fullsize/FullSizeCarousel";
 import MoviesInCity from "@/app/views/movies/MovieView";
 import FilterComponent from "@/app/components/filter-card/movies/FilterCard";
 import CustomChip from "@/app/components/chip/CustomChip";
-
 import { Box, Grid, Typography } from "@mui/material";
+import { getUserPayloadData } from "@/app/server/uid";
+import MovieButton from "@/app/views/admin/movies/MovieButton";
 
 const lang: string[] = [
   "English",
@@ -20,6 +21,7 @@ const lang: string[] = [
 ];
 
 export default function Movies() {
+  const userPayload = getUserPayloadData();
   return (
     <>
       <Carousel />
@@ -47,25 +49,30 @@ export default function Movies() {
         </Grid>
         <Grid item lg={8}>
           <Box mt={7}>
-            <Box
-              display={"flex"}
-              justifyContent={"left"}
-              alignItems={"left"}
-              flexDirection={"column"}
-            >
-              <Typography
-                variant="h5"
-                fontWeight={"normal"}
-                fontFamily={"sans-serif"}
-                textAlign={"left"}
-                mr={9}
+            <Box display={"flex"} flexDirection={"column"}>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                width="88%"
               >
-                Premiere Of The Week
-              </Typography>
+                <Typography
+                  variant="h5"
+                  fontWeight={"normal"}
+                  textAlign={"left"}
+                >
+                  Premiere Movies In Indore
+                </Typography>
+                {userPayload &&
+                  typeof userPayload?.role === "string" &&
+                  userPayload?.role === "ADMIN" && <MovieButton />}
+              </Box>
+
               <Box mt={3}>
                 <CustomChip labels={lang} />
               </Box>
             </Box>
+
             <Box
               mt={5}
               display={"flex"}
@@ -73,7 +80,7 @@ export default function Movies() {
               alignItems={"center"}
               width={900}
             >
-              <MoviesInCity />
+              <MoviesInCity userPayload={userPayload} showType={"premiere"} />
             </Box>
           </Box>
         </Grid>
@@ -85,9 +92,8 @@ export default function Movies() {
 
 export const generateMetadata = () => {
   return {
-    title:
-      "Top Upcoming Sports Events in Pune | Live Sports in Pune - ShowQuest",
+    title: "Pune Movie Tickets Online Booking & Showtimes near you - ShowQuest",
     description:
-      "Dharmaveer: Mukkam Post Thane 2 (2024), Biography Drama released in Marathi Hindi language in theatre near you in pune. Know about Film reviews, lead cast & crew,  photos & video gallery on ShowQuest.",
+      "Online movie ticket bookings for the Bollywood, Hollywood, Tamil, Telugu and other regional films showing near you in Pune. Check out the List of latest movies running in nearby theatres and multiplexes in Pune, for you to watch this weekend on ShowQuest.",
   };
 };

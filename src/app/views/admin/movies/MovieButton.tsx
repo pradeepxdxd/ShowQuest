@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function MovieButton() {
   const router = useRouter();
   const handleRedirect = () => {
-    router.push("/pages/admin/add-movies");
+    router.push("/pages/admin/add-show");
   };
   return <Button onClick={handleRedirect} variant="outlined" color="error">
     Add

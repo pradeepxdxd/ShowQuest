@@ -1,21 +1,14 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { getLiveEvent } from "@/service/api/api";
-import ShowDetails from "@/app/views/show-details/ShowDetails";
-import { LiveEventImage } from "@/app/data/live-events/data";
+import React from "react";
+import Event from "@/app/views/events/Event";
 
-export default function EventData() {
-  const [data, setData] = useState<LiveEventImage | null>(null);
-  const router = useParams();
-  useEffect(() => {
-    const liveEventId = Array.isArray(router.data)
-      ? router.data[0]
-      : router.data;
-    if (liveEventId) {
-      const data = getLiveEvent(parseInt(liveEventId));
-      setData(data);
-    }
-  }, [router.data]);
-  return data ? <ShowDetails data={data} /> : <h3>Event Not Found</h3>;
+export default function event() {
+  return <Event />;
 }
+
+export const generateMetadata = () => {
+  return {
+    title: "Top Upcoming Events in Pune | Best Live Events in Pune - ShowQuest",
+    description:
+      "Book tickets for best upcoming events in Pune. Explore music, comedy, workshops, online events near you in Pune on ShowQuest.",
+  };
+};

@@ -9,7 +9,7 @@ import TheaterList from "@/app/views/booking/theaters";
 
 interface ShowCardType {
   data: Theater[];
-  showid: number
+  showid: string
 }
 
 const ShowCard: React.FC<ShowCardType> = ({ data, showid }) => {

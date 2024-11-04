@@ -5,8 +5,8 @@ import React from "react";
 
 interface TitleProp {
   title: string;
-  genre: string;
-  id: number;
+  genre: string[];
+  id: string;
 }
 
 const Title: React.FC<TitleProp> = ({ title, genre, id }) => {
@@ -22,7 +22,7 @@ const Title: React.FC<TitleProp> = ({ title, genre, id }) => {
         </Typography>
       </div>
       <div style={{ marginTop: 6 }}>
-        <CustomChip labels={genre.split("/")} />
+        <CustomChip labels={genre} />
       </div>
     </>
   );

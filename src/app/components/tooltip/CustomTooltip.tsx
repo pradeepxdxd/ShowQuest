@@ -24,7 +24,7 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 interface TooltipType {
   data: TicketTimeAndPrice;
   id: number;
-  showid: number;
+  showid: string;
 }
 
 const CustomTooltip: React.FC<TooltipType> = ({ data, id, showid }) => {

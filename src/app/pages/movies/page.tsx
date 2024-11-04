@@ -80,7 +80,7 @@ export default function Movies() {
               alignItems={"center"}
               width={900}
             >
-              <MoviesInCity userPayload={userPayload} />
+              <MoviesInCity userPayload={userPayload} showType={'movie'} />
             </Box>
           </Box>
         </Grid>
