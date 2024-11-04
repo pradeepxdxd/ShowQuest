@@ -3,14 +3,13 @@ import fs from "fs";
 import { promisify } from "util";
 import path from "path";
 import { generateOtp } from "@/app/utils/otp/generate-otp";
-import { removeCookie } from "@/app/utils/cookie/cookie";
 
 const readFileAsync = promisify(fs.readFile);
 let otp: undefined | string = undefined;
 
 export async function POST(req: Request) {
   try {
-    const { email, action, otpCode, token } = await req.json();
+    const { email, action, otpCode } = await req.json();
     if (action === "sentOtp") {
       const templatepath = path.join(
         process.cwd(),
@@ -20,6 +19,8 @@ export async function POST(req: Request) {
       let htmlTemplate = await readFileAsync(templatepath, "utf-8");
       otp = generateOtp();
       htmlTemplate = htmlTemplate.replace("{{OTP}}", otp);
+
+      if (process.env.NODE_ENV === "development") console.log({ otp });
 
       await transporter.sendMail({
         from: `"ShowQuest" <${process.env.NEXT_PUBLIC_NODEMAILER_EMAIL}>`,
@@ -73,18 +74,6 @@ export async function POST(req: Request) {
           }
         );
       }
-    } else if (action === "logout") {
-      const cookie = removeCookie(token);
-      return new Response(
-        JSON.stringify({ message: "Logged out successfully" }),
-        {
-          status: 200,
-          headers: {
-            "Set-Cookie": cookie, // Set the cookie to delete it
-            "Content-Type": "application/json",
-          },
-        }
-      );
     } else {
       return new Response(JSON.stringify({ message: "No action found" }), {
         status: 404,

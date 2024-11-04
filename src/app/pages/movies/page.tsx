@@ -3,8 +3,9 @@ import Carousel from "@/app/components/carousel/fullsize/FullSizeCarousel";
 import MoviesInCity from "@/app/views/movies/MovieView";
 import FilterComponent from "@/app/components/filter-card/movies/FilterCard";
 import CustomChip from "@/app/components/chip/CustomChip";
-
 import { Box, Grid, Typography } from "@mui/material";
+import { getUserPayloadData } from "@/app/server/uid";
+import MovieButton from "@/app/views/admin/movies/MovieButton";
 
 const lang: string[] = [
   "English",
@@ -20,6 +21,7 @@ const lang: string[] = [
 ];
 
 export default function Movies() {
+  const userPayload = getUserPayloadData();
   return (
     <>
       <Carousel />
@@ -47,25 +49,30 @@ export default function Movies() {
         </Grid>
         <Grid item lg={8}>
           <Box mt={7}>
-            <Box
-              display={"flex"}
-              justifyContent={"left"}
-              alignItems={"left"}
-              flexDirection={"column"}
-            >
-              <Typography
-                variant="h5"
-                fontWeight={"normal"}
-                fontFamily={"sans-serif"}
-                textAlign={"left"}
-                mr={9}
+            <Box display={"flex"} flexDirection={"column"}>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                width="88%"
               >
-                Movies In Indore
-              </Typography>
+                <Typography
+                  variant="h5"
+                  fontWeight={"normal"}
+                  textAlign={"left"}
+                >
+                  Movies In Indore
+                </Typography>
+                {userPayload &&
+                  typeof userPayload?.role === "string" &&
+                  userPayload?.role === "ADMIN" && <MovieButton />}
+              </Box>
+
               <Box mt={3}>
                 <CustomChip labels={lang} />
               </Box>
             </Box>
+
             <Box
               mt={5}
               display={"flex"}
@@ -73,7 +80,7 @@ export default function Movies() {
               alignItems={"center"}
               width={900}
             >
-              <MoviesInCity />
+              <MoviesInCity userPayload={userPayload} />
             </Box>
           </Box>
         </Grid>

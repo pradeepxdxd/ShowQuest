@@ -1,14 +1,18 @@
-import type { MovieCardProps, Movie } from "@/app/types/movie.type";
+// import type { MovieCardProps, Movie } from "@/app/types/movie.type";
 import CustomMovieCards from "./movie-card/CustomMovieCard";
 import { Grid } from "@mui/material";
+import { ShowResponse } from "@/firebase/actions/action.types";
 
-const CustomCardMovies: React.FC<MovieCardProps> = ({ movie }) => {
+const CustomCardMovies: React.FC<{
+  movie: ShowResponse[];
+  userPayload: { id: string; role: string };
+}> = ({ movie, userPayload }) => {
   return (
     <>
       <Grid container spacing={2}>
-        {movie.map((prop: Movie, index: number) => (
+        {movie.map((prop: ShowResponse, index: number) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
-            <CustomMovieCards card={prop} />
+            <CustomMovieCards card={prop} userPayload={userPayload} />
           </Grid>
         ))}
       </Grid>

@@ -15,6 +15,8 @@ import {
 import axios, { AxiosError } from "axios";
 import { addGoogleUser, addUser } from "@/firebase/actions/user";
 import { generateJoseToken } from "@/app/lib/jose.auth";
+import { ResponseUser } from "@/firebase/actions/action.types";
+import useCookies from "@/app/hooks/useCookies";
 
 interface VerifyOtpProp {
   email: string;
@@ -39,15 +41,23 @@ export const googleSignIn = createAsyncThunk(
       const result = await signInWithPopup(auth, provider);
       const token = await result.user.getIdToken();
       if (token) {
-        addGoogleUser(result.user);
+        const fbResp: ResponseUser | void = await addGoogleUser(result.user);
+        if (!fbResp) {
+          console.log("Failed to add or retrieve Google user");
+          return;
+        }
         const resp = await axios.post(`/api/auth/token`, {
           id: result.user.uid,
+          role: fbResp.role,
         });
         const customToken = resp.data.token;
         document.cookie = `token=${customToken}; path=/; max-age=${
           30 * 24 * 60 * 60
         }`;
-        return result.user;
+        document.cookie = `role=${fbResp.role}; path=/; max-age=${
+          30 * 24 * 60 * 60
+        }`;
+        return { ...result.user, role: fbResp.role };
       }
       return result.user;
     } catch (err) {
@@ -96,18 +106,24 @@ export const verifyOtp = createAsyncThunk(
       });
       if (response.status === 200) {
         const docResponse = await addUser({ email, name: "" });
-        if (!docResponse)
-          rejectWithValue({
+        if (!docResponse || !docResponse.id)
+          return rejectWithValue({
             error: "User not added in firestore db",
             status: 401,
           });
         else {
-          const token = await generateJoseToken({ id: docResponse });
+          const token = await generateJoseToken({
+            id: docResponse.id,
+            role: docResponse.role,
+          });
           if (token) {
             document.cookie = `token=${token}; path=/; max-age=${
               30 * 24 * 60 * 60
             }`;
-            return token;
+            document.cookie = `role=${docResponse.role}; path=/; max-age=${
+              30 * 24 * 60 * 60
+            }`;
+            return { ...docResponse, token };
           } else
             return rejectWithValue({
               error: "Token not generated",
@@ -162,10 +178,7 @@ export const verifyCodePhoneOtp = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   try {
     await signOut(auth);
-    const response = await axios.post(`/api/auth/email`, {
-      token: "token",
-      action: "logout",
-    });
+    const response = await axios.get(`/api/auth/logout`);
     return response.data;
   } catch (err) {
     console.log({ logout_err: err });
@@ -177,12 +190,13 @@ interface User {
   name: string;
   email: string;
   photo?: string;
+  role: string;
 }
 
 export interface AuthState {
   loading: boolean;
   error: object | null;
-  user: null | undefined | object;
+  user: null | undefined | ResponseUser;
   email: string | undefined;
   verified: boolean;
   verificationId: ConfirmationResult | undefined;
@@ -237,7 +251,7 @@ const authSlice = createSlice({
     });
     builder.addCase(googleSignIn.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.user = action.payload as unknown as ResponseUser;
       state.verified = true;
     });
     builder.addCase(googleSignIn.rejected, (state, action) => {
@@ -252,7 +266,8 @@ const authSlice = createSlice({
 
     builder.addCase(verifyOtp.fulfilled, (state, action) => {
       state.verified = true;
-      state.token = action.payload;
+      state.token = action.payload.token;
+      state.user = action.payload;
     });
     builder.addCase(verifyOtp.rejected, (state, action) => {
       state.verified = false;
@@ -277,7 +292,7 @@ const authSlice = createSlice({
     });
     builder.addCase(verifyCodePhoneOtp.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.user = action.payload as unknown as ResponseUser;
     });
     builder.addCase(verifyCodePhoneOtp.rejected, (state, action) => {
       state.error = action.error;

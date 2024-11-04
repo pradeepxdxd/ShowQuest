@@ -1,9 +1,12 @@
+import { Role } from "@/firebase/actions/action.types";
 import { jwtVerify, SignJWT } from "jose";
 import { nanoid } from "nanoid";
 
-interface UserJWTPayload {
+export interface UserJWTPayload {
   jti: string;
   iat: number;
+  id: string;
+  role: Role;
 }
 
 export const getSecretKey = () => {
@@ -19,6 +22,7 @@ export const getSecretKey = () => {
 
 export const generateJoseToken = async (payload: {
   id: string;
+  role: Role;
   // name: string;
   // email: string;
 }) => {
@@ -45,7 +49,7 @@ export const verifyJoseToken = async (token: string) => {
         algorithms: ["HS256"],
       }
     );
-    return verified.payload as UserJWTPayload;
+    return verified.payload as unknown as UserJWTPayload;
   } catch (e: unknown) {
     if (e instanceof Error) {
       // throw new Error(`Token has expired: ${e.message}`);

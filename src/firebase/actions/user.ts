@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { User as UserAuth } from "firebase/auth";
+import { ResponseUser, Role } from "./action.types";
 
 interface User {
   email: string;
@@ -22,9 +23,12 @@ export interface UserWithProp extends UserAuth {
   email: string;
   name: string;
   photo?: string;
+  role: Role;
 }
 
-export const addUser = async (user: User) => {
+export const addUser = async (
+  user: User
+): Promise<ResponseUser | null | void> => {
   if (!db) {
     console.error("Firestore is not initialized");
     return;
@@ -37,7 +41,13 @@ export const addUser = async (user: User) => {
     )) as unknown as UserWithProp[];
     if (existantUser && existantUser.length > 0) {
       if (existantUser[0]?.email === user.email) {
-        return existantUser[0].id;
+        return {
+          id: existantUser[0]?.id,
+          name: existantUser[0]?.name,
+          role: existantUser[0]?.role,
+          photo: existantUser[0]?.photo,
+          email: existantUser[0]?.email,
+        };
       }
     }
 
@@ -45,9 +55,16 @@ export const addUser = async (user: User) => {
     const docRef = await addDoc(collection(db, "auth"), {
       email: user.email,
       name: user?.name,
-      createdAt: new Date(),
+      role: "USER",
+      createdAt: new Date().toString(),
     });
-    return docRef.id;
+    const docSnapShot = await getDoc(docRef);
+    if (docSnapShot.exists()) {
+      return {
+        id: docSnapShot.id,
+        ...docSnapShot.data(),
+      } as ResponseUser;
+    } else return null;
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.log({ firebaseErr: err.message });
@@ -59,7 +76,9 @@ export const addUser = async (user: User) => {
   }
 };
 
-export const addGoogleUser = async (user: UserAuth) => {
+export const addGoogleUser = async (
+  user: UserAuth
+): Promise<ResponseUser | void> => {
   if (!db) {
     console.log("Firebase is not initialized");
     return;
@@ -73,11 +92,12 @@ export const addGoogleUser = async (user: UserAuth) => {
         email: user.email,
         name: user.displayName,
         photo: user.photoURL,
+        role: "USER",
         createdAt: new Date(),
       });
       return userCreated;
     } else {
-      return userSpan.data();
+      return userSpan.data() as ResponseUser;
     }
   } catch (err) {
     if (err instanceof Error) {
@@ -148,7 +168,7 @@ export const getUserById = async (id: string) => {
     const userSnapshot = await getDoc(userRef);
 
     if (userSnapshot.exists()) {
-      return { id, ...userSnapshot.data() };
+      return { id, ...userSnapshot.data() } as ResponseUser;
     } else return null;
   } catch (err) {
     if (err instanceof Error) {

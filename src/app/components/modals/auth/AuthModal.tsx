@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -20,6 +20,7 @@ import {
   setVerifiedFalse,
 } from "@/app/store/auth/auth.slice";
 import { PhoneInput } from "./phone/PhoneInput";
+import { useRouter } from "next/navigation";
 
 const style = {
   position: "absolute",
@@ -46,18 +47,24 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
   const [showPhoneInput, setShowPhoneInput] = React.useState<boolean>(false);
   const [showOTPInput, setShowOTPInput] = React.useState<boolean>(false);
 
-  const { email, verified }: AuthState = useSelector(
+  const { email, verified, user }: AuthState = useSelector(
     (state: RootState) => state.auth
   );
+
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   React.useEffect(() => {
     if (verified) {
       handleCloseModal({}, "reason");
       dispatch(setVerifiedFalse());
     }
+    
+    if (user?.role === "ADMIN") {
+      router.push("/pages/admin/dashboard");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [verified]);
+  }, [verified, user]);
 
   const handleCloseModal = (
     event: object | React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -137,9 +144,7 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                 <div style={{ margin: 15 }}>
                   <AppleLoginButton />
                 </div>
-                <div
-                  style={{ margin: 15 }}
-                >
+                <div style={{ margin: 15 }}>
                   <ContactAuth />
                 </div>
               </Box>

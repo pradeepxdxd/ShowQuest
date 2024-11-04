@@ -7,7 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
-import { Order, OrderLists } from "./firebase.types";
+import { Order, OrderLists } from "./action.types";
 
 export const addOrder = async (order: Order) => {
   if (!db) {
