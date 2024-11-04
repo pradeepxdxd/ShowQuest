@@ -17,6 +17,7 @@ import { Avatar, Button, Divider, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import useAuth from "@/app/hooks/useAuth";
 import { clearToken } from "@/app/store/auth/auth.slice";
+import useCookies from "@/app/hooks/useCookies";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -34,6 +35,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
 }) => {
   const router = useRouter();
   const user = useAuth();
+  const cookies = useCookies("role");
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -166,33 +168,50 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
         </>
       ) : (
         <>
-          <List>
-            {[
-              { label: "Notificatons", path: "/" },
-              { label: "Your Orders", path: "/pages/main/order" },
-              { label: "Stream Library", path: "/" },
-              { label: "Play Credit Card", path: "/" },
-              { label: "Help Centre", path: "/" },
-              { label: "Accounts & Settings", path: "/" },
-              { label: "Rewards", path: "/" },
-              { label: "Offers", path: "/" },
-              { label: "Gift Cards", path: "/" },
-              { label: "Food & Beverages", path: "/" },
-              { label: "List Your Show", path: "/" },
-            ].map((nav, index) => (
-              <>
-                <ListItem key={index} disablePadding>
-                  <ListItemButton onClick={() => router.push(nav.path)}>
-                    <ListItemIcon>
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={nav.label} />
-                  </ListItemButton>
-                </ListItem>
-                <Divider />
-              </>
-            ))}
-          </List>
+          <Box sx={{ maxHeight: "580px", overflowY: "auto" }}>
+            <List>
+              {cookies === "ADMIN" && (
+                <>
+                  <ListItem key={"8654"} disablePadding>
+                    <ListItemButton
+                      onClick={() => router.push("/pages/admin/dashboard")}
+                    >
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={"Admin Portal"} />
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider />
+                </>
+              )}
+              {[
+                { label: "Notificatons", path: "/" },
+                { label: "Your Orders", path: "/pages/main/order" },
+                { label: "Stream Library", path: "/" },
+                { label: "Play Credit Card", path: "/" },
+                { label: "Help Centre", path: "/" },
+                { label: "Accounts & Settings", path: "/" },
+                { label: "Rewards", path: "/" },
+                { label: "Offers", path: "/" },
+                { label: "Gift Cards", path: "/" },
+                { label: "Food & Beverages", path: "/" },
+                { label: "List Your Show", path: "/" },
+              ].map((nav, index) => (
+                <>
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton onClick={() => router.push(nav.path)}>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={nav.label} />
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider />
+                </>
+              ))}
+            </List>
+          </Box>
           <Box
             sx={{
               display: "flex",

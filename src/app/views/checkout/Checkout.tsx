@@ -31,6 +31,7 @@ const Checkout: React.FC<Props> = ({ userPayload }) => {
               name: resp?.name,
               email: resp?.email,
               photo: resp?.photo,
+              role : resp?.role
             })
           );
       })();

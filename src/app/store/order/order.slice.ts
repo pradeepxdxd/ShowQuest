@@ -1,4 +1,4 @@
-import { Order, OrderLists } from "@/firebase/actions/firebase.types";
+import { Order, OrderLists } from "@/firebase/actions/action.types";
 import { addOrder, getOrderOfUser } from "@/firebase/actions/order";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 

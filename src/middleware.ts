@@ -16,6 +16,21 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(absoluteURL.toString());
   }
 
+  // protect admin pages
+  if (!verify && req.nextUrl.pathname.startsWith("/pages/admin")) {
+    const absoluteURL = new URL("/", req.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
+  }
+
+  if (
+    verify !== undefined &&
+    verify.role === "USER" &&
+    req.nextUrl.pathname.startsWith("/pages/admin")
+  ) {
+    const absoluteURL = new URL("/", req.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
+  }
+
   // Protect apis
   if (
     !verify &&
