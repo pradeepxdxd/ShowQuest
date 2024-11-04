@@ -26,33 +26,15 @@ export default function PrimarySearchAppBar() {
               </Link>
               <Link
                 style={{ marginRight: 20, fontSize: "90%" }}
-                href={"/pages/streams"}
-              >
-                Stream
-              </Link>
-              <Link
-                style={{ marginRight: 20, fontSize: "90%" }}
                 href={"/pages/events"}
               >
                 Events
               </Link>
               <Link
                 style={{ marginRight: 20, fontSize: "90%" }}
-                href={"/pages/plays"}
+                href={"/pages/premiere"}
               >
-                plays
-              </Link>
-              <Link
-                style={{ marginRight: 20, fontSize: "90%" }}
-                href={"/pages/sports"}
-              >
-                Sports
-              </Link>
-              <Link
-                style={{ marginRight: 20, fontSize: "90%" }}
-                href={"/pages/activities"}
-              >
-                Activities
+                Premiere
               </Link>
             </Box>
             <Box sx={{ flexGrow: 0.7 }} />

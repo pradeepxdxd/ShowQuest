@@ -1,6 +1,5 @@
-'use client'
+"use client";
 import React from "react";
-import { Movie } from "@/app/types/movie.type";
 import Image from "next/image";
 import { Grid, Typography, Button, Box, Chip } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
@@ -10,9 +9,10 @@ import { useRouter } from "next/navigation";
 import { setOpen } from "@/app/store/ui/authModal.slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
+import { ShowResponse } from "@/firebase/actions/action.types";
 
 interface MovieDetailsProp {
-  data: Movie;
+  data: ShowResponse;
 }
 
 const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
@@ -22,8 +22,7 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
   const handleClick = () => {
     if (user) {
       router.push(`/pages/main/booking/${data.type}/${data.title}/${data.id}`);
-    } 
-    else dispatch(setOpen());
+    } else dispatch(setOpen());
   };
 
   return (
@@ -47,7 +46,7 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
           height: "100%",
           zIndex: 1,
           opacity: 0.2, // Faded effect
-          backgroundImage: `url(${data.image.src})`, // Use the movie poster as background
+          backgroundImage: `url(${data.image})`, // Use the movie poster as background
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "blur(5px)", // Optional: Apply a blur to the background
@@ -59,7 +58,7 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
         <Grid item xs={12} md={3}>
           <Box sx={{ position: "relative" }}>
             <Image
-              src={data.image}
+              src={data.image as string}
               alt="Dharmaveer"
               style={{
                 position: "absolute",
@@ -67,6 +66,8 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
                 borderRadius: "10px",
                 right: 0,
               }}
+              width={300}
+              height={450}
             />
           </Box>
         </Grid>
@@ -90,7 +91,7 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
           >
             <Chip
               icon={<StarIcon />}
-              label={`${data.rating} / 10 (${data.votes})`}
+              label={`${data.rating} / 10 (${data.votes}K votes)`}
               sx={{
                 backgroundColor: "#333",
                 color: "#fff",
@@ -124,7 +125,7 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
           </Box>
 
           <Typography sx={{ marginTop: "10px" }}>
-            2h 37m • {data.genre} • UA • 27 Sep, 2024
+            2h 37m • {data.genre?.join(' / ')} • UA • 27 Sep, 2024
           </Typography>
 
           <Button

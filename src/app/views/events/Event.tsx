@@ -15,7 +15,7 @@ export default function MovieData() {
     dispatch(getShowByIdData(data as string));
     return () => {
       dispatch(clearShow());
-    }
+    };
   }, [data, dispatch]);
-  return show ? <ShowDetails data={show} /> : <h3>Movie Not Found</h3>;
+  return show ? <ShowDetails data={show} /> : <h3>Event Not Found</h3>;
 }

@@ -1,15 +1,13 @@
 import React from "react";
-import { Movie } from "@/app/types/movie.type";
 import Poster from "./poster/poster";
 import { Box, Divider, Typography } from "@mui/material";
 import ProfileCarousel from "@/app/components/carousel/profile/ProfileCarousel";
 import { castData } from "@/app/data/cast/data";
 import { crewData } from "@/app/data/crew/data";
-import { LiveEventImage } from "@/app/data/live-events/data";
-import { Premiere } from "@/app/data/premiere/data";
+import { ShowResponse } from "@/firebase/actions/action.types";
 
 interface ShowDetailsProp {
-  data: Movie | LiveEventImage | Premiere;
+  data: ShowResponse
 }
 
 const MovieDetails: React.FC<ShowDetailsProp> = ({ data }) => {
