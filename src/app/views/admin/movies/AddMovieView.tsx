@@ -28,7 +28,9 @@ export default function AddMovieView() {
   const router = useRouter();
 
   useEffect(() => {
-    dispatch(getShowByIdData(id[1]));
+    if (id[1] && id[1] != undefined) {
+      dispatch(getShowByIdData(id[1]));
+    }
     return () => {
       dispatch(clearShow());
     };
@@ -73,7 +75,7 @@ export default function AddMovieView() {
                 );
               }
             }
-            if (id) {
+            if (id[1] && id[1] != undefined) {
               dispatch(
                 updateShowData({
                   id: show?.id as string,

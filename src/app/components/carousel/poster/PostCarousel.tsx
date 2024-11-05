@@ -1,22 +1,11 @@
 import MovieCard from "@/app/views/recommended-movies/MovieCard/ReMovieCard";
+import { ShowResponse } from "@/firebase/actions/action.types";
 import { Grid } from "@mui/material";
-import { StaticImageData } from "next/image";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
 
-// Define the Movie interface
-interface Movie {
-  id: number;
-  title: string;
-  image: StaticImageData;
-  rating: string;
-  votes: string;
-  genre: string;
-}
-
-// Define the props interface for the page component
 interface PageProps {
-  movies: Movie[];
+  movies: ShowResponse[];
 }
 
 const PostCarousel: React.FC<PageProps> = ({ movies }) => {

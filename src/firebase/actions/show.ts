@@ -21,7 +21,6 @@ export const addShow = async (show: Show) => {
   }
 
   try {
-    console.log({ show });
     const docRef = await addDoc(collection(db, FIREBASE_SHOW_COLLECTION), {
       ...show,
       createdAt: new Date().toString(),

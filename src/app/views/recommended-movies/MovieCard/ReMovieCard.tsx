@@ -1,19 +1,10 @@
-'use client'
+"use client";
+import { ShowResponse } from "@/firebase/actions/action.types";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
 
-interface Movie {
-  id: number;
-  title: string;
-  image: StaticImageData;
-  rating: string;
-  votes: string;
-  genre: string;
-}
-
 interface MovieCardProps {
-  movie: Movie;
+  movie: ShowResponse;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
@@ -35,7 +26,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       <CardMedia
         component="img"
         height="300"
-        image={movie.image?.src}
+        image={movie.image as string}
         alt={movie.title}
         sx={{ borderRadius: 1 }}
       />
@@ -44,7 +35,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
           {movie.title}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {movie.genre}
+          {movie.genre?.join(' / ')}
         </Typography>
       </CardContent>
     </Card>
