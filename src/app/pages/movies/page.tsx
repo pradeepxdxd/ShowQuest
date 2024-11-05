@@ -65,7 +65,7 @@ export default function Movies() {
                 </Typography>
                 {userPayload &&
                   typeof userPayload?.role === "string" &&
-                  userPayload?.role === "ADMIN" && <MovieButton />}
+                  userPayload?.role === "ADMIN" && <MovieButton showType={'movie'} />}
               </Box>
 
               <Box mt={3}>

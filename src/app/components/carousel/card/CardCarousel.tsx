@@ -1,11 +1,11 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import Carousel from "react-material-ui-carousel";
-import { LiveEventImage } from "@/app/data/live-events/data";
 import LiveEventCard from "@/app/views/live-events/LiveEventcard/LiveEventCard";
+import { ShowResponse } from "@/firebase/actions/action.types";
 
 interface LiveEvents {
-  liveEvent: LiveEventImage[];
+  liveEvent: ShowResponse[];
 }
 
 const CardCarousel: React.FC<LiveEvents> = ({ liveEvent }) => {

@@ -129,14 +129,14 @@ const Edit: React.FC<Prop> = ({ id }) => {
             const resp = await updateUser(id, {
               name: values.name,
               email: values.email,
-              photo: profileImage ? profileImage : user?.photo,
+              photo: profileImage ? profileImage : user?.photo || '',
             });
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             if (resp) {
               setUser({
                 ...user,
                 name: values.name,
-                photo: profileImage ? profileImage : user?.photo,
+                photo: profileImage ? profileImage : user?.photo || '',
               } as UserWithProp);
               toast.success("Data saved!");
             } else {

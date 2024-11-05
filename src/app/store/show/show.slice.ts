@@ -73,11 +73,27 @@ export const getShowByIdData = createAsyncThunk(
   }
 );
 
+export const getHomeShowByTypeData = createAsyncThunk(
+  "show/getHomeShowByTypeData",
+  async (type: string, { rejectWithValue }) => {
+    try {
+      const shows = await getShowByType(type);
+      return { shows, type };
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue({ error: err });
+    }
+  }
+);
+
 interface InitialState {
   loading: boolean;
   error: null | string;
   shows: ShowResponse[];
   show: ShowResponse | null;
+  homeMovies: ShowResponse[];
+  homeLiveEvent: ShowResponse[];
+  homePremiere: ShowResponse[];
 }
 
 const initialState: InitialState = {
@@ -85,6 +101,9 @@ const initialState: InitialState = {
   error: null,
   shows: [],
   show: null,
+  homeMovies: [],
+  homeLiveEvent: [],
+  homePremiere: [],
 };
 
 const showSlice = createSlice({
@@ -166,6 +185,24 @@ const showSlice = createSlice({
       state.show = action.payload as unknown as ShowResponse;
     });
     builder.addCase(getShowByIdData.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+    });
+
+    builder.addCase(getHomeShowByTypeData.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getHomeShowByTypeData.fulfilled, (state, action) => {
+      state.loading = false;
+      if (action.payload.type === "movie")
+        state.homeMovies = action.payload.shows as unknown as ShowResponse[];
+      else if (action.payload.type === "live-event")
+        state.homeLiveEvent = action.payload.shows as unknown as ShowResponse[];
+      else if (action.payload.type === "premiere")
+        state.homePremiere = action.payload.shows as unknown as ShowResponse[];
+    });
+    builder.addCase(getHomeShowByTypeData.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message as string;
     });

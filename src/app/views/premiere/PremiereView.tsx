@@ -1,18 +1,26 @@
 "use client";
-
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import premiereBannarImage from "@/app/assets/premiere/premiere-banner.jpg";
-import { premiereData } from "@/app/data/premiere/data";
+// import { premiereData } from "@/app/data/premiere/data";
 import Carousel from "react-material-ui-carousel";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { getHomeShowByTypeData } from "@/app/store/show/show.slice";
 
-export default function page() {
+export default function PremiereView() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
+  const { homePremiere } = useSelector((state: RootState) => state.show);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleClick = (id: number) => {
+  useEffect(() => {
+    dispatch(getHomeShowByTypeData("premiere"));
+  }, [dispatch]);
+
+  const handleClick = (id: string) => {
     router.push(`pages/premiere/${id}`);
   };
 
@@ -48,32 +56,34 @@ export default function page() {
           sx={{ width: "85%" }} // Adjust carousel width to fit all cards
         >
           <Box display="flex" justifyContent="center">
-            {premiereData?.map((ele) => (
-              <Card
-                key={ele.title}
-                sx={{
-                  maxWidth: 250,
-                  margin: "0 10px",
-                  bgcolor: "rgb(43, 49, 72)",
-                  cursor: "pointer",
-                }}
-                onClick={() => handleClick(ele.id)}
-              >
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image={ele.image?.src}
-                  alt={"cards"}
-                  sx={{ borderRadius: 1 }}
-                />
-                <CardContent sx={{ bgcolor: "rgb(43, 49, 72)" }}>
-                  <Typography color="white">{ele.title}</Typography>
-                  <Typography mt={1} color="white">
-                    {ele.language}
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))}
+            {homePremiere &&
+              homePremiere.length > 0 &&
+              homePremiere?.map((ele) => (
+                <Card
+                  key={ele.title}
+                  sx={{
+                    maxWidth: 250,
+                    margin: "0 10px",
+                    bgcolor: "rgb(43, 49, 72)",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleClick(ele.id as string)}
+                >
+                  <CardMedia
+                    component="img"
+                    height="300"
+                    image={ele.image as string}
+                    alt={"cards"}
+                    sx={{ borderRadius: 1 }}
+                  />
+                  <CardContent sx={{ bgcolor: "rgb(43, 49, 72)" }}>
+                    <Typography color="white">{ele.title}</Typography>
+                    <Typography mt={1} color="white">
+                      Hindi / English
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
           </Box>
         </Carousel>
       </Box>

@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Box } from "@mui/material";
 import PosterCarousel from "@/app/components/carousel/poster/PostCarousel";
-import { movies } from "@/app/data/recommanded-movies/data";
 import { StaticImageData } from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { getHomeShowByTypeData } from "@/app/store/show/show.slice";
 
 // Define the Movie interface
 interface Movie {
@@ -21,6 +23,12 @@ export interface PageProps {
 }
 
 const MovieCarousel: React.FC = () => {
+  const { homeMovies } = useSelector((state: RootState) => state.show);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getHomeShowByTypeData("movie"));
+  }, [dispatch]);
   return (
     <Box p={5}>
       <Typography
@@ -32,7 +40,7 @@ const MovieCarousel: React.FC = () => {
       >
         Recommended Movies
       </Typography>
-      <PosterCarousel movies={movies} />
+      <PosterCarousel movies={homeMovies} />
     </Box>
   );
 };
