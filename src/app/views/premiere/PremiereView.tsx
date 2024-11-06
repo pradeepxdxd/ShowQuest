@@ -50,8 +50,6 @@ export default function PremiereView() {
         width="100%"
       >
         <Carousel
-          autoPlay={false}
-          navButtonsAlwaysVisible={true}
           indicators={false}
           sx={{ width: "85%" }} // Adjust carousel width to fit all cards
         >

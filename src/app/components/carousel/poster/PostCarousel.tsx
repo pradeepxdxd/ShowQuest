@@ -16,7 +16,7 @@ const PostCarousel: React.FC<PageProps> = ({ movies, loading = true }) => {
       {loading ? (
         <>
           <Carousel
-            navButtonsAlwaysVisible
+            // navButtonsAlwaysVisible
             indicators={false}
             autoPlay={false}
             sx={{ maxWidth: "100%" }}
@@ -34,8 +34,8 @@ const PostCarousel: React.FC<PageProps> = ({ movies, loading = true }) => {
         <>
           <Carousel
             navButtonsAlwaysVisible
-            indicators={false}
-            autoPlay={false}
+            indicators={true}
+            autoPlay={true}
             sx={{ maxWidth: "100%" }}
           >
             {Array.from({ length: Math.ceil(movies.length / 5) }).map(
