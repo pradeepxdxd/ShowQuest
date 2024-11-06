@@ -88,6 +88,9 @@ export const getHomeShowByTypeData = createAsyncThunk(
 
 interface InitialState {
   loading: boolean;
+  Moviesloading: boolean;
+  LiveEventloading: boolean;
+  Premiereloading: boolean;
   error: null | string;
   shows: ShowResponse[];
   show: ShowResponse | null;
@@ -98,6 +101,9 @@ interface InitialState {
 
 const initialState: InitialState = {
   loading: false,
+  Moviesloading: false,
+  LiveEventloading: false,
+  Premiereloading: false,
   error: null,
   shows: [],
   show: null,
@@ -192,18 +198,28 @@ const showSlice = createSlice({
     builder.addCase(getHomeShowByTypeData.pending, (state) => {
       state.loading = true;
       state.error = null;
+      state.Moviesloading = true;
+      state.LiveEventloading = true;
+      state.Premiereloading = true;
     });
     builder.addCase(getHomeShowByTypeData.fulfilled, (state, action) => {
       state.loading = false;
-      if (action.payload.type === "movie")
+      if (action.payload.type === "movie") {
         state.homeMovies = action.payload.shows as unknown as ShowResponse[];
-      else if (action.payload.type === "live-event")
+        state.Moviesloading = false;
+      } else if (action.payload.type === "live-event") {
         state.homeLiveEvent = action.payload.shows as unknown as ShowResponse[];
-      else if (action.payload.type === "premiere")
+        state.LiveEventloading = false;
+      } else if (action.payload.type === "premiere") {
         state.homePremiere = action.payload.shows as unknown as ShowResponse[];
+        state.Premiereloading = false;
+      }
     });
     builder.addCase(getHomeShowByTypeData.rejected, (state, action) => {
       state.loading = false;
+      state.Moviesloading = false;
+      state.LiveEventloading = false;
+      state.Premiereloading = false;
       state.error = action.error.message as string;
     });
   },
