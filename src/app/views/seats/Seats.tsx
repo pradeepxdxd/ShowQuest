@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import {
-  getSeatDetails,
-} from "@/service/api/api";
+import { getSeatDetails } from "@/service/api/api";
 import { useParams, useRouter } from "next/navigation";
 import Title from "./Title";
 import { Box, Button, Divider, Typography } from "@mui/material";
@@ -84,7 +82,7 @@ const SeatsView = () => {
                     )}
                   </Box>
                 ))}
-              <Box
+              {/* <Box
                 mt={7}
                 display={"flex"}
                 justifyContent={"center"}
@@ -94,6 +92,29 @@ const SeatsView = () => {
                 <Typography>Screen Icon</Typography>
                 <Typography variant="caption">
                   All Eyes This way please!
+                </Typography>
+              </Box> */}
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                mt={5}
+              >
+                <Box
+                  sx={{
+                    width: 200,
+                    height: 20,
+                    bgcolor: "#e3f2fd",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                    borderRadius: "4px",
+                    transform: "perspective(500px) rotateX(10deg)",
+                    border: "1px solid #bbdefb",
+                    marginBottom: 2,
+                  }}
+                />
+                <Typography variant="caption" color="textSecondary">
+                  Here&apos;s the Screen, All eyes this way please!
                 </Typography>
               </Box>
               <Box

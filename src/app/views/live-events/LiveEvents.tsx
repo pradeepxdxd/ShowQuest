@@ -9,7 +9,7 @@ import { AppDispatch, RootState } from "@/app/store";
 import { getHomeShowByTypeData } from "@/app/store/show/show.slice";
 
 const LiveEvents: React.FC = () => {
-  const { homeLiveEvent } = useSelector((state: RootState) => state.show);
+  const { homeLiveEvent, LiveEventloading } = useSelector((state: RootState) => state.show);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const LiveEvents: React.FC = () => {
       >
         The Best of Live Events
       </Typography>
-      <CardCarousel liveEvent={homeLiveEvent} />
+      <CardCarousel liveEvent={homeLiveEvent} loading={LiveEventloading} />
     </Box>
   );
 };

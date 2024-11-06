@@ -23,7 +23,9 @@ export interface PageProps {
 }
 
 const MovieCarousel: React.FC = () => {
-  const { homeMovies } = useSelector((state: RootState) => state.show);
+  const { homeMovies, Moviesloading } = useSelector(
+    (state: RootState) => state.show
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const MovieCarousel: React.FC = () => {
       >
         Recommended Movies
       </Typography>
-      <PosterCarousel movies={homeMovies} />
+      <PosterCarousel movies={homeMovies} loading={Moviesloading} />
     </Box>
   );
 };
