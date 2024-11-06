@@ -11,7 +11,7 @@ interface LiveEvents {
 }
 
 const CardCarousel: React.FC<LiveEvents> = ({ liveEvent, loading = true }) => {
-  return loading ? (
+  return !liveEvent || liveEvent.length === 0 || loading ? (
     <>
       <Carousel indicators={false} autoPlay={false} sx={{ maxWidth: "100%" }}>
         <Grid container direction="row" justifyContent="center" spacing={3}>

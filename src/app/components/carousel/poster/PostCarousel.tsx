@@ -13,10 +13,9 @@ interface PageProps {
 const PostCarousel: React.FC<PageProps> = ({ movies, loading = true }) => {
   return (
     <>
-      {loading ? (
+      {!movies || movies.length === 0 || loading ? (
         <>
           <Carousel
-            // navButtonsAlwaysVisible
             indicators={false}
             autoPlay={false}
             sx={{ maxWidth: "100%" }}

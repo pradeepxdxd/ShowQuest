@@ -31,6 +31,7 @@ const MovieCarousel: React.FC = () => {
   useEffect(() => {
     dispatch(getHomeShowByTypeData("movie"));
   }, [dispatch]);
+
   return (
     <Box p={5}>
       <Typography
