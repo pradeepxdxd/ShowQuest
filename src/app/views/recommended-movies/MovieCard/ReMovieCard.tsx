@@ -1,11 +1,6 @@
 "use client";
 import { ShowResponse } from "@/firebase/actions/action.types";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 interface MovieCardProps {
@@ -40,7 +35,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
           {movie?.title}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {movie?.genre?.join(" / ")}
+          {movie?.genre &&
+            movie?.genre?.length > 0 &&
+            movie?.genre?.join(" / ")}
         </Typography>
       </CardContent>
     </Card>

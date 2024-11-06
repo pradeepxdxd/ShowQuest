@@ -13,12 +13,7 @@ interface LiveEvents {
 const CardCarousel: React.FC<LiveEvents> = ({ liveEvent, loading = true }) => {
   return loading ? (
     <>
-      <Carousel
-        navButtonsAlwaysVisible
-        indicators={false}
-        autoPlay={false}
-        sx={{ maxWidth: "100%" }}
-      >
+      <Carousel indicators={false} autoPlay={false} sx={{ maxWidth: "100%" }}>
         <Grid container direction="row" justifyContent="center" spacing={3}>
           {Array.from({ length: 5 }).map((_, i) => (
             <Grid item xs={6} sm={4} md={2.4} key={i}>
@@ -32,8 +27,8 @@ const CardCarousel: React.FC<LiveEvents> = ({ liveEvent, loading = true }) => {
     <>
       <Carousel
         navButtonsAlwaysVisible
-        indicators={false}
-        autoPlay={false}
+        indicators={true}
+        autoPlay={true}
         sx={{ maxWidth: "100%" }}
       >
         {Array.from({ length: Math.ceil(liveEvent.length / 5) }).map(
