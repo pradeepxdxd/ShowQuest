@@ -37,21 +37,6 @@ export default function PrimarySearchAppBar() {
                 Premiere
               </Link>
             </Box>
-            <Box sx={{ flexGrow: 0.7 }} />
-            <Box>
-              <Link style={{ marginRight: 20, fontSize: "80%" }} href={"#"}>
-                ListYourShow
-              </Link>
-              <Link style={{ marginRight: 20, fontSize: "80%" }} href={"#"}>
-                Corporates
-              </Link>
-              <Link style={{ marginRight: 20, fontSize: "80%" }} href={"#"}>
-                Offers
-              </Link>
-              <Link style={{ marginRight: 20, fontSize: "80%" }} href={"#"}>
-                Gift Cards
-              </Link>
-            </Box>
           </Toolbar>
         </AppBar>
       </Box>
