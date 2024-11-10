@@ -106,7 +106,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, maxWidth: "100%" }}>
+      <Box sx={{ flexGrow: 1, maxWidth: "100vw" }}>
         <AppBar position="static" color="inherit">
           <Toolbar>
             <Box sx={{ flexGrow: 0.15 }} />
