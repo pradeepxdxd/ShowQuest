@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import headerLogo from "@/app/assets/nav/show-quest-main-logo.png";
 import Image from "next/image";
-import { Button, FormControl, Select } from "@mui/material";
+import { Button, FormControl, Select, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import AuthModal from "@/app/components/modals/auth/AuthModal";
@@ -21,6 +21,7 @@ import useAuth from "@/app/hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { setClose, setOpen } from "@/app/store/ui/authModal.slice";
+import { useTheme, Theme } from "@mui/material/styles";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -65,6 +66,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export default function PrimarySearchAppBar() {
+  const theme: Theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.only("xs"));
+  const isSm = useMediaQuery(theme.breakpoints.only("sm"));
+  const isMd = useMediaQuery(theme.breakpoints.only("md"));
+  const isLg = useMediaQuery(theme.breakpoints.only("lg"));
+  const isXl = useMediaQuery(theme.breakpoints.only("xl"));
+
   const { open } = useSelector((state: RootState) => state.authModal);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -106,7 +114,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, maxWidth: "100vw" }}>
+      {/* <Box sx={{ flexGrow: 1, maxWidth:'100vw' }}>
         <AppBar position="static" color="inherit">
           <Toolbar>
             <Box sx={{ flexGrow: 0.15 }} />
@@ -146,7 +154,6 @@ export default function PrimarySearchAppBar() {
               </FormControl>
             </Box>
 
-            {/* Sign In Button */}
             {user ? null : (
               <Box mr={2}>
                 <Button
@@ -176,7 +183,88 @@ export default function PrimarySearchAppBar() {
             </Box>
           </Toolbar>
         </AppBar>
+      </Box> */}
+
+      <Box sx={{ flexGrow: 1, maxWidth: "100vw" }}>
+        <AppBar position="static" color="inherit">
+          <Toolbar>
+            <Box sx={{ flexGrow: isXs ? 0 : 0.15 }} />
+
+            <Image
+              src={headerLogo}
+              alt="Show Quest"
+              width={isXs ? 60 : isSm ? 80 : isMd ? 90 : isLg ? 100 : 120}
+              height={isXs ? 12 : isSm ? 16 : isMd ? 18 : isLg ? 20 : 24}
+              className={styles.clickable}
+              onClick={() => router.push("/")}
+            />
+
+            {(isMd || isLg || isXl) && (
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search for Movies"
+                  inputProps={{ "aria-label": "search" }}
+                  style={{ width: isMd ? "300px" : isLg ? "400px" : "500px" }}
+                />
+              </Search>
+            )}
+
+            <Box sx={{ flexGrow: isXs ? 1 : 0.7 }} />
+
+            <Box mr={isXs ? 0 : 2}>
+              <FormControl
+                variant="standard"
+                sx={{ m: 1, minWidth: isXs ? 60 : isSm ? 80 : 120 }}
+              >
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={"Indore"}
+                  disableUnderline
+                >
+                  <MenuItem value={"Indore"}>Indore</MenuItem>
+                  <MenuItem value={"Pune"}>Pune</MenuItem>
+                  <MenuItem value={"Mumbai"}>Mumbai</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+
+            {user ? null : (
+              <Box mr={isXs ? 0 : 2}>
+                <Button
+                  color="error"
+                  sx={{
+                    bgcolor: "rgb(248, 68, 100)",
+                    color: "white",
+                    height: isXs ? "25px" : isSm ? "28px" : "30px",
+                    fontSize: isXs ? "0.7rem" : isSm ? "0.8rem" : "1rem",
+                  }}
+                  onClick={handleSignInClick}
+                >
+                  Sign In
+                </Button>
+              </Box>
+            )}
+
+            <Box>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                sx={{ mr: isXs ? 0 : 2, mx: isXs ? 1 : 0 }}
+                onClick={handleHamburger}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
       </Box>
+
       <AuthModal open={open} handleClose={handleClose} />
       <CustomDrawer state={state} toggleDrawer={toggleDrawer} />
     </>
