@@ -28,7 +28,7 @@ const LiveEventCard: React.FC<MovieCardProps> = ({ liveEvent }) => {
         height="300"
         image={liveEvent.image as string}
         alt={"cards"}
-        sx={{ borderRadius: 1 }}
+        sx={{ borderRadius: 1, height:'revert-layer' }}
       />
     </Card>
   );

@@ -56,6 +56,7 @@ const CustomMovieCard: React.FC<CustomMovieCardProps> = ({
           alt={card.title}
           sx={{
             borderRadius: 1,
+            height:'revert-layer'
           }}
         />
         <CardContent>
