@@ -47,7 +47,7 @@ export const googleSignIn = createAsyncThunk(
           return;
         }
         const resp = await axios.post(`/api/auth/token`, {
-          id: result.user.uid,
+          id: fbResp.id,
           role: fbResp.role,
         });
         const customToken = resp.data.token;

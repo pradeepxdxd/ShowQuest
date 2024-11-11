@@ -6,7 +6,7 @@ import {
   where,
   doc,
   updateDoc,
-  setDoc,
+  // setDoc,
   getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
@@ -84,21 +84,36 @@ export const addGoogleUser = async (
     return;
   }
   try {
-    const userRef = doc(db, "auth", user.uid);
-    const userSpan = await getDoc(userRef);
-
-    if (!userSpan.exists()) {
-      const userCreated = await setDoc(userRef, {
-        email: user.email,
-        name: user.displayName,
-        photo: user.photoURL,
-        role: "USER",
-        createdAt: new Date(),
-      });
-      return userCreated;
-    } else {
-      return userSpan.data() as ResponseUser;
+    // check the email is exist or not
+    const existantUser = (await getUserByEmail(
+      user.email as string
+    )) as unknown as UserWithProp[];
+    if (existantUser && existantUser.length > 0) {
+      if (existantUser[0]?.email === user.email) {
+        return {
+          id: existantUser[0]?.id,
+          name: existantUser[0]?.name,
+          role: existantUser[0]?.role,
+          photo: existantUser[0]?.photo,
+          email: existantUser[0]?.email,
+        };
+      }
     }
+
+    const docRef = await addDoc(collection(db, "auth"), {
+      email: user.email,
+      name: user?.displayName,
+      role: "USER",
+      photo: user.photoURL,
+      createdAt: new Date().toString(),
+    });
+    const docSnapShot = await getDoc(docRef);
+    if (docSnapShot.exists()) {
+      return {
+        id: docSnapShot.id,
+        ...docSnapShot.data(),
+      } as ResponseUser;
+    } else throw new Error("User not created, firebase server error");
   } catch (err) {
     if (err instanceof Error) {
       console.log({ firebaseErr: err.message });
