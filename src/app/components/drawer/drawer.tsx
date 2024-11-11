@@ -224,7 +224,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
               color="error"
               sx={{
                 width: "80%",
-                position: "absolute",
+                position: "sticky",
                 bottom: "20px",
                 // bgcolor: "rgb(248, 68, 100)",
               }}
