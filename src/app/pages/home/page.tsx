@@ -2,7 +2,7 @@ import Carousel from "@/app/components/carousel/fullsize/FullSizeCarousel";
 import RecommendedMovies from "../../views/recommended-movies/ReMoviesView";
 import Poster from "../../views/poster/PosterView";
 import LiveEvents from "@/app/views/live-events/LiveEvents";
-import Premiere from "@/app/views/premiere/PremiereView";
+import PremiereView from "@/app/views/premiere/PremiereView";
 import { Box } from "@mui/material";
 
 const home = () => {
@@ -23,7 +23,7 @@ const home = () => {
       </Box>
 
       <Box bgcolor={"rgb(43, 49, 72)"}>
-        <Premiere />
+        <PremiereView />
       </Box>
     </>
   );

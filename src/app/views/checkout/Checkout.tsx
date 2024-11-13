@@ -45,7 +45,7 @@ const Checkout: React.FC<Props> = ({ userPayload }) => {
         justifyContent={"center"}
         alignItems={"center"}
         width={"100%"}
-        m={3}
+        my={3}
       >
         <Box width={"85%"}>
           <Grid container spacing={2}>

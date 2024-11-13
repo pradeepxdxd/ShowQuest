@@ -82,18 +82,6 @@ const SeatsView = () => {
                     )}
                   </Box>
                 ))}
-              {/* <Box
-                mt={7}
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                flexDirection={"column"}
-              >
-                <Typography>Screen Icon</Typography>
-                <Typography variant="caption">
-                  All Eyes This way please!
-                </Typography>
-              </Box> */}
               <Box
                 display="flex"
                 flexDirection="column"

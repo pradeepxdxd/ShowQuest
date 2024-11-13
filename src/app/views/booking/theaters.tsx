@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
+import useResponsive from "@/app/hooks/useResponsive";
 
 interface TheaterType {
   data: Theater[];
@@ -18,6 +19,7 @@ interface TheaterType {
 }
 
 const TheaterList: React.FC<TheaterType> = ({ data, showid }) => {
+  const {showCardCount} = useResponsive()
   return (
     <>
       {data &&
@@ -33,7 +35,7 @@ const TheaterList: React.FC<TheaterType> = ({ data, showid }) => {
                 }
                 secondary={
                   <React.Fragment>
-                    <Box display={"flex"}>
+                    <Box display={"flex"} flexDirection={showCardCount === 2 ? 'column' : 'row'}>
                       <IconButton>
                         <BookOnlineIcon sx={{ color: "#0ed20e" }} />{" "}
                         <Typography

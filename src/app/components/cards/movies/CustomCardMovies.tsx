@@ -1,4 +1,3 @@
-// import type { MovieCardProps, Movie } from "@/app/types/movie.type";
 import CustomMovieCards from "./movie-card/CustomMovieCard";
 import { Grid } from "@mui/material";
 import { ShowResponse } from "@/firebase/actions/action.types";

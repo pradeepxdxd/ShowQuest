@@ -3,7 +3,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 
 export default function useResponsive() {
-  const [showCardCount, setShowCArdCount] = useState<number>(0);
+  const [showCardCount, setShowCArdCount] = useState<number>(2);
   const theme: Theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
   const isSm = useMediaQuery(theme.breakpoints.only("sm"));

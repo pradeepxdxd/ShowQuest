@@ -107,6 +107,7 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
               <Grid
                 item
                 sm={3}
+                xs={3}
                 display={"flex"}
                 justifyContent={"center"}
                 alignItems={"center"}
@@ -116,12 +117,12 @@ const AnchorTemporaryDrawer: React.FC<DrawerProp> = ({
                   alt="game"
                 />
               </Grid>
-              <Grid item sm={6}>
+              <Grid item sm={6} xs={5}>
                 <Typography variant="subtitle2">
                   Unlock special offers and great benefits
                 </Typography>
               </Grid>
-              <Grid item sm={3}>
+              <Grid item sm={3} xs={4}>
                 <Button
                   variant="outlined"
                   color="error"
