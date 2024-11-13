@@ -28,7 +28,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         height="300"
         image={movie.image as string}
         alt={movie.title}
-        sx={{ borderRadius: 1 }}
+        sx={{
+          borderRadius: 1,
+          height: "revert-layer",
+        }}
       />
       <CardContent>
         <Typography variant="h6" component="div" gutterBottom>
