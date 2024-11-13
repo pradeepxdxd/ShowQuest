@@ -17,13 +17,6 @@ const ShowBooking = () => {
   const { show } = useSelector((state: RootState) => state.show);
   const dispatch = useDispatch<AppDispatch>();
 
-  // const show =
-  //   id[0] === "movie"
-  //     ? getMovies(Number(id[2]))
-  //     : id[0] === "live-event"
-  //     ? getLiveEvent(Number(id[2]))
-  //     : getPremiereMovies(Number(id[2]));
-
   useEffect(() => {
     dispatch(setShowType(id[0]));
     dispatch(getShowByIdData(id[2]));

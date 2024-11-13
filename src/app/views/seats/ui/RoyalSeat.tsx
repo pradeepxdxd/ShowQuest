@@ -5,6 +5,7 @@ import { getRandomNumber } from "@/app/utils/random/random";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import { addClientSeatDetails, addSeat } from "@/app/store/ui/seat.slice";
+import useResponsive from "@/app/hooks/useResponsive";
 
 interface RoyalSeatType {
   clientSeats: Seat[];
@@ -21,7 +22,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
     [key: string | number]: HTMLButtonElement | null;
   }>({});
   const dispatch = useDispatch<AppDispatch>();
-
+  const { showCardCount } = useResponsive();
   const handleButtonClick = (
     st_key: string | number,
     st_seatNo: string | number,
@@ -45,14 +46,13 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
           <Grid item sm={1}>
             {seat.id}
           </Grid>
-          <Grid item sm={2.5} display={"flex"}>
+          <Grid item xs={12} sm={12} md={12} lg={2.5} display={"flex"}>
             {seat.left.length > 0 &&
               seat.left.map((st) => {
                 const isDisabled = getRandomNumber() === 1;
                 return (
                   <Button
                     key={st.key}
-                    // ref={(el) => (buttonsRef.current[st.key] = el)}
                     ref={(el) => {
                       if (el) {
                         buttonsRef.current[st.key] = el;
@@ -61,7 +61,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                     sx={{
                       mx: "1px",
                       width: "0.5px",
-                      height: "30px",
+                      height: showCardCount === 2 ? "20px" : "30px",
                       minWidth: 0,
                       backgroundColor: "transparent",
                     }}
@@ -75,14 +75,13 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                 );
               })}
           </Grid>
-          <Grid item sm={6} display={"flex"}>
+          <Grid item xs={12} sm={12} md={12} lg={6} display={"flex"}>
             {seat.middle.length > 0 &&
               seat.middle.map((st) => {
                 const isDisabled = getRandomNumber() === 1;
                 return (
                   <Button
                     key={st.key}
-                    // ref={(el) => (buttonsRef.current[st.key] = el)}
                     ref={(el) => {
                       if (el) {
                         buttonsRef.current[st.key] = el;
@@ -91,7 +90,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                     sx={{
                       mx: "1px",
                       width: "0.5px",
-                      height: "30px",
+                      height: showCardCount === 2 ? "20px" : "30px",
                       minWidth: 0,
                       backgroundColor: "transparent",
                     }}
@@ -106,8 +105,11 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
               })}
           </Grid>
           <Grid
+            xs={12}
             item
-            sm={2.5}
+            sm={12}
+            md={12}
+            lg={2.5}
             display={"flex"}
             justifyContent={"end"}
             sx={{ width: "100%" }}
@@ -118,7 +120,6 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                 return (
                   <Button
                     key={st.key}
-                    // ref={(el) => (buttonsRef.current[st.key] = el)}
                     ref={(el) => {
                       if (el) {
                         buttonsRef.current[st.key] = el;
@@ -127,7 +128,7 @@ const RoyalSeat: React.FC<RoyalSeatType> = ({
                     sx={{
                       mx: "1px",
                       width: "0.5px",
-                      height: "30px",
+                      height: showCardCount === 2 ? "20px" : "30px",
                       minWidth: 0,
                       backgroundColor: "transparent",
                     }}

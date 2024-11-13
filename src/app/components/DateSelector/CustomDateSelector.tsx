@@ -16,15 +16,13 @@ export default function CustomDateSelector() {
 
   return (
     <div>
-      <Box display={"flex"} mx={1}>
+      <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
         <IconButton>
           <ArrowBackIos />
         </IconButton>
         {days &&
           days.length > 0 &&
-          days.map((day) => (
-            <CustomDateButton key={day.date} day={day} />
-          ))}
+          days.map((day) => <CustomDateButton key={day.date} day={day} />)}
         <IconButton>
           <ArrowForwardIosIcon />
         </IconButton>

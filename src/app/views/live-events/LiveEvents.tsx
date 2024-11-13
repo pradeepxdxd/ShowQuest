@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { Typography, Box } from "@mui/material";
 import CardCarousel from "@/app/components/carousel/card/CardCarousel";
-// import { liveEvent } from "@/app/data/live-events/data";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { getHomeShowByTypeData } from "@/app/store/show/show.slice";

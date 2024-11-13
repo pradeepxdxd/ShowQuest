@@ -4,7 +4,7 @@ import React from "react";
 export default function CustomSelect() {
   return (
     <>
-      <FormControl sx={{ m: 1, minWidth: 170 }} size="small">
+      <FormControl sx={{ m: 1, }} size="small">
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
