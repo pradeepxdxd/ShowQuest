@@ -6,6 +6,7 @@ import CustomChip from "@/app/components/chip/CustomChip";
 import { Box, Grid, Typography } from "@mui/material";
 import { getUserPayloadData } from "@/app/server/uid";
 import MovieButton from "@/app/views/admin/movies/MovieButton";
+import Label from "@/app/components/label/Label";
 
 const lang: string[] = [
   "English",
@@ -26,7 +27,7 @@ export default function Movies() {
     <>
       <Carousel />
       <Grid container spacing={3}>
-        <Grid item lg={4}>
+        <Grid item lg={4} md={4}>
           <Box mt={7}>
             <Typography
               variant="h5"
@@ -47,7 +48,7 @@ export default function Movies() {
             </Box>
           </Box>
         </Grid>
-        <Grid item lg={8}>
+        <Grid item lg={8} md={8}>
           <Box mt={7}>
             <Box display={"flex"} flexDirection={"column"}>
               <Box
@@ -56,13 +57,7 @@ export default function Movies() {
                 alignItems={"center"}
                 width="88%"
               >
-                <Typography
-                  variant="h5"
-                  fontWeight={"normal"}
-                  textAlign={"left"}
-                >
-                  Premiere Movies In Indore
-                </Typography>
+                <Label text="Premiere Movies In Indore" />
                 {userPayload &&
                   typeof userPayload?.role === "string" &&
                   userPayload?.role === "ADMIN" && (
@@ -80,7 +75,7 @@ export default function Movies() {
               display={"flex"}
               justifyContent={"center"}
               alignItems={"center"}
-              width={900}
+              maxWidth={900}
             >
               <MoviesInCity userPayload={userPayload} showType={"premiere"} />
             </Box>

@@ -16,6 +16,7 @@ import { isValidImage, profileValidation } from "@/app/validations/profile";
 import { updateUser } from "@/firebase/actions/user";
 import AddPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { convertImageFileToBase64 } from "@/app/utils/image/image";
+import useResponsive from "@/app/hooks/useResponsive";
 
 interface Prop {
   id: string;
@@ -25,6 +26,8 @@ const Edit: React.FC<Prop> = ({ id }) => {
   const [user, setUser] = useState<UserWithProp | null>(null);
   const [hover, setHover] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const { showCardCount } = useResponsive();
 
   useEffect(() => {
     getUserById(id)
@@ -62,7 +65,7 @@ const Edit: React.FC<Prop> = ({ id }) => {
       alignItems={"center"}
       my={2}
     >
-      <Box sx={{ width: "60%" }}>
+      <Box sx={{ maxWidth: "60%" }}>
         <Box
           sx={{
             height: "90px",
@@ -70,7 +73,7 @@ const Edit: React.FC<Prop> = ({ id }) => {
             borderRadius: "5px 5px 0 0",
           }}
         >
-          <Box display={"flex"} ml={7}>
+          <Box display={"flex"} ml={showCardCount <= 3 ? 4 : 7}>
             <div
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
@@ -82,8 +85,8 @@ const Edit: React.FC<Prop> = ({ id }) => {
                       bgcolor: "rgba(0, 0, 0, 0.5)",
                       borderRadius: "50%",
                       cursor: "pointer",
-                      height: "80px",
-                      width: "80px",
+                      height: showCardCount <= 3 ? "50px" : "80px",
+                      width: showCardCount <= 3 ? "50px" : "80px",
                       mt: 3,
                     }}
                     onChange={handleImageUpload}
@@ -98,7 +101,11 @@ const Edit: React.FC<Prop> = ({ id }) => {
                       }}
                     />
                     <AddPhotoIcon
-                      sx={{ color: "#fff", fontSize: 40, cursor: "pointer" }}
+                      sx={{
+                        color: "#fff",
+                        fontSize: showCardCount <= 3 ? 30 : 40,
+                        cursor: "pointer",
+                      }}
                     />
                   </Box>
                 </>
@@ -107,12 +114,19 @@ const Edit: React.FC<Prop> = ({ id }) => {
                   <Avatar
                     src={profileImage ? profileImage : user?.photo}
                     alt={user?.name}
-                    sx={{ width: "80px", height: "80px", mt: 3 }}
+                    sx={{
+                      width: showCardCount <= 3 ? "50px" : "80px",
+                      height: showCardCount <= 3 ? "50px" : "80px",
+                      mt: 3,
+                    }}
                   />
                 </>
               )}
             </div>
-            <Typography variant="h6" sx={{ mt: 6, color: "white", ml: 2 }}>
+            <Typography
+              variant={showCardCount <= 3 ? "body2" : "h6"}
+              sx={{ mt: showCardCount <= 3 ? 4 : 6, color: "white", ml: 2 }}
+            >
               Hii, {user?.name || "Guest"}
             </Typography>
           </Box>
@@ -129,14 +143,14 @@ const Edit: React.FC<Prop> = ({ id }) => {
             const resp = await updateUser(id, {
               name: values.name,
               email: values.email,
-              photo: profileImage ? profileImage : user?.photo || '',
+              photo: profileImage ? profileImage : user?.photo || "",
             });
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             if (resp) {
               setUser({
                 ...user,
                 name: values.name,
-                photo: profileImage ? profileImage : user?.photo || '',
+                photo: profileImage ? profileImage : user?.photo || "",
               } as UserWithProp);
               toast.success("Data saved!");
             } else {
@@ -150,12 +164,17 @@ const Edit: React.FC<Prop> = ({ id }) => {
               <Form>
                 <Box mt={4}>
                   <Grid container spacing={3}>
-                    <Grid item sm={12}>
-                      <Typography variant="body1" ml={15}>
-                        Account Details
-                      </Typography>
+                    <Grid
+                      item
+                      sm={5}
+                      xs={showCardCount <= 3 ? 7 : 5}
+                      display={"flex"}
+                      justifyContent={"center"}
+                    >
+                      <Typography variant="body1">Account Details</Typography>
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid item sm={7} xs={showCardCount <= 3 ? 5 : 7}></Grid>
+                    <Grid item sm={3} xs={3}>
                       <Box
                         sx={{
                           display: "flex",
@@ -166,7 +185,7 @@ const Edit: React.FC<Prop> = ({ id }) => {
                         <Typography variant="body2">Email Address</Typography>
                       </Box>
                     </Grid>
-                    <Grid item sm={9}>
+                    <Grid item sm={9} xs={9}>
                       <Field
                         disabled
                         name="email"
@@ -177,7 +196,7 @@ const Edit: React.FC<Prop> = ({ id }) => {
                         onChange={handleChange}
                       />
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid item sm={3} xs={3}>
                       <Box
                         sx={{
                           display: "flex",
@@ -188,7 +207,7 @@ const Edit: React.FC<Prop> = ({ id }) => {
                         <Typography variant="body2">User Name</Typography>
                       </Box>
                     </Grid>
-                    <Grid item sm={9}>
+                    <Grid item sm={9} xs={9}>
                       <Field
                         name="name"
                         type="text"
@@ -203,8 +222,9 @@ const Edit: React.FC<Prop> = ({ id }) => {
                 </Box>
                 <Box
                   display={"flex"}
-                  justifyContent={"flex-end"}
+                  justifyContent={showCardCount <= 3 ? "center" : "flex-end"}
                   width={"100%"}
+                  mt={2}
                 >
                   <Button
                     startIcon={
