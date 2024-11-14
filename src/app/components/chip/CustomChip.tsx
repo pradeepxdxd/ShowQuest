@@ -8,9 +8,17 @@ interface CustomChipProps {
 
 const CustomChip: React.FC<CustomChipProps> = ({ labels }) => {
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
       {labels?.map((label: string, index: number) => (
-        <Chip key={index} label={label} variant="outlined" sx={{color:'rgb(220, 53, 75)', cursor:'pointer'}} />
+        <Chip
+          key={index}
+          label={label}
+          variant="outlined"
+          sx={{
+            color: "rgb(220, 53, 75)",
+            cursor: "pointer",
+          }}
+        />
       ))}
     </Stack>
   );
