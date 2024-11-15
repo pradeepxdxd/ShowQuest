@@ -4,9 +4,13 @@ import { getSeatDetails } from "@/service/api/api";
 import { useParams, useRouter } from "next/navigation";
 import Title from "./Title";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import SeatInsignia from "./ui/SeatInsignia";
 import SeatCard from "./ui/SeatCard";
-import { royalSeats, clubSeats, executiveSeats } from "@/app/data/seats/data";
+import {
+  royalSeats,
+  clubSeats,
+  executiveSeats,
+  insigniaSeats,
+} from "@/app/data/seats/data";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
@@ -50,36 +54,45 @@ const SeatsView = () => {
             image={show.image as string}
           />
           <Divider />
-          <Box
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            width={"auto"}
-          >
-            <Box width={"65vw"}>
+          <Box mt={5} overflow="auto" display="flex" justifyContent="center">
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              sx={{
+                padding: "0 10px",
+                overflowX: "auto",
+                minWidth: "80vw", // Ensure it takes the full width
+                maxWidth: "80%",
+              }}
+            >
               {timeDetails.price &&
                 timeDetails.price.length > 0 &&
                 timeDetails.price.map((td) => (
-                  <Box key={td.id} mt={5}>
-                    {td.seatType === "Insignia" ||
-                    td.seatType === "Royal Club" ? (
-                      <SeatInsignia price={`Rs. ${td.cost} ${td.seatType}`} />
-                    ) : (
-                      <SeatCard
-                        price={`Rs. ${td.cost} ${td.seatType}`}
-                        cost={td.cost}
-                        seatType={td.seatType}
-                        clientSeats={
-                          td.seatType === "Royal"
-                            ? royalSeats
-                            : td.seatType === "CLUB"
-                            ? clubSeats
-                            : td.seatType === "EXECUTIVE"
-                            ? executiveSeats
-                            : executiveSeats
-                        }
-                      />
-                    )}
+                  <Box
+                    key={td.id}
+                    sx={{ overflowX: "auto" }}
+                    minWidth="100%"
+                    mt={2}
+                  >
+                    <SeatCard
+                      price={`Rs. ${td.cost} ${td.seatType}`}
+                      cost={td.cost}
+                      seatType={td.seatType}
+                      clientSeats={
+                        td.seatType === "Royal"
+                          ? royalSeats
+                          : td.seatType === "CLUB"
+                          ? clubSeats
+                          : td.seatType === "EXECUTIVE"
+                          ? executiveSeats
+                          : td.seatType === "Insignia" ||
+                            td.seatType === "Royal Club"
+                          ? insigniaSeats
+                          : insigniaSeats
+                      }
+                    />
                   </Box>
                 ))}
               <Box
@@ -108,9 +121,9 @@ const SeatsView = () => {
               <Box
                 mt={7}
                 mb={2}
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
               >
                 <Typography mx={3}>
                   <span style={{ margin: "0px 4px" }}>
@@ -155,26 +168,24 @@ const SeatsView = () => {
       )}
       {totalSeats > 0 && (
         <Box
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          width={"100%"}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
           height={75}
           sx={{ bgcolor: "#f5f5f5" }}
-          position={"sticky"}
-          bottom={0} // Make sure to define bottom for sticky
-          zIndex={1000} // Ensure it is above other elements
+          position="sticky"
+          bottom={0}
+          zIndex={1000}
         >
-          <Box>
-            <Button
-              variant="contained"
-              color="error"
-              sx={{ width: "26vw" }}
-              onClick={handleCheckout}
-            >
-              Pay Rs.{totalSeats}
-            </Button>
-          </Box>
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ width: "26vw" }}
+            onClick={handleCheckout}
+          >
+            Pay Rs.{totalSeats}
+          </Button>
         </Box>
       )}
     </>
