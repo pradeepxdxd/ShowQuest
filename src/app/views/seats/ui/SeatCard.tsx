@@ -21,8 +21,8 @@ const SeatCard: React.FC<SeatCardType> = ({
       <Box>
         <Typography variant="caption">{price}</Typography>
         <Divider />
-        <Box mt={2}>
-          <Grid container spacing={2}>
+        <Box mt={4}>
+          <Grid container spacing={2} >
             <RoyalSeat
               clientSeats={clientSeats}
               cost={cost}

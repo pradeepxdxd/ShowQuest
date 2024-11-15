@@ -10,12 +10,14 @@ import { setOpen } from "@/app/store/ui/authModal.slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import { ShowResponse } from "@/firebase/actions/action.types";
+import useResponsive from "@/app/hooks/useResponsive";
 
 interface MovieDetailsProp {
   data: ShowResponse;
 }
 
 const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
+  const { showCardCount } = useResponsive();
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const user = useAuth();
@@ -55,14 +57,15 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
 
       <Grid container spacing={3} sx={{ position: "relative", zIndex: 1 }}>
         {/* Movie Poster Section */}
-        <Grid item xs={12} md={3}>
+        <Grid item xs={3} sm={3} md={3}>
           <Box sx={{ position: "relative" }}>
             <Image
               src={data.image as string}
               alt="Dharmaveer"
               style={{
+                top:showCardCount === 3 ? 60 : showCardCount === 2 ? 110 : 0,
                 position: "absolute",
-                width: "70%",
+                // width: "70%",
                 borderRadius: "10px",
                 right: 0,
               }}
@@ -73,11 +76,21 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
         </Grid>
 
         {/* Movie Details Section */}
-        <Grid item xs={12} md={8}>
+        <Grid item xs={8} sm={8} md={8}>
           <Box
             sx={{ display: "flex", justifyContent: "space-between", mt: 10 }}
           >
-            <Typography variant="h4">{data.title}</Typography>
+            <Typography
+              variant={
+                showCardCount === 3
+                  ? "h5"
+                  : showCardCount === 2
+                  ? "h6"
+                  : "h4"
+              }
+            >
+              {data.title}
+            </Typography>
             <Button
               startIcon={<ShareIcon />}
               sx={{ color: "#fff", borderRadius: "5px" }}
@@ -125,7 +138,7 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
           </Box>
 
           <Typography sx={{ marginTop: "10px" }}>
-            2h 37m • {data.genre?.join(' / ')} • UA • 27 Sep, 2024
+            2h 37m • {data.genre?.join(" / ")} • UA • 27 Sep, 2024
           </Typography>
 
           <Button
