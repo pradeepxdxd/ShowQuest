@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -7,7 +7,7 @@ import {
   clearEmail,
   clearError,
   loginWithGmail,
-  setVerifiedFalse,
+  // setVerifiedFalse,
   verifyOtp,
 } from "@/app/store/auth/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,16 +45,16 @@ export const OTP: React.FC<OTPProp> = ({
 
   useEffect(() => {
     if (verified) {
-      toast.success("Logged in successfully");
+      // toast.success("Logged in successfully");
       setShowEmailInput(false);
       setShowOTPInput(false);
-      dispatch(setVerifiedFalse());
+      // dispatch(setVerifiedFalse());
     }
     if (error !== null && !isEmpty(error)) {
       toast.error("Invalid OTP");
       dispatch(clearError());
     }
-  }, [setShowEmailInput, setShowOTPInput, verified, error]);
+  }, [setShowEmailInput, setShowOTPInput, verified, error, dispatch]);
 
   const handleSubmit = () => {
     // if (flag === "email") {
