@@ -1,5 +1,3 @@
-import { auth } from "@/firebase/firebase.config";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect } from "react";
 import { getCookie } from "@/app/server/cookie";
 import { AppDispatch, RootState } from "../store";
@@ -8,8 +6,6 @@ import { setToken } from "@/app/store/auth/auth.slice";
 import { verifyJoseToken } from "../lib/jose.auth";
 
 const useAuth = () => {
-  const [user] = useAuthState(auth);
-
   const { token } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -17,19 +13,23 @@ const useAuth = () => {
     const fetchToken = async () => {
       try {
         const cookie = await getCookie("token");
-        const result = await verifyJoseToken(cookie?.value as string)
+        const result = await verifyJoseToken(cookie?.value as string);
         if (result) {
           dispatch(setToken(cookie?.value));
         }
+        else {
+          dispatch(setToken(null));
+        }
       } catch (error) {
-        dispatch(setToken(undefined));
+        dispatch(setToken(''));
         console.log(error);
       }
     };
 
     fetchToken();
-  }, []);
-  return user || token;
+  }, [dispatch]);
+
+  return token ? token : null;
 };
 
 export default useAuth;

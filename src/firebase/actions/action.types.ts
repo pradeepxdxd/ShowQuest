@@ -29,6 +29,7 @@ export interface ResponseUser {
   photo?: string;
   role: Role;
   createdAt?: string;
+  token?: string
 }
 
 export interface Show {

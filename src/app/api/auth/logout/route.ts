@@ -4,12 +4,13 @@ export async function GET() {
   try {
     const tokenCookie = removeCookie("token");
     const roleCookie = removeCookie("role");
+    const refreshToken = removeCookie("refreshToken");
     return new Response(
       JSON.stringify({ message: "Logged out successfully" }),
       {
         status: 200,
         headers: {
-          "Set-Cookie": `${tokenCookie}, ${roleCookie}`, // Set the cookie to delete it
+          "Set-Cookie": `${tokenCookie}, ${roleCookie}, ${refreshToken}`, // Set the cookie to delete it
           "Content-Type": "application/json",
         },
       }

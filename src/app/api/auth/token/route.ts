@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateJoseToken } from "@/app/lib/jose.auth";
+import { generateJoseRefreshToken, generateJoseToken } from "@/app/lib/jose.auth";
 import { Role } from "@/firebase/actions/action.types";
 
 export async function POST(req: NextRequest) {
@@ -8,8 +8,9 @@ export async function POST(req: NextRequest) {
       id: string;
       role: Role;
     };
-    const token = await generateJoseToken({ id, role });
-    return NextResponse.json({ token }, { status: 200 });
+    const accessToken = await generateJoseToken({ id, role });
+    const refreshToken = await generateJoseRefreshToken({ id, role });
+    return NextResponse.json({ token:accessToken, refreshToken }, { status: 200 });
   } catch (err) {
     console.log({ err });
     return NextResponse.json(
