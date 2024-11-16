@@ -14,7 +14,10 @@ import {
 } from "firebase/auth";
 import axios, { AxiosError } from "axios";
 import { addGoogleUser, addUser } from "@/firebase/actions/user";
-import { generateJoseToken } from "@/app/lib/jose.auth";
+import {
+  generateJoseRefreshToken,
+  generateJoseToken,
+} from "@/app/lib/jose.auth";
 import { ResponseUser } from "@/firebase/actions/action.types";
 import useCookies from "@/app/hooks/useCookies";
 
@@ -50,14 +53,11 @@ export const googleSignIn = createAsyncThunk(
           id: fbResp.id,
           role: fbResp.role,
         });
-        const customToken = resp.data.token;
-        document.cookie = `token=${customToken}; path=/; max-age=${
-          30 * 24 * 60 * 60
-        }`;
-        document.cookie = `role=${fbResp.role}; path=/; max-age=${
-          30 * 24 * 60 * 60
-        }`;
-        return { ...result.user, role: fbResp.role };
+        const { token, refreshToken } = resp.data;
+        document.cookie = `token=${token}; path=/; max-age=5`;
+        document.cookie = `refreshToken=${refreshToken}; path=/; max-age=2592000`;
+        document.cookie = `role=${fbResp.role}; path=/; max-age=2592000`;
+        return { ...result.user, role: fbResp.role, token };
       }
       return result.user;
     } catch (err) {
@@ -116,13 +116,14 @@ export const verifyOtp = createAsyncThunk(
             id: docResponse.id,
             role: docResponse.role,
           });
+          const refreshToken = await generateJoseRefreshToken({
+            id: docResponse.id,
+            role: docResponse.role,
+          });
           if (token) {
-            document.cookie = `token=${token}; path=/; max-age=${
-              30 * 24 * 60 * 60
-            }`;
-            document.cookie = `role=${docResponse.role}; path=/; max-age=${
-              30 * 24 * 60 * 60
-            }`;
+            document.cookie = `token=${token}; path=/; max-age=5`;
+            document.cookie = `refreshToken=${refreshToken}; path=/; max-age=2592000`;
+            document.cookie = `role=${docResponse.role}; path=/; max-age=2592000`;
             return { ...docResponse, token };
           } else
             return rejectWithValue({
@@ -253,6 +254,10 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = action.payload as unknown as ResponseUser;
       state.verified = true;
+      state.token =
+        action.payload && "token" in action.payload
+          ? (action.payload as unknown as ResponseUser)?.token
+          : undefined;
     });
     builder.addCase(googleSignIn.rejected, (state, action) => {
       state.loading = false;

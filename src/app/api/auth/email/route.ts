@@ -39,33 +39,17 @@ export async function POST(req: Request) {
         }
       );
     } else if (action === "verifyOtp") {
-      if (otp === otpCode) {
-        // const token = await generateJoseToken({name:'', email:email});
-        // if (token) {
-        // const cookie = createCookie(token);
+      if (otpCode !== undefined && otp === otpCode) {
         otp = undefined;
         return new Response(
           JSON.stringify({
             message: "Logged In successfully",
-            // cookie,
             email,
           }),
           {
             status: 200,
-            // headers: {
-            //   "Set-Cookie": cookie,
-            //   "Content-Type": "application/json",
-            // },
           }
         );
-        // } else {
-        //   return new Response(
-        //     JSON.stringify({ message: "Something went wrong" }),
-        //     {
-        //       status: 400,
-        //     }
-        //   );
-        // }
       } else {
         return new Response(
           JSON.stringify({ message: "Invalid otp, please try again" }),

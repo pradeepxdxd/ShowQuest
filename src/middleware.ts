@@ -1,8 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyJoseToken } from "./app/lib/jose.auth";
+import {
+  verifyJoseToken,
+  generateJoseToken,
+  verifyRefreshJoseToken,
+} from "./app/lib/jose.auth";
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")?.value;
+  let token = req.cookies.get("token")?.value;
+  const refreshToken = req.cookies.get("refreshToken")?.value;
+
+  if (refreshToken && !token && refreshToken !== undefined) {
+    const verifyRefreshToken = await verifyRefreshJoseToken(
+      refreshToken as string
+    );
+    if (verifyRefreshToken && verifyRefreshToken !== undefined) {
+      const accessToken = await generateJoseToken({
+        id: verifyRefreshToken.id,
+        role: verifyRefreshToken.role,
+      });
+      token = accessToken;
+      const response = NextResponse.next();
+      response.cookies.set("token", accessToken, {
+        maxAge: 5,
+        path: "/",
+      });
+      return response;
+    }
+  }
+
   const verify = await verifyJoseToken(token as string);
 
   if (req.nextUrl.pathname === "/pages/home") {
