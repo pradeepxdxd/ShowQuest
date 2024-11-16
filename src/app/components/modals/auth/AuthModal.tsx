@@ -21,6 +21,7 @@ import {
 } from "@/app/store/auth/auth.slice";
 import { PhoneInput } from "./phone/PhoneInput";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -56,10 +57,11 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
 
   React.useEffect(() => {
     if (verified) {
+      toast.success('Loggedin Successfully');
       handleCloseModal({}, "reason");
       dispatch(setVerifiedFalse());
     }
-    
+
     if (user?.role === "ADMIN") {
       router.push("/pages/admin/dashboard");
     }
@@ -131,7 +133,7 @@ const BasicModal: React.FC<BasicModalProp> = ({ open, handleClose }) => {
                 flexDirection={"column"}
               >
                 <div style={{ margin: 15 }}>
-                  <GoogleAuth />
+                  <GoogleAuth handleClose={handleClose} />
                 </div>
                 <div
                   onClick={() => {

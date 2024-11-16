@@ -38,7 +38,7 @@ export async function middleware(req: NextRequest) {
       req.nextUrl.pathname.startsWith("/api/whatsapp") ||
       req.nextUrl.pathname.startsWith("/api/booking"))
   ) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized User" }, { status: 401 });
   }
 
   if (verify && req.nextUrl.pathname.startsWith("/api")) {

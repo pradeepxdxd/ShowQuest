@@ -99,7 +99,7 @@ const Login = () => {
                 flexDirection={"column"}
               >
                 <div style={{ margin: 15 }}>
-                  <GoogleAuth />
+                  <GoogleAuth handleClose={() => {}} />
                 </div>
                 <div
                   onClick={() => {
