@@ -7,7 +7,7 @@ export const generateJwtToken = (payload: object) => {
   if (!secretKey) {
     throw new Error("JWT Secret key is not defined");
   }
-  const token = jwt.sign(payload, secretKey, { expiresIn: "15 days" });
+  const token = jwt.sign(payload, secretKey, { expiresIn: "15m" });
   return token;
 };
 

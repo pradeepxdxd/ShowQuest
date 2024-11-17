@@ -12,6 +12,7 @@ export async function GET() {
         headers: {
           "Set-Cookie": `${tokenCookie}, ${roleCookie}, ${refreshToken}`, // Set the cookie to delete it
           "Content-Type": "application/json",
+          "x-user-payload": "undefined",
         },
       }
     );
