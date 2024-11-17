@@ -54,7 +54,7 @@ export const googleSignIn = createAsyncThunk(
           role: fbResp.role,
         });
         const { token, refreshToken } = resp.data;
-        document.cookie = `token=${token}; path=/; max-age=5`;
+        document.cookie = `token=${token}; path=/; max-age=900`;
         document.cookie = `refreshToken=${refreshToken}; path=/; max-age=2592000`;
         document.cookie = `role=${fbResp.role}; path=/; max-age=2592000`;
         return { ...result.user, role: fbResp.role, token };
@@ -121,7 +121,7 @@ export const verifyOtp = createAsyncThunk(
             role: docResponse.role,
           });
           if (token) {
-            document.cookie = `token=${token}; path=/; max-age=5`;
+            document.cookie = `token=${token}; path=/; max-age=900`;
             document.cookie = `refreshToken=${refreshToken}; path=/; max-age=2592000`;
             document.cookie = `role=${docResponse.role}; path=/; max-age=2592000`;
             return { ...docResponse, token };
@@ -179,7 +179,11 @@ export const verifyCodePhoneOtp = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   try {
     await signOut(auth);
-    const response = await axios.get(`/api/auth/logout`);
+    const response = await axios.get(`/api/auth/logout`, {
+      headers: {
+        "x-user-payload": null,
+      },
+    });
     return response.data;
   } catch (err) {
     console.log({ logout_err: err });
@@ -269,12 +273,17 @@ const authSlice = createSlice({
       state.user = null;
     });
 
+    builder.addCase(verifyOtp.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(verifyOtp.fulfilled, (state, action) => {
+      state.loading = false;
       state.verified = true;
       state.token = action.payload.token;
       state.user = action.payload;
     });
     builder.addCase(verifyOtp.rejected, (state, action) => {
+      state.loading = false;
       state.verified = false;
       state.error = action.error;
     });

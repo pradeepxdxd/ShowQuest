@@ -4,7 +4,7 @@ export const getUserPayloadData = () => {
   const reqHeaders = headers();
   const userPayloadHeader = reqHeaders.get("x-user-payload");
 
-  if (userPayloadHeader) {
+  if (userPayloadHeader && userPayloadHeader != undefined) {
     // Check if userPayloadHeader is not null
     try {
       const userPayload = JSON.parse(userPayloadHeader);

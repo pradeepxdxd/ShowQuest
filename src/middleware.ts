@@ -21,9 +21,13 @@ export async function middleware(req: NextRequest) {
       token = accessToken;
       const response = NextResponse.next();
       response.cookies.set("token", accessToken, {
-        maxAge: 5,
+        maxAge: 15 * 60,
         path: "/",
       });
+      response.headers.set(
+        "x-user-payload",
+        JSON.stringify(verifyRefreshToken)
+      );
       return response;
     }
   }
@@ -77,7 +81,7 @@ export async function middleware(req: NextRequest) {
       "GET, POST, PUT, PATCH, DELETE"
     );
   }
-
+  
   const response = NextResponse.next();
   response.headers.set("x-user-payload", JSON.stringify(verify));
   return response;

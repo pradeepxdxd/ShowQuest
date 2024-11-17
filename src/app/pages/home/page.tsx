@@ -4,6 +4,7 @@ import Poster from "../../views/poster/PosterView";
 import LiveEvents from "@/app/views/live-events/LiveEvents";
 import PremiereView from "@/app/views/premiere/PremiereView";
 import { Box } from "@mui/material";
+import Homebackdrop from "@/app/ui/Homebackdrop";
 
 const home = () => {
   return (
@@ -25,6 +26,8 @@ const home = () => {
       <Box bgcolor={"rgb(43, 49, 72)"}>
         <PremiereView />
       </Box>
+
+      <Homebackdrop />
     </>
   );
 };

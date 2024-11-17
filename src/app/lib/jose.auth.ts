@@ -24,7 +24,6 @@ export const generateJoseToken = async (payload: {
   id: string;
   role: Role;
 }) => {
-  console.log({payload})
   return await new SignJWT(payload)
     .setProtectedHeader({
       alg: "HS256",
