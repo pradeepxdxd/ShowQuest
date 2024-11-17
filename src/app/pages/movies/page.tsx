@@ -5,7 +5,6 @@ import FilterComponent from "@/app/components/filter-card/movies/FilterCard";
 import CustomChip from "@/app/components/chip/CustomChip";
 import { Box, Grid, Typography } from "@mui/material";
 import { getUserPayloadData } from "@/app/server/uid";
-import MovieButton from "@/app/views/admin/movies/MovieButton";
 import Label from "@/app/components/label/Label";
 
 const lang: string[] = [
@@ -23,6 +22,7 @@ const lang: string[] = [
 
 export default function Movies() {
   const userPayload = getUserPayloadData();
+
   return (
     <>
       <Carousel />
@@ -57,12 +57,7 @@ export default function Movies() {
                 alignItems={"center"}
                 width="88%"
               >
-                <Label text="Movies In Indore" />
-                {userPayload &&
-                  typeof userPayload?.role === "string" &&
-                  userPayload?.role === "ADMIN" && (
-                    <MovieButton showType={"movie"} />
-                  )}
+                <Label text="Movies In Indore" userPayload={userPayload} route={"movie"} />
               </Box>
 
               <Box mt={3}>

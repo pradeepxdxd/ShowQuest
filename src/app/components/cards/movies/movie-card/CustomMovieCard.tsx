@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 import { deleteShowData } from "@/app/store/show/show.slice";
 import { Delete, Edit } from "@mui/icons-material";
+import useAuth from "@/app/hooks/useAuth";
 
 interface CustomMovieCardProps {
   card: ShowResponse;
@@ -25,6 +26,7 @@ const CustomMovieCard: React.FC<CustomMovieCardProps> = ({
   userPayload,
   showType,
 }) => {
+  const user = useAuth();
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const handleClick = () => {
@@ -56,7 +58,7 @@ const CustomMovieCard: React.FC<CustomMovieCardProps> = ({
           alt={card.title}
           sx={{
             borderRadius: 1,
-            height:'revert-layer'
+            height: "revert-layer",
           }}
         />
         <CardContent>
@@ -67,7 +69,8 @@ const CustomMovieCard: React.FC<CustomMovieCardProps> = ({
             {card.genre?.join(" / ")}
           </Typography>
         </CardContent>
-        {userPayload &&
+        {user &&
+          userPayload &&
           typeof userPayload?.role === "string" &&
           userPayload?.role === "ADMIN" && (
             <CardActions
