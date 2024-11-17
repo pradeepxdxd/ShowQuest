@@ -183,13 +183,6 @@ export const logout = createAsyncThunk("auth/logout", async () => {
     document.cookie = "role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie =
       "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-    // const response = await axios.get(`/api/auth/logout`, {
-    //   headers: {
-    //     "x-user-payload": null,
-    //   },
-    // });
-    // return response.data;
   } catch (err) {
     console.log({ logout_err: err });
   }
