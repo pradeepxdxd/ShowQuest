@@ -21,7 +21,7 @@ export const removeCookie = (cookieName: string) => {
       process.env.NODE_ENV === "production" ||
       process.env.NODE_ENV === "test",
     sameSite: "strict",
-    path: "/", // Ensure this matches the path used when setting the cookie
+    path: "/", 
     expires: new Date(0),
   });
 };

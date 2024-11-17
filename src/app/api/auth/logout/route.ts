@@ -2,15 +2,16 @@ import { removeCookie } from "@/app/utils/cookie/cookie";
 
 export async function GET() {
   try {
-    const tokenCookie = removeCookie("token");
-    const roleCookie = removeCookie("role");
+    const token = removeCookie("token");
+    const role = removeCookie("role");
     const refreshToken = removeCookie("refreshToken");
+    console.log({ token, role, refreshToken });
     return new Response(
       JSON.stringify({ message: "Logged out successfully" }),
       {
         status: 200,
         headers: {
-          "Set-Cookie": `${tokenCookie}, ${roleCookie}, ${refreshToken}`, // Set the cookie to delete it
+          "Set-Cookie": `${token}, ${role}, ${refreshToken}`, // Set the cookie to delete it
           "Content-Type": "application/json",
           "x-user-payload": "undefined",
         },
