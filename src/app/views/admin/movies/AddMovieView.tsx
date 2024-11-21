@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { genres } from "@/app/data/recommanded-movies/data";
@@ -26,10 +26,8 @@ export default function AddMovieView() {
   const { show } = useSelector((state: RootState) => state.show);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const [isClient, setClient] = useState<boolean>(false);
 
   useEffect(() => {
-    setClient(true);
     if (id[1] && id[1] != undefined) {
       dispatch(getShowByIdData(id[1]));
     }
@@ -48,12 +46,12 @@ export default function AddMovieView() {
     >
       <Container maxWidth="sm">
         <Typography variant="h6" textAlign="center" my={2}>
-          Add{" "}
-          {isClient && id && id != undefined && id[0] === "movie"
+          Add Show
+          {/* {isClient && id && id != undefined && id[0] === "movie"
             ? "Movie"
             : id[0] === "live-event"
             ? "Live Event"
-            : "Premiere"}
+            : "Premiere"} */}
         </Typography>
         <Formik
           enableReinitialize={true}
