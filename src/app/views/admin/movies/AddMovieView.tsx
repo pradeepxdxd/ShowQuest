@@ -1,34 +1,40 @@
-/* eslint-disable @next/next/no-img-element */
+
+
 "use client";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  TextField as MuiTextField,
+} from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
-import { genres } from "@/app/data/recommanded-movies/data";
 import Autocomplete from "@mui/material/Autocomplete";
-import { TextField as MuiTextFeild } from "@mui/material";
-import { movieValidationSchema } from "@/app/validations/movie";
-import PreviewImage from "@/app/components/image/PreviewImage";
-import { convertImageFileToBase64 } from "@/app/utils/image/image";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams, useRouter } from "next/navigation";
+import { AppDispatch, RootState } from "@/app/store";
 import {
   addShowData,
   clearShow,
   getShowByIdData,
   updateShowData,
 } from "@/app/store/show/show.slice";
-import { AppDispatch, RootState } from "@/app/store";
-import { useParams, useRouter } from "next/navigation";
-import { Show } from "@/firebase/actions/action.types";
+import { genres } from "@/app/data/recommanded-movies/data";
+import { movieValidationSchema } from "@/app/validations/movie";
+import PreviewImage from "@/app/components/image/PreviewImage";
+import { convertImageFileToBase64 } from "@/app/utils/image/image";
 
 export default function AddMovieView() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string | string[] }>();
   const { show } = useSelector((state: RootState) => state.show);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   useEffect(() => {
-    if (id[1] && id[1] != undefined) {
+    if (Array.isArray(id) && id[1]) {
       dispatch(getShowByIdData(id[1]));
     }
     return () => {
@@ -46,15 +52,17 @@ export default function AddMovieView() {
     >
       <Container maxWidth="sm">
         <Typography variant="h6" textAlign="center" my={2}>
-          Add Show
-          {/* {isClient && id && id != undefined && id[0] === "movie"
-            ? "Movie"
-            : id[0] === "live-event"
-            ? "Live Event"
-            : "Premiere"} */}
+          Add{" "}
+          {id && Array.isArray(id) && id.length > 0
+            ? id[0] === "movie"
+              ? "Movie"
+              : id[0] === "live-event"
+              ? "Live Event"
+              : "Premiere"
+            : "Premiere"}
         </Typography>
         <Formik
-          enableReinitialize={true}
+          enableReinitialize
           initialValues={{
             title: show?.title || "",
             rating: show?.rating || 0,
@@ -80,10 +88,11 @@ export default function AddMovieView() {
                 );
               }
             }
-            if (id[1] && id[1] != undefined) {
+
+            if (Array.isArray(id) && id[1]) {
               dispatch(
                 updateShowData({
-                  id: show?.id as string,
+                  id: id[1],
                   data: {
                     title: values.title,
                     rating: values.rating,
@@ -91,7 +100,7 @@ export default function AddMovieView() {
                     genre: values.genre,
                     votes: values.votes,
                     image: poster,
-                  } as Show,
+                  },
                 })
               );
             } else {
@@ -103,117 +112,96 @@ export default function AddMovieView() {
                   genre: values.genre,
                   votes: values.votes,
                   image: poster,
-                } as Show)
+                })
               );
             }
+
             action.setFieldValue("image", null);
             action.resetForm();
-            if (id[0] === "movie") router.push("/pages/movies");
-            if (id[0] === "live-event") router.push("/pages/events");
-            if (id[0] === "premiere") router.push("/pages/premiere");
+
+            if (Array.isArray(id)) {
+              if (id[0] === "movie") router.push("/pages/movies");
+              else if (id[0] === "live-event") router.push("/pages/events");
+              else router.push("/pages/premiere");
+            }
           }}
         >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            setFieldValue,
-            errors,
-            touched,
-          }) => (
+          {({ values, setFieldValue, touched, errors }) => (
             <Form>
               <Grid container spacing={3}>
+                {/* Fields for title, rating, votes */}
                 <Grid item xs={12}>
                   <Field
                     name="title"
-                    type="text"
-                    value={values.title}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
                     component={TextField}
-                    label="title"
+                    label="Title"
                     fullWidth
                   />
                 </Grid>
                 <Grid item sm={6}>
                   <Field
                     name="rating"
-                    type="number"
-                    value={values.rating}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
                     component={TextField}
-                    label="rating"
+                    type="number"
+                    label="Rating"
                     fullWidth
                   />
                 </Grid>
                 <Grid item sm={6}>
                   <Field
                     name="votes"
-                    type="number"
-                    value={values.votes}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
                     component={TextField}
-                    label="votes"
+                    type="number"
+                    label="Votes"
                     fullWidth
                   />
                 </Grid>
+
+                {/* Autocomplete for genre */}
                 <Grid item sm={6}>
                   <Autocomplete
                     multiple
                     options={genres}
                     value={values.genre}
-                    onChange={(_, newValue) => {
-                      setFieldValue("genre", newValue);
-                    }}
-                    onBlur={handleBlur} // Handle blur manually if needed
-                    renderInput={(params) => {
-                      return (
-                        <MuiTextFeild
-                          {...params}
-                          name="genre"
-                          id="genre"
-                          label="genre"
-                          value={values.genre}
-                          onBlur={handleBlur}
-                          error={Boolean(touched.genre && errors.genre)}
-                          helperText={touched.genre && errors.genre}
-                        />
-                      );
-                    }}
+                    onChange={(_, newValue) => setFieldValue("genre", newValue)}
+                    renderInput={(params) => (
+                      <MuiTextField
+                        {...params}
+                        label="Genre"
+                        error={Boolean(touched.genre && errors.genre)}
+                        helperText={touched.genre && errors.genre}
+                      />
+                    )}
                   />
                 </Grid>
+
+                {/* Autocomplete for type */}
                 <Grid item sm={6}>
                   <Autocomplete
                     options={["movie", "live-event", "premiere"]}
-                    value={values.type} // the part of state what holds the user input
-                    onChange={(_, value) => setFieldValue("type", value || {})}
-                    onBlur={handleBlur} // so formik can see the forms touched state
+                    value={values.type}
+                    onChange={(_, newValue) => setFieldValue("type", newValue)}
                     renderInput={(params) => (
-                      <MuiTextFeild
+                      <MuiTextField
                         {...params}
-                        name="type"
-                        label="type"
-                        id="type"
-                        value={values.type}
-                        onBlur={handleBlur}
+                        label="Type"
                         error={Boolean(touched.type && errors.type)}
                         helperText={touched.type && errors.type}
                       />
                     )}
                   />
                 </Grid>
+
+                {/* Image preview and upload */}
                 <Grid item xs={12}>
                   {values.image &&
                     (typeof values.image === "string" ? (
-                      <>
-                        <img
-                          src={values.image}
-                          alt="preview image"
-                          style={{ width: "300px", height: "400px" }}
-                        />
-                      </>
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={values.image}
+                        alt="Preview"
+                        style={{ width: "300px", height: "400px" }}
+                      />
                     ) : (
                       <PreviewImage file={values.image} />
                     ))}
@@ -222,20 +210,17 @@ export default function AddMovieView() {
                     name="image"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
-                      if (file) setFieldValue("image", file);
+                      setFieldValue("image", file);
                     }}
                   />
-                  {(touched.image || errors.image) && (
-                    <Typography
-                      component={"div"}
-                      variant="caption"
-                      color="error"
-                    >
+                  {touched.image && errors.image && (
+                    <Typography color="error" variant="caption">
                       {errors.image}
                     </Typography>
                   )}
                 </Grid>
 
+                {/* Submit and Cancel buttons */}
                 <Grid item xs={12}>
                   <Box display="flex" justifyContent="space-between">
                     <Button type="reset" variant="outlined" color="info">
