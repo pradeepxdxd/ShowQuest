@@ -21,6 +21,7 @@ const Poster: React.FC<MovieDetailsProp> = ({ data }) => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const user = useAuth();
+  
   const handleClick = () => {
     if (user) {
       router.push(`/pages/main/booking/${data.type}/${data.title}/${data.id}`);

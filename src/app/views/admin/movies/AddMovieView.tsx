@@ -46,7 +46,12 @@ export default function AddMovieView() {
     >
       <Container maxWidth="sm">
         <Typography variant="h6" textAlign="center" my={2}>
-          Add Movie
+          Add Show
+          {/* {isClient && id && id != undefined && id[0] === "movie"
+            ? "Movie"
+            : id[0] === "live-event"
+            ? "Live Event"
+            : "Premiere"} */}
         </Typography>
         <Formik
           enableReinitialize={true}

@@ -9,9 +9,10 @@ import useResponsive from "@/app/hooks/useResponsive";
 interface PageProps {
   movies: ShowResponse[];
   loading?: boolean;
+  type?: 'premiere' | 'movie'
 }
 
-const PostCarousel: React.FC<PageProps> = ({ movies, loading = true }) => {
+const PostCarousel: React.FC<PageProps> = ({ movies, loading = true, type }) => {
   const { showCardCount } = useResponsive();
   return (
     <>
@@ -50,7 +51,7 @@ const PostCarousel: React.FC<PageProps> = ({ movies, loading = true }) => {
                   )
                   .map((movie, i) => (
                     <Grid item xs={6} sm={4} md={2.4} key={i}>
-                      <MovieCard movie={movie} />
+                      <MovieCard movie={movie} type={type} />
                     </Grid>
                   ))}
               </Grid>

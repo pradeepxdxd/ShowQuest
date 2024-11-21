@@ -57,11 +57,6 @@ export default function Movies() {
                 width="88%"
               >
                 <Label text="Premiere Movies In Indore" userPayload={userPayload} route="premiere" />
-                {/* {userPayload &&
-                  typeof userPayload?.role === "string" &&
-                  userPayload?.role === "ADMIN" && (
-                    <MovieButton showType={"premiere"} />
-                  )} */}
               </Box>
 
               <Box mt={3}>
