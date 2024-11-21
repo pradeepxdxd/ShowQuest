@@ -1,7 +1,7 @@
 "use client";
 import "./globals.css";
 import Navbar from "@/app/components/navbar/header/Header";
-import SubHeader from "@/app/components/navbar/sub-header/page";
+import SubHeader from "@/app/components/navbar/sub-header/SubHeader";
 import Footer from "@/app/views/footer/Footer";
 import { store } from "@/app/store/index";
 import { Provider } from "react-redux";

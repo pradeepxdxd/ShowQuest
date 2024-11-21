@@ -3,16 +3,12 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import premiereBannarImage from "@/app/assets/premiere/premiere-banner.jpg";
-// import { premiereData } from "@/app/data/premiere/data";
-// import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { getHomeShowByTypeData } from "@/app/store/show/show.slice";
 import PostCarousel from "@/app/components/carousel/poster/PostCarousel";
 
 export default function PremiereView() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  //   const router = useRouter();
   const { homePremiere, Premiereloading } = useSelector(
     (state: RootState) => state.show
   );
@@ -21,10 +17,6 @@ export default function PremiereView() {
   useEffect(() => {
     dispatch(getHomeShowByTypeData("premiere"));
   }, [dispatch]);
-
-  //   const handleClick = (id: string) => {
-  //     router.push(`pages/premiere/${id}`);
-  //   };
 
   return (
     <>
@@ -45,7 +37,7 @@ export default function PremiereView() {
         </Typography>
       </Box>
       <Box p={5}>
-        <PostCarousel movies={homePremiere} loading={Premiereloading} />
+        <PostCarousel movies={homePremiere} loading={Premiereloading} type={'premiere'} />
       </Box>
     </>
   );
